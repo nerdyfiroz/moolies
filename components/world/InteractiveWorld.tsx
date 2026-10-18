@@ -13,6 +13,7 @@ import { CollectionDetailsModal } from "@/components/modals/CollectionDetailsMod
 import { RoadmapModal } from "@/components/modals/RoadmapModal";
 import { LivingWorldEffects } from "@/components/world/LivingWorldEffects";
 import { CinematicWhitelistWindow } from "@/components/world/CinematicWhitelistWindow";
+import { OwlsLivingGlow } from "@/components/world/OwlsLivingGlow";
 
 // The 4 interactive modal sections
 type SectionModalId = "opensea" | "whitelist" | "collection" | "roadmap" | null;
@@ -152,6 +153,9 @@ export const InteractiveWorld: React.FC = () => {
             className="w-full h-full object-fill pointer-events-none select-none"
           />
 
+          {/* Owls Living Glow: Sweeps Left to Right (5s active, 1s rest) ONLY over the owls + interactive pointer hover glow */}
+          <OwlsLivingGlow />
+
           {/* Living World Ambient Atmosphere (Continuous Clouds Left-to-Right, River Waves, Flying Butterflies) */}
           <LivingWorldEffects />
 
@@ -171,7 +175,7 @@ export const InteractiveWorld: React.FC = () => {
               right: "2.5%",
               top: "14.0%",
             }}
-            className="absolute z-30 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-slate-950/90 hover:bg-black text-white hover:text-amber-300 backdrop-blur-md border border-slate-700/80 hover:border-amber-400 shadow-xl cursor-pointer transition-all hover:scale-105 active:scale-95"
+            className="absolute z-30 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-slate-950/90 hover:bg-black text-white hover:text-amber-300 backdrop-blur-md border border-slate-700/80 hover:border-amber-400 hover:shadow-[0_0_25px_rgba(251,191,36,0.85)] shadow-xl cursor-pointer transition-all hover:scale-105 active:scale-95"
             aria-label="Official Project X Twitter"
           >
             <XLogo className="w-4 h-4 sm:w-5 sm:h-5 text-current" />
