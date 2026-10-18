@@ -130,17 +130,25 @@ export const InteractiveWorld: React.FC = () => {
         onClick={handleCanvasClick}
         className="relative w-full h-[100dvh] overflow-x-auto overflow-y-hidden select-none bg-[#5fc2ea] no-scrollbar flex items-center justify-start md:justify-center cursor-grab active:cursor-grabbing touch-pan-x"
       >
+        {/* Ambient atmospheric backdrop for ultra-wide desktop displays */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block select-none" aria-hidden="true">
+          <Image
+            src="/moolies-world.png"
+            alt=""
+            fill
+            priority={false}
+            quality={40}
+            className="w-full h-full object-cover blur-3xl opacity-35 scale-105"
+          />
+          <div className="absolute inset-0 bg-[#5fc2ea]/20 backdrop-blur-sm" />
+        </div>
+
         {/*
-          World Artwork Canvas — Fully Covers Full Screen.
+          World Artwork Canvas — 100% fully visible on desktop view without any cropping.
           Fixed firmly in place (no mouse tilt / wobble).
         */}
         <div
-          style={{
-            width: "max(100vw, calc(100dvh * 1024 / 650))",
-            height: "max(100dvh, calc(100vw * 650 / 1024))",
-            aspectRatio: "1024 / 650",
-          }}
-          className="relative flex-shrink-0 bg-[#5fc2ea] overflow-hidden"
+          className="world-canvas-container relative z-10 flex-shrink-0 bg-[#5fc2ea] overflow-hidden shadow-2xl"
         >
           {/* Main Landscape Illustration Image */}
           <Image
