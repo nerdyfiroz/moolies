@@ -1048,11 +1048,11 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              {/* Whitelist Gate Switch */}
+              {/* Whitelist Window Switch */}
               <div className="pt-2 flex items-center justify-between p-4 rounded-2xl bg-amber-50 dark:bg-slate-800/60 border border-amber-200 dark:border-slate-700">
                 <div>
                   <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
-                    Whitelist Gate Application Status
+                    Whitelist Window Application Status
                   </p>
                   <p className="text-xs text-slate-500">
                     When closed, new visitors are shown a friendly notice and cannot submit forms.

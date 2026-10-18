@@ -21,7 +21,7 @@ export const FAQ_DATA: FAQItem[] = [
     category: "Minting & Whitelist",
     question: "How do I get Whitelisted?",
     answer:
-      "Click on 'The Whitelist Gate' right here on the interactive map! Submit your Ethereum wallet address, Twitter/X handle, Discord username, and a short message explaining why you'd like to join our nest. Applications are reviewed manually by our team to prioritize genuine collectors and contributors.",
+      "Click on 'The Whitelist Window' right here on the interactive map! Submit your Ethereum wallet address, Twitter/X handle, Discord username, and a short message explaining why you'd like to join our nest. Applications are reviewed manually by our team to prioritize genuine collectors and contributors.",
   },
   {
     category: "Minting & Whitelist",

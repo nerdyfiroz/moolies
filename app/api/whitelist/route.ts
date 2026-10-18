@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           {
             success: false,
-            error: "The Whitelist Gate is currently closed. Keep an eye on announcements for the next wave!",
+            error: "The Whitelist Window is currently closed. Keep an eye on announcements for the next wave!",
           },
           { status: 403 }
         );

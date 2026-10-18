@@ -230,10 +230,10 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
     <WorldModal
       isOpen={isOpen}
       onClose={onClose}
-      title="The Whitelist Gate"
+      title="The Whitelist Window"
       subtitle="Guaranteed Mint Access & Whitelist Application"
       icon={<KeyRound className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />}
-      badge={isWhitelistOpen ? "Open for Submissions" : "Gate Closed"}
+      badge={isWhitelistOpen ? "Open for Submissions" : "Window Closed"}
       maxWidth="max-w-2xl"
     >
       <div className="space-y-5">
@@ -270,7 +270,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
               <div className="p-6 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-center space-y-3">
                 <ShieldAlert className="w-10 h-10 mx-auto text-amber-600 dark:text-amber-400" />
                 <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                  The Whitelist Gate is Currently Closed
+                  The Whitelist Window is Currently Closed
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-md mx-auto">
                   Applications for Wave 1 have concluded. Please stay tuned to our announcements for the next opening date!
