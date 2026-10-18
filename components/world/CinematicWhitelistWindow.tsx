@@ -88,14 +88,8 @@ export const CinematicWhitelistWindow: React.FC<CinematicWhitelistWindowProps> =
           )}
         </AnimatePresence>
 
-        {/* Outer Wooden Arch Window Frame with Hover Glow */}
-        <div
-          className={`relative w-full h-full rounded-t-full rounded-b-2xl overflow-hidden border-[3.5px] transition-all duration-300 flex items-center justify-center ${
-            isHovered || isWindowOpen
-              ? "border-amber-400 bg-[#2a1408] shadow-[0_0_35px_rgba(251,191,36,0.9),0_8px_24px_rgba(0,0,0,0.7),inset_0_0_15px_rgba(251,191,36,0.4)]"
-              : "border-[#3e1f0c] bg-[#2a1408] shadow-[0_8px_20px_rgba(0,0,0,0.55),inset_0_2px_8px_rgba(0,0,0,0.6)]"
-          }`}
-        >
+        {/* Outer Wooden Arch Window Frame */}
+        <div className="relative w-full h-full rounded-t-full rounded-b-2xl overflow-hidden border-[3.5px] border-[#3e1f0c] bg-[#2a1408] shadow-[0_8px_20px_rgba(0,0,0,0.55),inset_0_2px_8px_rgba(0,0,0,0.6)] flex items-center justify-center">
           {/* ========================================================= */}
           {/* INTERIOR ROOM (Revealed when shutters swing open) */}
           {/* ========================================================= */}

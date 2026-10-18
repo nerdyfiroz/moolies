@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { WorldHotspot } from "@/components/world/WorldHotspot";
-import { WorldNavbar, XLogo } from "@/components/world/WorldNavbar";
+import { XLogo } from "@/components/world/WorldNavbar";
 import { WORLD_HOTSPOTS } from "@/lib/data/hotspots";
 
 // The 4 Section Modals (5th Section is Project Twitter direct link)
@@ -13,14 +13,17 @@ import { CollectionDetailsModal } from "@/components/modals/CollectionDetailsMod
 import { RoadmapModal } from "@/components/modals/RoadmapModal";
 import { LivingWorldEffects } from "@/components/world/LivingWorldEffects";
 import { CinematicWhitelistWindow } from "@/components/world/CinematicWhitelistWindow";
-import { OwlsLivingGlow } from "@/components/world/OwlsLivingGlow";
+import { CinematicDoorGate } from "@/components/world/CinematicDoorGate";
+import { ScoutedNavbarArrival } from "@/components/world/ScoutedNavbarArrival";
 
 // The 4 interactive modal sections
 type SectionModalId = "opensea" | "whitelist" | "collection" | "roadmap" | null;
 
 export const InteractiveWorld: React.FC = () => {
   const [activeModal, setActiveModal] = useState<SectionModalId>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [hasEntered, setHasEntered] = useState(false);
+  const [navbarState, setNavbarState] = useState<"hidden" | "arriving" | "visible">("hidden");
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
   const startXRef = useRef(0);
@@ -49,20 +52,7 @@ export const InteractiveWorld: React.FC = () => {
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    // 3D Parallax Tilt tracking
-    if (!isDraggingRef.current) {
-      const { clientX, clientY } = e;
-      const { innerWidth, innerHeight } = window;
-      const normX = (clientX / innerWidth - 0.5) * 2;
-      const normY = (clientY / innerHeight - 0.5) * 2;
-      setTilt({
-        x: normY * -2.4, // subtle rotateX
-        y: normX * 3.2,  // subtle rotateY
-      });
-      return;
-    }
-
-    if (!scrollContainerRef.current) return;
+    if (!isDraggingRef.current || !scrollContainerRef.current) return;
     const x = e.pageX - (scrollContainerRef.current.offsetLeft || 0);
     const walk = (x - startXRef.current) * 1.3;
     if (Math.abs(walk) > 4) {
@@ -76,9 +66,18 @@ export const InteractiveWorld: React.FC = () => {
     isDraggingRef.current = false;
   };
 
-  const handleMouseLeave = () => {
-    isDraggingRef.current = false;
-    setTilt({ x: 0, y: 0 });
+  // Canvas Click: when user clicks anywhere on the website except the selected sections,
+  // the navbar arrives with butterfly scouts!
+  const handleCanvasClick = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).closest("button, a, input, [data-hotspot]")) {
+      return;
+    }
+    if (hasMovedRef.current) {
+      return;
+    }
+    if (navbarState === "hidden") {
+      setNavbarState("arriving");
+    }
   };
 
   // Hotspot click handler — opens the corresponding modal
@@ -106,8 +105,15 @@ export const InteractiveWorld: React.FC = () => {
 
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden bg-[#5fc2ea] select-none">
-      {/* Top Floating Navbar (Only the 5 sections: OpenSea, Whitelist, Collection Details, Roadmap, Project Twitter) */}
-      <WorldNavbar
+      {/* Cinematic Wooden Door Gate Entry Loading Interface */}
+      {!hasEntered && (
+        <CinematicDoorGate onEnter={() => setHasEntered(true)} />
+      )}
+
+      {/* Floating Navbar: Hidden at first, scouts in with butterflies on canvas click */}
+      <ScoutedNavbarArrival
+        navbarState={navbarState}
+        onArrivalComplete={() => setNavbarState("visible")}
         onOpenOpenSea={handleNavOpenSea}
         onOpenWhitelist={handleNavWhitelist}
         onOpenCollectionDetails={handleNavCollection}
@@ -121,23 +127,19 @@ export const InteractiveWorld: React.FC = () => {
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseLeave}
+        onMouseLeave={handleMouseUp}
+        onClick={handleCanvasClick}
         className="relative w-full h-[100dvh] overflow-x-auto overflow-y-hidden select-none bg-[#5fc2ea] no-scrollbar flex items-center justify-start md:justify-center cursor-grab active:cursor-grabbing touch-pan-x"
       >
         {/*
           World Artwork Canvas — Fully Covers Full Screen.
-          Maintains exact 1024 / 650 aspect ratio so invisible hotspot percentages
-          perfectly align with the drawn artwork on every single device!
-          Enhanced with subtle 3D diorama perspective tilt!
+          Fixed firmly in place (no mouse tilt / wobble).
         */}
         <div
           style={{
             width: "max(100vw, calc(100dvh * 1024 / 650))",
             height: "max(100dvh, calc(100vw * 650 / 1024))",
             aspectRatio: "1024 / 650",
-            transform: `perspective(1400px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-            transformStyle: "preserve-3d",
-            transition: isDraggingRef.current ? "none" : "transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1)",
           }}
           className="relative flex-shrink-0 bg-[#5fc2ea] overflow-hidden"
         >
@@ -152,9 +154,6 @@ export const InteractiveWorld: React.FC = () => {
             referrerPolicy="no-referrer"
             className="w-full h-full object-fill pointer-events-none select-none"
           />
-
-          {/* Owls Living Glow: Sweeps Left to Right (5s active, 1s rest) ONLY over the owls + interactive pointer hover glow */}
-          <OwlsLivingGlow />
 
           {/* Living World Ambient Atmosphere (Continuous Clouds Left-to-Right, River Waves, Flying Butterflies) */}
           <LivingWorldEffects />
@@ -175,7 +174,7 @@ export const InteractiveWorld: React.FC = () => {
               right: "2.5%",
               top: "14.0%",
             }}
-            className="absolute z-30 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-slate-950/90 hover:bg-black text-white hover:text-amber-300 backdrop-blur-md border border-slate-700/80 hover:border-amber-400 hover:shadow-[0_0_25px_rgba(251,191,36,0.85)] shadow-xl cursor-pointer transition-all hover:scale-105 active:scale-95"
+            className="absolute z-30 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-slate-950/90 hover:bg-black text-white hover:text-amber-300 backdrop-blur-md border border-slate-700/80 hover:border-amber-400 shadow-xl cursor-pointer transition-all hover:scale-105 active:scale-95"
             aria-label="Official Project X Twitter"
           >
             <XLogo className="w-4 h-4 sm:w-5 sm:h-5 text-current" />
