@@ -19,6 +19,7 @@ type SectionModalId = "opensea" | "whitelist" | "collection" | "roadmap" | null;
 
 export const InteractiveWorld: React.FC = () => {
   const [activeModal, setActiveModal] = useState<SectionModalId>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
   const startXRef = useRef(0);
@@ -47,7 +48,20 @@ export const InteractiveWorld: React.FC = () => {
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDraggingRef.current || !scrollContainerRef.current) return;
+    // 3D Parallax Tilt tracking
+    if (!isDraggingRef.current) {
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+      const normX = (clientX / innerWidth - 0.5) * 2;
+      const normY = (clientY / innerHeight - 0.5) * 2;
+      setTilt({
+        x: normY * -2.4, // subtle rotateX
+        y: normX * 3.2,  // subtle rotateY
+      });
+      return;
+    }
+
+    if (!scrollContainerRef.current) return;
     const x = e.pageX - (scrollContainerRef.current.offsetLeft || 0);
     const walk = (x - startXRef.current) * 1.3;
     if (Math.abs(walk) > 4) {
@@ -59,6 +73,11 @@ export const InteractiveWorld: React.FC = () => {
 
   const handleMouseUp = () => {
     isDraggingRef.current = false;
+  };
+
+  const handleMouseLeave = () => {
+    isDraggingRef.current = false;
+    setTilt({ x: 0, y: 0 });
   };
 
   // Hotspot click handler — opens the corresponding modal
@@ -101,19 +120,23 @@ export const InteractiveWorld: React.FC = () => {
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
         className="relative w-full h-[100dvh] overflow-x-auto overflow-y-hidden select-none bg-[#5fc2ea] no-scrollbar flex items-center justify-start md:justify-center cursor-grab active:cursor-grabbing touch-pan-x"
       >
         {/*
           World Artwork Canvas — Fully Covers Full Screen.
           Maintains exact 1024 / 650 aspect ratio so invisible hotspot percentages
           perfectly align with the drawn artwork on every single device!
+          Enhanced with subtle 3D diorama perspective tilt!
         */}
         <div
           style={{
             width: "max(100vw, calc(100dvh * 1024 / 650))",
             height: "max(100dvh, calc(100vw * 650 / 1024))",
             aspectRatio: "1024 / 650",
+            transform: `perspective(1400px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+            transformStyle: "preserve-3d",
+            transition: isDraggingRef.current ? "none" : "transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1)",
           }}
           className="relative flex-shrink-0 bg-[#5fc2ea] overflow-hidden"
         >
