@@ -3,6 +3,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Coins, Layers, Award, ArrowRight } from "lucide-react";
+import { CornerButterflies } from "@/components/world/CornerButterflies";
 
 interface CollectionDetailsModalProps {
   isOpen: boolean;
@@ -24,13 +25,13 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
             if (e.target === e.currentTarget) onClose();
           }}
         >
-          {/* Backdrop */}
+          {/* Backdrop: Visible background without blur */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-950/80 backdrop-blur-md"
+            className="fixed inset-0 bg-slate-950/40 backdrop-blur-none"
             aria-hidden="true"
           />
 
@@ -41,11 +42,16 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
             exit={{ scale: 0.85, opacity: 0, y: 25 }}
             transition={{ type: "spring", stiffness: 380, damping: 26 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-2xl rounded-3xl bg-slate-950 text-white border-2 border-amber-400 shadow-2xl overflow-hidden z-10 flex flex-col max-h-[90vh]"
+            className="relative w-full max-w-2xl rounded-3xl bg-slate-950 text-white border-2 border-amber-400 shadow-2xl overflow-visible z-10 flex flex-col max-h-[90vh]"
             style={{
               boxShadow: "0 25px 60px -15px rgba(245, 158, 11, 0.35), 0 0 35px rgba(245, 158, 11, 0.15)",
             }}
           >
+            {/* 2 Flying Butterflies fixed to top-left and top-right corners */}
+            <CornerButterflies />
+
+            {/* Inner Content Wrapper */}
+            <div className="overflow-hidden rounded-3xl flex flex-col flex-1 max-h-full">
             {/* Header Banner */}
             <div className="relative p-6 sm:p-7 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-300 text-slate-950 flex items-start justify-between shrink-0">
               <div className="space-y-1">
@@ -172,6 +178,7 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
                   Close
                 </button>
               </div>
+            </div>
             </div>
           </motion.div>
         </div>

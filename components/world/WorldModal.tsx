@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { soundEngine } from "@/lib/audio";
+import { CornerButterflies } from "@/components/world/CornerButterflies";
 
 interface WorldModalProps {
   isOpen: boolean;
@@ -57,14 +58,14 @@ export const WorldModal: React.FC<WorldModalProps> = ({
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-          {/* Backdrop */}
+          {/* Backdrop: Visible, clear background without any blur */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={handleClose}
-            className="fixed inset-0 bg-slate-950/75 backdrop-blur-sm"
+            className="fixed inset-0 bg-slate-950/40 backdrop-blur-none"
             aria-hidden="true"
           />
 
@@ -78,8 +79,13 @@ export const WorldModal: React.FC<WorldModalProps> = ({
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-title"
-            className={`relative w-full ${maxWidth} bg-white dark:bg-slate-900 border-4 border-amber-200/80 dark:border-amber-400/30 rounded-3xl shadow-2xl overflow-hidden my-auto z-10 flex flex-col max-h-[90vh]`}
+            className={`relative w-full ${maxWidth} bg-white dark:bg-slate-900 border-4 border-amber-200/80 dark:border-amber-400/30 rounded-3xl shadow-2xl overflow-visible my-auto z-10 flex flex-col max-h-[90vh]`}
           >
+            {/* 2 Flying Butterflies fixed to the top-left and top-right corners */}
+            <CornerButterflies />
+
+            {/* Inner Content Wrapper */}
+            <div className="overflow-hidden rounded-3xl flex flex-col flex-1 max-h-full">
             {/* Modal Header */}
             <div className="relative px-6 py-5 bg-gradient-to-r from-amber-50 via-sky-50 to-emerald-50 dark:from-slate-800 dark:via-slate-800/90 dark:to-slate-800 border-b border-amber-100 dark:border-slate-700/80 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3.5 pr-8">
@@ -124,6 +130,7 @@ export const WorldModal: React.FC<WorldModalProps> = ({
             {/* Modal Body */}
             <div className="px-6 py-6 overflow-y-auto text-slate-800 dark:text-slate-200 space-y-4">
               {children}
+            </div>
             </div>
           </motion.div>
         </div>

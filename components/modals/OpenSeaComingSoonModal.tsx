@@ -3,6 +3,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Sparkles, ExternalLink, ArrowRight } from "lucide-react";
+import { CornerButterflies } from "@/components/world/CornerButterflies";
 
 interface OpenSeaComingSoonModalProps {
   isOpen: boolean;
@@ -24,13 +25,13 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
             if (e.target === e.currentTarget) onClose();
           }}
         >
-          {/* Backdrop */}
+          {/* Backdrop: Visible background without blur */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-950/80 backdrop-blur-md"
+            className="fixed inset-0 bg-slate-950/40 backdrop-blur-none"
             aria-hidden="true"
           />
 
@@ -41,11 +42,13 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
             exit={{ scale: 0.85, opacity: 0, y: 20 }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-lg rounded-3xl bg-slate-950 text-white border-2 border-sky-400/80 shadow-2xl overflow-hidden z-10 p-6 sm:p-8 space-y-6 text-center"
+            className="relative w-full max-w-lg rounded-3xl bg-slate-950 text-white border-2 border-sky-400/80 shadow-2xl overflow-visible z-10 p-6 sm:p-8 space-y-6 text-center"
             style={{
               boxShadow: "0 25px 60px -15px rgba(14, 165, 233, 0.4), 0 0 40px rgba(14, 165, 233, 0.2)",
             }}
           >
+            {/* 2 Flying Butterflies fixed to the top-left and top-right corners */}
+            <CornerButterflies />
             {/* Close Button */}
             <button
               type="button"
