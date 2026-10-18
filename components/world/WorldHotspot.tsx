@@ -39,11 +39,11 @@ interface WorldHotspotProps {
  * Clean, seamless interactive hotspot over artwork landmarks.
  * No hover glows or colored outline boxes. Triggers modal opening on click/tap with cursor: pointer.
  */
-export const WorldHotspot: React.FC<WorldHotspotProps> = ({
+export const WorldHotspot = ({
   hotspot,
   onClick,
-}) => {
-  const handleClick = (e: React.MouseEvent) => {
+}: WorldHotspotProps) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     onClick(hotspot.id);
