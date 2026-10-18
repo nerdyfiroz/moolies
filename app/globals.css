@@ -43,8 +43,8 @@ body {
 }
 
 /* World artwork canvas responsive sizing:
-   - On mobile/portrait: full viewport height so users can pan horizontally without vertical cutoff.
-   - On desktop view: fitted with min() to ensure 100% of the image is completely visible without any cropping at all!
+   - On mobile/portrait: full viewport height so users can pan horizontally.
+   - On desktop view: fills the entire viewport edge-to-edge (100vw x 100dvh) with zero cropping at top/bottom and zero empty side bars!
 */
 .world-canvas-container {
   width: calc(100dvh * 1024 / 650);
@@ -56,10 +56,11 @@ body {
 
 @media (min-width: 768px) {
   .world-canvas-container {
-    width: min(100vw, calc(100dvh * 1024 / 650));
-    height: min(100dvh, calc(100vw * 650 / 1024));
+    width: 100vw;
+    height: 100dvh;
     max-width: 100vw;
     max-height: 100dvh;
+    aspect-ratio: auto;
   }
 }
 
