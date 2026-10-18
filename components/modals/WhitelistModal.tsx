@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { WorldModal } from "@/components/world/WorldModal";
 import { KeyRound, ShieldAlert, CheckCircle2, Clock, Search, Sparkles, AlertCircle, ArrowRight } from "lucide-react";
 import confetti from "canvas-confetti";
-import { soundEngine } from "@/lib/audio";
 
 interface WhitelistModalProps {
   isOpen: boolean;
@@ -115,7 +114,6 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
       if (!res.ok || !data.success) {
         setSubmitError(data.error || "Failed to submit application");
       } else {
-        soundEngine?.playChime();
         triggerConfetti();
         setSubmitSuccess({
           applicationId: data.applicationId,

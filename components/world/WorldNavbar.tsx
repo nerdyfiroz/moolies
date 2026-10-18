@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { soundEngine } from "@/lib/audio";
+import React from "react";
 import Link from "next/link";
-import { Sparkles, Volume2, VolumeX, Shield, ExternalLink } from "lucide-react";
+import { Sparkles, Shield, ExternalLink } from "lucide-react";
 
 interface WorldNavbarProps {
   onOpenOpenSea: () => void;
@@ -32,32 +31,14 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
   onOpenRoadmap,
   activeSection = null,
 }) => {
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-
-  useEffect(() => {
-    if (soundEngine) {
-      setIsPlayingAudio(soundEngine.getIsPlaying());
-    }
-  }, []);
-
-  const toggleSound = () => {
-    if (soundEngine) {
-      const playing = soundEngine.toggleMute();
-      setIsPlayingAudio(playing);
-    }
-  };
-
   return (
     <>
-      {/* Top Header Row (Brand Logo + Controls) */}
+      {/* Top Header Row (Brand Logo + Admin Control) */}
       <header className="fixed top-2.5 sm:top-4 inset-x-2.5 sm:inset-x-8 z-40 flex items-center justify-between pointer-events-none gap-2">
         {/* Brand Badge */}
         <button
           type="button"
-          onClick={() => {
-            soundEngine?.playChime();
-            onOpenCollectionDetails();
-          }}
+          onClick={onOpenCollectionDetails}
           title="Moolies Genesis Collection"
           className="pointer-events-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl bg-slate-950/90 text-white backdrop-blur-md border border-amber-300/60 shadow-lg flex items-center gap-1.5 sm:gap-2 hover:border-amber-300 transition-all cursor-pointer group shrink-0"
         >
@@ -78,10 +59,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           {/* Section 1: OpenSea */}
           <button
             type="button"
-            onClick={() => {
-              onOpenOpenSea();
-              try { soundEngine?.playPop(); } catch {}
-            }}
+            onClick={onOpenOpenSea}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeSection === "opensea"
                 ? "bg-sky-400 text-slate-950 shadow-sm font-black"
@@ -95,10 +73,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           {/* Section 2: Whitelist */}
           <button
             type="button"
-            onClick={() => {
-              onOpenWhitelist();
-              try { soundEngine?.playWoodKnock(); } catch {}
-            }}
+            onClick={onOpenWhitelist}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeSection === "whitelist"
                 ? "bg-amber-400 text-slate-950 shadow-sm font-black"
@@ -112,10 +87,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           {/* Section 3: Collection Details */}
           <button
             type="button"
-            onClick={() => {
-              onOpenCollectionDetails();
-              try { soundEngine?.playWoodKnock(); } catch {}
-            }}
+            onClick={onOpenCollectionDetails}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeSection === "collection"
                 ? "bg-purple-400 text-slate-950 shadow-sm font-black"
@@ -129,10 +101,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           {/* Section 4: Roadmap */}
           <button
             type="button"
-            onClick={() => {
-              onOpenRoadmap();
-              try { soundEngine?.playChime(); } catch {}
-            }}
+            onClick={onOpenRoadmap}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeSection === "roadmap"
                 ? "bg-emerald-400 text-slate-950 shadow-sm font-black"
@@ -159,30 +128,6 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
 
         {/* Right Controls */}
         <div className="pointer-events-auto flex items-center gap-1.5 shrink-0 justify-end">
-          {/* Audio Toggle */}
-          <button
-            type="button"
-            onClick={toggleSound}
-            title={isPlayingAudio ? "Mute sound" : "Enable atmospheric audio"}
-            className={`p-1.5 sm:px-3 sm:py-2 rounded-2xl text-xs font-bold transition-all shadow-md backdrop-blur-md border cursor-pointer flex items-center gap-1.5 ${
-              isPlayingAudio
-                ? "bg-emerald-500 text-white border-emerald-400 shadow-emerald-500/20"
-                : "bg-slate-950/80 text-slate-300 border-slate-800 hover:text-white"
-            }`}
-          >
-            {isPlayingAudio ? (
-              <>
-                <Volume2 className="w-3.5 h-3.5" />
-                <span className="hidden md:inline">Sound: ON</span>
-              </>
-            ) : (
-              <>
-                <VolumeX className="w-3.5 h-3.5" />
-                <span className="hidden md:inline">Sound: OFF</span>
-              </>
-            )}
-          </button>
-
           {/* Admin Portal Link */}
           <Link
             href="/admin"
@@ -195,7 +140,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
         </div>
       </header>
 
-      {/* Mobile Floating 5-Section Navigation Bar (Always 100% visible without scrollbar) */}
+      {/* Mobile Floating 5-Section Navigation Bar */}
       <div className="fixed top-12 sm:hidden inset-x-2 z-40 flex items-center justify-center pointer-events-none">
         <nav
           aria-label="Core Sections (Mobile)"
@@ -204,10 +149,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           {/* Section 1: OpenSea */}
           <button
             type="button"
-            onClick={() => {
-              onOpenOpenSea();
-              try { soundEngine?.playPop(); } catch {}
-            }}
+            onClick={onOpenOpenSea}
             className={`flex-1 py-1.5 px-1 rounded-xl text-[11px] font-black transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
               activeSection === "opensea"
                 ? "bg-sky-400 text-slate-950 shadow-sm"
@@ -221,10 +163,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           {/* Section 2: Whitelist */}
           <button
             type="button"
-            onClick={() => {
-              onOpenWhitelist();
-              try { soundEngine?.playWoodKnock(); } catch {}
-            }}
+            onClick={onOpenWhitelist}
             className={`flex-1 py-1.5 px-1 rounded-xl text-[11px] font-black transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
               activeSection === "whitelist"
                 ? "bg-amber-400 text-slate-950 shadow-sm"
@@ -238,10 +177,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           {/* Section 3: Supply */}
           <button
             type="button"
-            onClick={() => {
-              onOpenCollectionDetails();
-              try { soundEngine?.playWoodKnock(); } catch {}
-            }}
+            onClick={onOpenCollectionDetails}
             className={`flex-1 py-1.5 px-1 rounded-xl text-[11px] font-black transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
               activeSection === "collection"
                 ? "bg-purple-400 text-slate-950 shadow-sm"
@@ -255,10 +191,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           {/* Section 4: Roadmap */}
           <button
             type="button"
-            onClick={() => {
-              onOpenRoadmap();
-              try { soundEngine?.playChime(); } catch {}
-            }}
+            onClick={onOpenRoadmap}
             className={`flex-1 py-1.5 px-1 rounded-xl text-[11px] font-black transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
               activeSection === "roadmap"
                 ? "bg-emerald-400 text-slate-950 shadow-sm"

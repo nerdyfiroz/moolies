@@ -3,7 +3,6 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Sparkles, ExternalLink, ArrowRight } from "lucide-react";
-import { soundEngine } from "@/lib/audio";
 
 interface OpenSeaComingSoonModalProps {
   isOpen: boolean;
@@ -19,16 +18,18 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) onClose();
+          }}
+        >
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => {
-              soundEngine?.playPop();
-              onClose();
-            }}
+            onClick={onClose}
             className="fixed inset-0 bg-slate-950/80 backdrop-blur-md"
             aria-hidden="true"
           />
@@ -39,6 +40,7 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.85, opacity: 0, y: 20 }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-lg rounded-3xl bg-slate-950 text-white border-2 border-sky-400/80 shadow-2xl overflow-hidden z-10 p-6 sm:p-8 space-y-6 text-center"
             style={{
               boxShadow: "0 25px 60px -15px rgba(14, 165, 233, 0.4), 0 0 40px rgba(14, 165, 233, 0.2)",
@@ -47,10 +49,7 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
             {/* Close Button */}
             <button
               type="button"
-              onClick={() => {
-                soundEngine?.playPop();
-                onClose();
-              }}
+              onClick={onClose}
               className="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center cursor-pointer transition-colors border border-slate-800"
               aria-label="Close"
             >
@@ -65,7 +64,7 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
                 className="absolute inset-0 rounded-full bg-sky-500 blur-xl"
               />
               <motion.div
-                animate={{ y: [-3, 3, -3], rotate: [-2, 2, -2] }}
+                animate={{ y: [-4, 4, -4], rotate: [-3, 3, -3] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center shadow-lg border-2 border-sky-200"
               >
@@ -119,7 +118,6 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
                 <button
                   type="button"
                   onClick={() => {
-                    soundEngine?.playWoodKnock();
                     onClose();
                     onOpenWhitelist();
                   }}
