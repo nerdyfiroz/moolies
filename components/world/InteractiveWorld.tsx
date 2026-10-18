@@ -2,56 +2,45 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { WorldHotspot, InteractiveHotspot } from "@/components/world/WorldHotspot";
+import { WorldHotspot } from "@/components/world/WorldHotspot";
 import { WorldNavbar, XLogo } from "@/components/world/WorldNavbar";
+import { WORLD_HOTSPOTS } from "@/lib/data/hotspots";
+
+// All modal components
 import { OpenSeaComingSoonModal } from "@/components/modals/OpenSeaComingSoonModal";
 import { WhitelistModal } from "@/components/modals/WhitelistModal";
 import { CollectionDetailsModal } from "@/components/modals/CollectionDetailsModal";
 import { RoadmapModal } from "@/components/modals/RoadmapModal";
+import { NFTExplorerModal } from "@/components/modals/NFTExplorerModal";
+import { ProjectDetailsModal } from "@/components/modals/ProjectDetailsModal";
+import { AnnouncementsModal } from "@/components/modals/AnnouncementsModal";
+import { BlockchainModal } from "@/components/modals/BlockchainModal";
+import { ScheduleModal } from "@/components/modals/ScheduleModal";
+import { MintInfoModal } from "@/components/modals/MintInfoModal";
+import { TeamModal } from "@/components/modals/TeamModal";
+import { WhitepaperModal } from "@/components/modals/WhitepaperModal";
+import { FAQModal } from "@/components/modals/FAQModal";
 
-// The 4 core invisible hotspots matching the landmarks in moolies-world.png (1024x650)
-// 100% Invisible on the artwork, exactly like fomies.family
-const CORE_HOTSPOTS: InteractiveHotspot[] = [
-  {
-    id: "opensea",
-    title: "OpenSea Marketplace",
-    subtitle: "Coming Soon... Click to view secondary market status",
-    left: 0.0,
-    top: 32.0,
-    width: 13.0,
-    height: 26.0,
-  },
-  {
-    id: "whitelist-window",
-    title: "Treehouse Window (Whitelist Bureau)",
-    subtitle: "Click window to open the Whitelist Application Form",
-    left: 9.0,
-    top: 6.0,
-    width: 16.0,
-    height: 23.0,
-  },
-  {
-    id: "goalpost",
-    title: "Meadow Goalpost (Roadmap)",
-    subtitle: "Click goalpost to view Scored Project Goals & Roadmap",
-    left: 67.0,
-    top: 31.0,
-    width: 19.0,
-    height: 22.0,
-  },
-  {
-    id: "supply",
-    title: "2,000 Supply Board",
-    subtitle: "Click supply to view Collection Details & Tokenomics",
-    left: 85.0,
-    top: 48.0,
-    width: 15.0,
-    height: 30.0,
-  },
-];
+// All possible modal IDs that can be active
+type ModalId =
+  | "opensea"
+  | "whitelist"
+  | "collection"
+  | "roadmap"
+  | "nft-explorer"
+  | "project-details"
+  | "announcements"
+  | "blockchain"
+  | "schedule"
+  | "mint-info"
+  | "team"
+  | "whitepaper"
+  | "faq"
+  | null;
 
 export const InteractiveWorld: React.FC = () => {
-  const [activeModal, setActiveModal] = useState<"opensea" | "whitelist" | "collection" | "roadmap" | null>(null);
+  const [activeModal, setActiveModal] = useState<ModalId>(null);
+  const [teamMemberId, setTeamMemberId] = useState<string>("archibald");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
   const startXRef = useRef(0);
@@ -94,17 +83,55 @@ export const InteractiveWorld: React.FC = () => {
     isDraggingRef.current = false;
   };
 
-  const handleHotspotClick = (hotspotId: string) => {
-    if (hotspotId === "opensea") {
-      setActiveModal("opensea");
-    } else if (hotspotId === "whitelist-window" || hotspotId === "whitelist") {
-      setActiveModal("whitelist");
-    } else if (hotspotId === "supply" || hotspotId === "collection") {
-      setActiveModal("collection");
-    } else if (hotspotId === "goalpost" || hotspotId === "roadmap") {
-      setActiveModal("roadmap");
+  /**
+   * Maps a hotspot's modalId to the active modal state.
+   * Team member hotspots (team-pip, team-barnaby, etc.) all open
+   * the shared TeamModal with the correct member pre-selected.
+   */
+  const openModalForHotspot = (modalId: string) => {
+    // Handle team member hotspots — they share the TeamModal
+    if (modalId.startsWith("team-")) {
+      const memberId = modalId.replace("team-", "");
+      setTeamMemberId(memberId);
+      setActiveModal("team");
+      return;
+    }
+
+    // Direct modal ID mappings
+    const modalMap: Record<string, ModalId> = {
+      "opensea": "opensea",
+      "whitelist": "whitelist",
+      "collection": "collection",
+      "roadmap": "roadmap",
+      "nft-explorer": "nft-explorer",
+      "project-details": "project-details",
+      "announcements": "announcements",
+      "blockchain": "blockchain",
+      "schedule": "schedule",
+      "mint-info": "mint-info",
+      "whitepaper": "whitepaper",
+      "faq": "faq",
+    };
+
+    const target = modalMap[modalId];
+    if (target) {
+      setActiveModal(target);
     }
   };
+
+  const handleHotspotClick = (hotspotId: string) => {
+    // Find the hotspot in WORLD_HOTSPOTS to get its modalId
+    const hotspot = WORLD_HOTSPOTS.find((h) => h.id === hotspotId);
+    if (hotspot) {
+      openModalForHotspot(hotspot.modalId);
+    }
+  };
+
+  // Navbar section callbacks — map navbar button IDs to modal states
+  const handleNavOpenSea = () => setActiveModal("opensea");
+  const handleNavWhitelist = () => setActiveModal("whitelist");
+  const handleNavCollection = () => setActiveModal("collection");
+  const handleNavRoadmap = () => setActiveModal("roadmap");
 
   const closeModal = () => {
     setActiveModal(null);
@@ -112,13 +139,18 @@ export const InteractiveWorld: React.FC = () => {
 
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden bg-[#5fc2ea] select-none">
-      {/* Top Floating Navbar (Only the 5 requested sections) */}
+      {/* Top Floating Navbar */}
       <WorldNavbar
-        onOpenOpenSea={() => setActiveModal("opensea")}
-        onOpenWhitelist={() => setActiveModal("whitelist")}
-        onOpenCollectionDetails={() => setActiveModal("collection")}
-        onOpenRoadmap={() => setActiveModal("roadmap")}
-        activeSection={activeModal}
+        onOpenOpenSea={handleNavOpenSea}
+        onOpenWhitelist={handleNavWhitelist}
+        onOpenCollectionDetails={handleNavCollection}
+        onOpenRoadmap={handleNavRoadmap}
+        activeSection={
+          activeModal === "opensea" || activeModal === "whitelist" ||
+          activeModal === "collection" || activeModal === "roadmap"
+            ? (activeModal as "opensea" | "whitelist" | "collection" | "roadmap")
+            : null
+        }
       />
 
       {/* Full-Screen Edge-to-Edge Main Viewport with Panning */}
@@ -172,13 +204,12 @@ export const InteractiveWorld: React.FC = () => {
           </a>
 
           {/*
-            100% Invisible Section Hotspots on the artwork:
-            1. OpenSea logo section (on left tree trunk) -> Coming soon... with animation
-            2. Whitelist section (small treehouse window) -> Whitelist application form
-            3. Supply section (2,000 supply board on right) -> Collection details with animation
-            4. Roadmap section (meadow goalpost) -> Beautiful roadmap and scored goals
+            All 15 Interactive Section Hotspots from WORLD_HOTSPOTS data.
+            Each hotspot is 100% invisible on the artwork — zero borders,
+            zero rings, zero popups. Only cursor-pointer on hover.
+            Clicking opens the corresponding section detail modal.
           */}
-          {CORE_HOTSPOTS.map((hotspot) => (
+          {WORLD_HOTSPOTS.map((hotspot) => (
             <WorldHotspot
               key={hotspot.id}
               hotspot={hotspot}
@@ -188,31 +219,94 @@ export const InteractiveWorld: React.FC = () => {
         </div>
       </main>
 
-      {/* 1. OpenSea Coming Soon Modal */}
+      {/* ==================== ALL SECTION MODALS ==================== */}
+
+      {/* OpenSea Coming Soon Modal */}
       <OpenSeaComingSoonModal
         isOpen={activeModal === "opensea"}
         onClose={closeModal}
         onOpenWhitelist={() => setActiveModal("whitelist")}
       />
 
-      {/* 2. Whitelist Application Modal */}
+      {/* Whitelist Application Modal */}
       <WhitelistModal
         isOpen={activeModal === "whitelist"}
         onClose={closeModal}
       />
 
-      {/* 3. Collection Details Modal (Supply Section) */}
+      {/* Collection Details Modal (Supply Section) */}
       <CollectionDetailsModal
         isOpen={activeModal === "collection"}
         onClose={closeModal}
         onOpenWhitelist={() => setActiveModal("whitelist")}
       />
 
-      {/* 4. Roadmap Modal (Goalpost Section) */}
+      {/* Roadmap Modal (Goalpost Section) */}
       <RoadmapModal
         isOpen={activeModal === "roadmap"}
         onClose={closeModal}
         onOpenWhitelist={() => setActiveModal("whitelist")}
+      />
+
+      {/* NFT Explorer Modal (Treehouse Section) */}
+      <NFTExplorerModal
+        isOpen={activeModal === "nft-explorer"}
+        onClose={closeModal}
+      />
+
+      {/* Project Details Modal (Kite Section) */}
+      <ProjectDetailsModal
+        isOpen={activeModal === "project-details"}
+        onClose={closeModal}
+        onOpenWhitelist={() => setActiveModal("whitelist")}
+        onOpenExplorer={() => setActiveModal("nft-explorer")}
+      />
+
+      {/* Announcements Modal */}
+      <AnnouncementsModal
+        isOpen={activeModal === "announcements"}
+        onClose={closeModal}
+        onOpenWhitelist={() => setActiveModal("whitelist")}
+      />
+
+      {/* Blockchain / Ethereum Contract Modal */}
+      <BlockchainModal
+        isOpen={activeModal === "blockchain"}
+        onClose={closeModal}
+      />
+
+      {/* Schedule / Live Countdowns Modal */}
+      <ScheduleModal
+        isOpen={activeModal === "schedule"}
+        onClose={closeModal}
+        onOpenWhitelist={() => setActiveModal("whitelist")}
+      />
+
+      {/* Mint Info Modal (OpenSea sign + Supply sign) */}
+      <MintInfoModal
+        isOpen={activeModal === "mint-info"}
+        onClose={closeModal}
+        onOpenWhitelist={() => setActiveModal("whitelist")}
+      />
+
+      {/* Team Modal (shared by all team member hotspots) */}
+      <TeamModal
+        isOpen={activeModal === "team"}
+        onClose={closeModal}
+        selectedMemberId={teamMemberId}
+      />
+
+      {/* Whitepaper Modal */}
+      <WhitepaperModal
+        isOpen={activeModal === "whitepaper"}
+        onClose={closeModal}
+        onOpenWhitelist={() => setActiveModal("whitelist")}
+      />
+
+      {/* FAQ Modal */}
+      <FAQModal
+        isOpen={activeModal === "faq"}
+        onClose={closeModal}
       />
     </div>
   );

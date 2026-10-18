@@ -17,7 +17,16 @@ export interface InteractiveHotspot {
 }
 
 interface WorldHotspotProps {
-  hotspot: InteractiveHotspot;
+  hotspot: {
+    id: string;
+    title: string;
+    subtitle: string;
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+    borderRadius?: string;
+  };
   onClick: (id: string) => void;
   isActive?: boolean;
 }
