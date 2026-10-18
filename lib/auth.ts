@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 const ADMIN_SECRET = process.env.ADMIN_AUTH_SECRET || "moolies-secret-key-2026";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "moolies2026!";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 export async function verifyAdminSession(): Promise<boolean> {
   try {
@@ -17,7 +17,12 @@ export async function verifyAdminSession(): Promise<boolean> {
 }
 
 export function validateAdminPassword(password: string): boolean {
+  if (!ADMIN_PASSWORD) return false;
   return password === ADMIN_PASSWORD;
+}
+
+export function isAdminPasswordConfigured(): boolean {
+  return Boolean(ADMIN_PASSWORD && ADMIN_PASSWORD.trim().length > 0);
 }
 
 export function createAdminToken(): string {

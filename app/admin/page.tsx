@@ -366,9 +366,6 @@ export default function AdminPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
-              <p className="text-[11px] text-slate-500 mt-1">
-                Default dev password: <code className="text-amber-400">moolies2026!</code>
-              </p>
             </div>
 
             <button

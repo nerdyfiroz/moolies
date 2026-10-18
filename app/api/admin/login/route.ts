@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { validateAdminPassword, createAdminToken } from "@/lib/auth";
+import { validateAdminPassword, createAdminToken, isAdminPasswordConfigured } from "@/lib/auth";
 import { AdminLoginSchema } from "@/lib/validation";
 
 export async function POST(req: NextRequest) {
@@ -9,6 +9,13 @@ export async function POST(req: NextRequest) {
 
     if (!parsed.success) {
       return NextResponse.json({ success: false, error: "Password is required" }, { status: 400 });
+    }
+
+    if (!isAdminPasswordConfigured()) {
+      return NextResponse.json(
+        { success: false, error: "ADMIN_PASSWORD environment variable is not configured on the server" },
+        { status: 500 }
+      );
     }
 
     if (!validateAdminPassword(parsed.data.password)) {
