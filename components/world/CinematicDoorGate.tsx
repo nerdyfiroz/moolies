@@ -316,41 +316,53 @@ export const CinematicDoorGate: React.FC<CinematicDoorGateProps> = ({ onEnter })
       </div>
 
       {/* ======================================================== */}
-      {/* CENTER PROMPT SIGN: "Knock at the door to open" */}
+      {/* DEEPLY CARVED WOOD INSCRIPTION (Chiseled into the door planks, NOT a note) */}
       {/* ======================================================== */}
       <AnimatePresence>
         {!isOpening && (
           <motion.div
-            initial={{ opacity: 0, y: 15, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.85, y: -20 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="absolute z-60 pointer-events-none flex flex-col items-center justify-center text-center px-6 py-4 rounded-3xl bg-slate-950/90 border-2 border-amber-400/80 shadow-[0_12px_40px_rgba(0,0,0,0.85)] backdrop-blur-md"
+            className="absolute top-[23%] sm:top-[25%] inset-x-0 z-30 pointer-events-none flex flex-col items-center justify-center text-center px-4"
           >
-            <div className="flex items-center gap-2 mb-1">
-              <Sparkles className="w-4 h-4 text-amber-300 animate-spin" style={{ animationDuration: "4s" }} />
-              <span className="text-xs font-black tracking-widest text-amber-300 uppercase">
-                Moolies Illustrated World
-              </span>
-              <Sparkles className="w-4 h-4 text-amber-300 animate-spin" style={{ animationDuration: "4s" }} />
+            {/* Chiseled Ornamental Header */}
+            <div
+              style={{
+                color: "#1e0b04",
+                textShadow: "0 1px 1px rgba(254, 215, 170, 0.28), 0 -1.5px 1.5px rgba(0, 0, 0, 0.95)",
+                letterSpacing: "0.28em",
+              }}
+              className="text-[11px] sm:text-xs font-serif font-black uppercase mb-1.5 opacity-85 select-none"
+            >
+              ❖ MOOLIES WORLD ❖
             </div>
 
-            <h1 className="text-xl sm:text-2xl font-black text-white tracking-wide drop-shadow-md">
+            {/* Main Deeply Carved Title: "Knock at the door to open" */}
+            <h1
+              style={{
+                color: "#1c0903",
+                textShadow:
+                  "0 1.5px 1px rgba(254, 215, 170, 0.38), 0 -2px 2px rgba(0, 0, 0, 0.98), -1px 0 2px rgba(0, 0, 0, 0.8)",
+                letterSpacing: "0.03em",
+              }}
+              className="text-2xl sm:text-4xl md:text-5xl font-serif font-black select-none leading-tight"
+            >
               Knock at the door to open
             </h1>
 
-            <p className="text-xs sm:text-sm text-amber-200/90 font-medium mt-1">
-              Tap or click anywhere to knock and enter
-            </p>
-
-            <motion.div
-              animate={{ y: [0, 4, 0] }}
-              transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-              className="mt-3 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/50 text-[11px] font-bold text-amber-300 flex items-center gap-1.5"
+            {/* Subtle Chiseled Sub-engraving */}
+            <p
+              style={{
+                color: "#281206",
+                textShadow: "0 1px 1px rgba(254, 215, 170, 0.22), 0 -1px 1.5px rgba(0, 0, 0, 0.95)",
+                letterSpacing: "0.08em",
+              }}
+              className="text-xs sm:text-sm font-serif italic mt-2 opacity-80 select-none"
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-              <span>Click to Knock</span>
-            </motion.div>
+              ~ Tap anywhere to knock and enter ~
+            </p>
           </motion.div>
         )}
       </AnimatePresence>
