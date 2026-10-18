@@ -1,103 +1,196 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { WORLD_HOTSPOTS, Hotspot } from "@/lib/data/hotspots";
-import { WorldHotspot } from "@/components/world/WorldHotspot";
-import { WorldNavbar } from "@/components/world/WorldNavbar";
-import { WorldDirectoryDrawer } from "@/components/world/WorldDirectoryDrawer";
-import { ProjectDetailsModal } from "@/components/modals/ProjectDetailsModal";
-import { NFTExplorerModal } from "@/components/modals/NFTExplorerModal";
+import { WorldHotspot, InteractiveHotspot } from "@/components/world/WorldHotspot";
+import { WorldNavbar, XLogo } from "@/components/world/WorldNavbar";
+import { MobileDesktopNotice } from "@/components/world/MobileDesktopNotice";
+import { OpenSeaComingSoonModal } from "@/components/modals/OpenSeaComingSoonModal";
 import { WhitelistModal } from "@/components/modals/WhitelistModal";
-import { MintInfoModal } from "@/components/modals/MintInfoModal";
-import { ScheduleModal } from "@/components/modals/ScheduleModal";
-import { TeamModal } from "@/components/modals/TeamModal";
+import { CollectionDetailsModal } from "@/components/modals/CollectionDetailsModal";
 import { RoadmapModal } from "@/components/modals/RoadmapModal";
-import { BlockchainModal } from "@/components/modals/BlockchainModal";
-import { AnnouncementsModal } from "@/components/modals/AnnouncementsModal";
-import { FAQModal } from "@/components/modals/FAQModal";
+import { soundEngine } from "@/lib/audio";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
+// The 4 core interactive hotspots matching the illustration landmarks
+const CORE_HOTSPOTS: InteractiveHotspot[] = [
+  {
+    id: "opensea",
+    title: "OpenSea Marketplace",
+    subtitle: "Official Secondary Marketplace (Coming Soon...)",
+    actionText: "Coming Soon... Click to view status",
+    left: 0.0,
+    top: 28.0,
+    width: 14.0,
+    height: 32.0,
+    borderRadius: "rounded-r-3xl",
+    accentColor: "#0284C7",
+    soundType: "wood",
+  },
+  {
+    id: "whitelist-window",
+    title: "Treehouse Window",
+    subtitle: "Official Whitelist Application Bureau",
+    actionText: "Click window to Apply for Whitelist",
+    left: 9.0,
+    top: 4.0,
+    width: 20.0,
+    height: 32.0,
+    borderRadius: "rounded-3xl",
+    accentColor: "#F59E0B",
+    soundType: "wood",
+  },
+  {
+    id: "supply",
+    title: "2,000 Moolies Supply",
+    subtitle: "Collection Details, Traits & Economics",
+    actionText: "Click supply to view Collection Details",
+    left: 86.0,
+    top: 42.0,
+    width: 14.0,
+    height: 38.0,
+    borderRadius: "rounded-l-3xl",
+    accentColor: "#EAB308",
+    soundType: "wood",
+  },
+  {
+    id: "goalpost",
+    title: "The Meadow Goalpost",
+    subtitle: "Scored Project Goals & 4-Phase Roadmap",
+    actionText: "Click goalpost to view Roadmap",
+    left: 73.0,
+    top: 38.0,
+    width: 18.0,
+    height: 25.0,
+    borderRadius: "rounded-2xl",
+    accentColor: "#10B981",
+    soundType: "pop",
+  },
+];
 
 export const InteractiveWorld: React.FC = () => {
-  const [activeModal, setActiveModal] = useState<string | null>(null);
-  const [selectedTeamMemberId, setSelectedTeamMemberId] = useState<string>("archibald");
-  const [isDirectoryOpen, setIsDirectoryOpen] = useState(false);
-  const [activeHotspotId, setActiveHotspotId] = useState<string | null>(null);
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [activeModal, setActiveModal] = useState<"opensea" | "whitelist" | "collection" | "roadmap" | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
 
-  const handleHotspotClick = (hotspot: Hotspot) => {
-    setActiveHotspotId(hotspot.id);
+  // Center or scroll to the main landmark on initial load
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      const el = scrollContainerRef.current;
+      const targetScroll = (el.scrollWidth - el.clientWidth) * 0.25;
+      if (targetScroll > 0) {
+        el.scrollLeft = targetScroll;
+      }
+    }
+  }, []);
 
-    // Map hotspot to modal
-    switch (hotspot.id) {
-      case "kite":
-        setActiveModal("project-details");
-        break;
-      case "treehouse":
-        setActiveModal("nft-explorer");
-        break;
-      case "whitelist-gate":
-        setActiveModal("whitelist");
-        break;
-      case "sign-opensea":
-      case "sign-supply":
-        setActiveModal("mint-info");
-        break;
-      case "schedule":
-        setActiveModal("schedule");
-        break;
-      case "owl-boba":
-        setSelectedTeamMemberId("barnaby");
-        setActiveModal("team");
-        break;
-      case "owl-suit":
-        setSelectedTeamMemberId("archibald");
-        setActiveModal("team");
-        break;
-      case "owl-artist":
-        setSelectedTeamMemberId("pip");
-        setActiveModal("team");
-        break;
-      case "owl-dev":
-        setSelectedTeamMemberId("otis");
-        setActiveModal("team");
-        break;
-      case "roadmap-book":
-        setActiveModal("roadmap");
-        break;
-      case "lake":
-        setActiveModal("blockchain");
-        break;
-      case "announcements":
-        setActiveModal("announcements");
-        break;
-      case "faq":
-        setActiveModal("faq");
-        break;
-      default:
-        setActiveModal(hotspot.modalId);
+  const scrollToPercent = (percent: number) => {
+    if (scrollContainerRef.current) {
+      const el = scrollContainerRef.current;
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (maxScroll > 0) {
+        const target = (percent / 100) * el.scrollWidth - el.clientWidth / 2;
+        el.scrollTo({ left: Math.max(0, Math.min(target, maxScroll)), behavior: "smooth" });
+      }
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).closest("button, a, input, [data-hotspot]")) return;
+    isDraggingRef.current = true;
+    startXRef.current = e.pageX - (scrollContainerRef.current?.offsetLeft || 0);
+    scrollLeftRef.current = scrollContainerRef.current?.scrollLeft || 0;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingRef.current || !scrollContainerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - (scrollContainerRef.current.offsetLeft || 0);
+    const walk = (x - startXRef.current) * 1.3;
+    scrollContainerRef.current.scrollLeft = scrollLeftRef.current - walk;
+  };
+
+  const handleMouseUp = () => {
+    isDraggingRef.current = false;
+  };
+
+  const handleHotspotClick = (hotspot: InteractiveHotspot) => {
+    // 1. Immediately open the requested section modal
+    if (hotspot.id === "opensea") {
+      setActiveModal("opensea");
+    } else if (hotspot.id === "whitelist-window") {
+      setActiveModal("whitelist");
+    } else if (hotspot.id === "supply") {
+      setActiveModal("collection");
+    } else if (hotspot.id === "goalpost") {
+      setActiveModal("roadmap");
+    }
+
+    // 2. Smoothly scroll camera to the landmark (safe fallback)
+    try {
+      if (hotspot.id === "opensea") scrollToPercent(5);
+      else if (hotspot.id === "whitelist-window") scrollToPercent(16);
+      else if (hotspot.id === "supply") scrollToPercent(94);
+      else if (hotspot.id === "goalpost") scrollToPercent(78);
+    } catch {
+      // Ignored
     }
   };
 
   const closeModal = () => {
     setActiveModal(null);
-    setActiveHotspotId(null);
   };
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-[#5fc2ea] select-none flex flex-col justify-between">
-      {/* Top Navbar */}
-      <WorldNavbar onOpenDirectory={() => setIsDirectoryOpen(true)} />
+    <div className="relative w-full h-[100dvh] overflow-hidden bg-[#5fc2ea] select-none">
+      {/* Top Floating Navbar (Only the 4-5 requested sections) */}
+      <WorldNavbar
+        onOpenOpenSea={() => {
+          setActiveModal("opensea");
+          try { scrollToPercent(5); } catch {}
+        }}
+        onOpenWhitelist={() => {
+          setActiveModal("whitelist");
+          try { scrollToPercent(16); } catch {}
+        }}
+        onOpenCollectionDetails={() => {
+          setActiveModal("collection");
+          try { scrollToPercent(94); } catch {}
+        }}
+        onOpenRoadmap={() => {
+          setActiveModal("roadmap");
+          try { scrollToPercent(78); } catch {}
+        }}
+        activeSection={activeModal}
+      />
 
-      {/* Main Viewport Container */}
-      <main className="relative flex-1 w-full h-full flex items-center justify-center overflow-auto sm:overflow-hidden p-0 sm:p-2">
-        {/* World Artwork Aspect Box (1024 x 650 => 16:10.15) */}
+      {/* Note for Phone Users: Please use Desktop Mode */}
+      <MobileDesktopNotice onOpenLandmarks={() => setActiveModal("whitelist")} />
+
+      {/* Full-Screen Edge-to-Edge Main Viewport with Smooth Pan/Scroll */}
+      <main
+        ref={scrollContainerRef}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        className="relative w-full h-[100dvh] overflow-x-auto overflow-y-hidden select-none bg-[#5fc2ea] no-scrollbar flex items-center justify-start md:justify-center cursor-grab active:cursor-grabbing touch-pan-x"
+      >
+        {/* World Artwork Canvas — Fully Covers Full Screen */}
         <div
-          style={{ aspectRatio: "1024 / 650" }}
-          className="relative w-full max-w-[1920px] max-h-full mx-auto shadow-2xl overflow-hidden min-w-[760px] sm:min-w-0"
+          style={{
+            aspectRatio: "1024 / 650",
+            minWidth: "100%",
+            minHeight: "100dvh",
+            height: "100dvh",
+            width: "auto",
+          }}
+          className="relative h-[100dvh] w-auto max-w-none flex-shrink-0 bg-[#5fc2ea] overflow-hidden"
         >
-          {/* Main Landscape Illustration Image */}
+          {/* Main Landscape Illustration Image (Covering 100% of the canvas) */}
           <Image
             src="/moolies-world.png"
             alt="Moolies Interactive Illustrated World"
@@ -105,127 +198,123 @@ export const InteractiveWorld: React.FC = () => {
             priority
             quality={95}
             sizes="100vw"
-            onLoad={() => setImageLoaded(true)}
-            className={`object-contain sm:object-cover w-full h-full pointer-events-none transition-opacity duration-700 ${
-              imageLoaded ? "opacity-100" : "opacity-0"
-            }`}
+            referrerPolicy="no-referrer"
+            className="object-cover w-full h-full pointer-events-none select-none"
           />
 
-          {/* Subtle floating kite motion overlay (synchronized over the cat-kite in sky) */}
-          <motion.div
-            style={{ left: "67.5%", top: "12%" }}
-            animate={{
-              y: [-4, 6, -4],
-              rotate: [-1.5, 1.5, -1.5],
+          {/* Project X (Twitter) Logo Link on the website */}
+          <motion.a
+            href="https://x.com/moolieshq"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.08, rotate: 1.5 }}
+            whileTap={{ scale: 0.95 }}
+            title="Follow Official Project on X / Twitter (@moolieshq)"
+            style={{
+              right: "3.5%",
+              top: "16.0%",
+              boxShadow: "0 12px 28px -6px rgba(0, 0, 0, 0.7)",
             }}
-            transition={{
-              repeat: Infinity,
-              duration: 5,
-              ease: "easeInOut",
-            }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 w-28 h-28 pointer-events-none z-10 opacity-0"
-            aria-hidden="true"
-          />
+            className="absolute z-30 flex items-center gap-2 p-1.5 sm:p-2 sm:px-3 rounded-2xl bg-slate-950/95 text-white backdrop-blur-md border border-slate-700 hover:border-amber-400 shadow-2xl cursor-pointer group transition-all"
+          >
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-black flex items-center justify-center border border-slate-700 group-hover:border-amber-400 transition-colors shrink-0">
+              <XLogo className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white group-hover:text-amber-300 transition-colors" />
+            </div>
+            <div className="text-left hidden sm:block">
+              <p className="text-xs font-black text-white group-hover:text-amber-300 leading-tight">
+                Project X
+              </p>
+              <p className="text-[9px] text-slate-400 leading-tight">
+                @moolieshq
+              </p>
+            </div>
+          </motion.a>
 
-          {/* Interactive Normalized Hotspots System */}
-          {WORLD_HOTSPOTS.map((hotspot) => (
+          {/* Interactive Responsive Hotspots (Zero Floating Icons) */}
+          {CORE_HOTSPOTS.map((hotspot) => (
             <WorldHotspot
               key={hotspot.id}
               hotspot={hotspot}
               onClick={handleHotspotClick}
-              isActive={activeHotspotId === hotspot.id}
+              isActive={
+                (activeModal === "opensea" && hotspot.id === "opensea") ||
+                (activeModal === "whitelist" && hotspot.id === "whitelist-window") ||
+                (activeModal === "collection" && hotspot.id === "supply") ||
+                (activeModal === "roadmap" && hotspot.id === "goalpost")
+              }
             />
           ))}
         </div>
       </main>
 
-      {/* Bottom Hint Banner - Clean, Minimal Text Without Icons */}
-      <footer className="fixed bottom-3 sm:bottom-4 inset-x-0 z-30 flex items-center justify-center pointer-events-none px-4">
+      {/* Floating Left/Right Navigation Arrows for quick mobile panning */}
+      <button
+        type="button"
+        onClick={() => {
+          soundEngine?.playPop();
+          scrollToPercent(0);
+        }}
+        aria-label="Scroll left to OpenSea & Treehouse"
+        className="md:hidden fixed left-2 bottom-14 z-30 p-2 rounded-full bg-slate-950/80 text-white border border-slate-700 shadow-lg backdrop-blur-md cursor-pointer hover:bg-slate-900 active:scale-90 transition-transform"
+      >
+        <ChevronLeft className="w-4 h-4 text-amber-300" />
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {
+          soundEngine?.playPop();
+          scrollToPercent(100);
+        }}
+        aria-label="Scroll right to Goalpost & Supply"
+        className="md:hidden fixed right-2 bottom-14 z-30 p-2 rounded-full bg-slate-950/80 text-white border border-slate-700 shadow-lg backdrop-blur-md cursor-pointer hover:bg-slate-900 active:scale-90 transition-transform"
+      >
+        <ChevronRight className="w-4 h-4 text-amber-300" />
+      </button>
+
+      {/* Bottom Hint Banner - Minimal, Clean Guidance */}
+      <footer className="fixed bottom-3 sm:bottom-4 inset-x-0 z-20 flex items-center justify-center pointer-events-none px-4">
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="pointer-events-auto flex items-center gap-3 px-5 py-2 rounded-full bg-slate-900/85 text-white backdrop-blur-md border border-amber-300/40 shadow-xl text-xs sm:text-sm font-medium"
+          transition={{ delay: 0.5 }}
+          className="pointer-events-auto flex items-center gap-2.5 sm:gap-3 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-slate-950/85 text-white backdrop-blur-md border border-amber-300/40 shadow-xl text-[11px] sm:text-xs font-medium"
         >
           <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping shrink-0" />
-          <span className="hidden sm:inline">
-            Explore the realm — click directly on the <strong>Flying Cat-Kite</strong>, <strong>Treehouse</strong>, <strong>Signs</strong>, <strong>Gate</strong>, or <strong>Owls</strong>!
+          <span className="hidden sm:inline text-slate-300">
+            Click directly on the <strong>OpenSea Sign</strong>, <strong>Treehouse Window</strong>, <strong>2000 Supply</strong>, or <strong>Goalpost</strong>!
           </span>
-          <span className="sm:hidden">
-            Tap directly on characters and objects to explore
+          <span className="sm:hidden text-[10px] text-slate-300">
+            Swipe world &bull; Tap Window, Signs, or Goalpost
           </span>
-          <button
-            type="button"
-            onClick={() => setIsDirectoryOpen(true)}
-            className="px-3 py-1 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-[11px] cursor-pointer transition-colors"
-          >
-            All Landmarks
-          </button>
         </motion.div>
       </footer>
 
-      {/* Accessible Landmarks Directory Drawer */}
-      <WorldDirectoryDrawer
-        isOpen={isDirectoryOpen}
-        onClose={() => setIsDirectoryOpen(false)}
-        onSelectHotspot={handleHotspotClick}
-      />
-
-      {/* Modals Collection */}
-      <ProjectDetailsModal
-        isOpen={activeModal === "project-details"}
+      {/* 1. OpenSea Coming Soon Modal */}
+      <OpenSeaComingSoonModal
+        isOpen={activeModal === "opensea"}
         onClose={closeModal}
         onOpenWhitelist={() => setActiveModal("whitelist")}
-        onOpenExplorer={() => setActiveModal("nft-explorer")}
       />
 
-      <NFTExplorerModal
-        isOpen={activeModal === "nft-explorer"}
-        onClose={closeModal}
-      />
-
+      {/* 2. Whitelist Application Modal */}
       <WhitelistModal
         isOpen={activeModal === "whitelist"}
         onClose={closeModal}
       />
 
-      <MintInfoModal
-        isOpen={activeModal === "mint-info"}
+      {/* 3. Collection Details Modal (Supply Section) */}
+      <CollectionDetailsModal
+        isOpen={activeModal === "collection"}
         onClose={closeModal}
         onOpenWhitelist={() => setActiveModal("whitelist")}
       />
 
-      <ScheduleModal
-        isOpen={activeModal === "schedule"}
-        onClose={closeModal}
-        onOpenWhitelist={() => setActiveModal("whitelist")}
-      />
-
-      <TeamModal
-        isOpen={activeModal === "team"}
-        onClose={closeModal}
-        selectedMemberId={selectedTeamMemberId}
-      />
-
+      {/* 4. Roadmap Modal (Goalpost Section) */}
       <RoadmapModal
         isOpen={activeModal === "roadmap"}
         onClose={closeModal}
-      />
-
-      <BlockchainModal
-        isOpen={activeModal === "blockchain"}
-        onClose={closeModal}
-      />
-
-      <AnnouncementsModal
-        isOpen={activeModal === "announcements"}
-        onClose={closeModal}
         onOpenWhitelist={() => setActiveModal("whitelist")}
-      />
-
-      <FAQModal
-        isOpen={activeModal === "faq"}
-        onClose={closeModal}
       />
     </div>
   );

@@ -92,7 +92,7 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({
               </li>
               <li className="flex items-start gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
-                <span><strong>Soft-Staking 'Nesting':</strong> Earn rewards without giving up wallet custody or risking assets.</span>
+                <span><strong>Soft-Staking &apos;Nesting&apos;:</strong> Earn rewards without giving up wallet custody or risking assets.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />

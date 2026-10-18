@@ -2,103 +2,121 @@
 
 import React from "react";
 import { WorldModal } from "@/components/world/WorldModal";
-import { BookOpen, CheckCircle, Clock, Sparkles, ExternalLink, FileText } from "lucide-react";
+import { CheckCircle2, Clock, Trophy, ShieldCheck, Flag } from "lucide-react";
 import { ROADMAP_DATA } from "@/lib/data/roadmap";
+import { soundEngine } from "@/lib/audio";
 
 interface RoadmapModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpenWhitelist?: () => void;
 }
 
-export const RoadmapModal: React.FC<RoadmapModalProps> = ({ isOpen, onClose }) => {
+export const RoadmapModal: React.FC<RoadmapModalProps> = ({
+  isOpen,
+  onClose,
+  onOpenWhitelist,
+}) => {
   return (
     <WorldModal
       isOpen={isOpen}
       onClose={onClose}
-      title="The Lore Grimoire & Roadmap"
-      subtitle="4-Phase Ecosystem Blueprint & Whitepaper"
-      icon={<BookOpen className="w-6 h-6 text-blue-600 dark:text-blue-400" />}
-      badge="Roadmap"
+      title="Project Goals & Roadmap"
+      subtitle="Scored via the Meadow Goalpost — 4 Core Milestones"
+      icon={<Trophy className="w-6 h-6 text-amber-500" />}
+      badge="Official Goals"
       maxWidth="max-w-4xl"
     >
       <div className="space-y-6">
-        {/* Whitepaper Header Banner */}
-        <div className="p-5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-md">
-          <div className="space-y-1">
-            <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded bg-white/20">
-              Whitepaper Version 1.2
+        {/* Goalpost Header Banner */}
+        <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-700 text-white shadow-lg space-y-2">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-xs font-black uppercase tracking-wider">
+              <Flag className="w-3.5 h-3.5 text-amber-300" />
+              The Meadow Goalpost
             </span>
-            <h3 className="text-xl sm:text-2xl font-bold">
-              The Architecture of the Moolies Valley
-            </h3>
-            <p className="text-xs sm:text-sm text-blue-100 max-w-xl">
-              Exploring soft-staking Nesting algorithms, DAO voting mechanics, and our collaborative lore expansion.
-            </p>
+            <span className="text-xs font-semibold text-emerald-200">
+              Target: 100% On-Chain Execution
+            </span>
           </div>
-          <a
-            href="https://github.com/moolies-nft"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-4 py-2 rounded-xl bg-white text-blue-900 font-bold text-xs hover:bg-blue-50 transition-colors shadow-xs flex items-center gap-1.5 shrink-0"
-          >
-            <FileText className="w-4 h-4 text-blue-600" />
-            <span>Read Whitepaper</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
+
+          <h3 className="text-xl sm:text-2xl font-black">
+            Scoring the Future of the Moolies Realm
+          </h3>
+          <p className="text-xs sm:text-sm text-emerald-100 max-w-2xl leading-relaxed">
+            Every kick hits the target. From hand-crafted vector art generation to soft-staking Nesting protocols, physical plushie distribution, and community DAO governance.
+          </p>
         </div>
 
-        {/* Roadmap Phases Grid */}
+        {/* 4 Goals Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {ROADMAP_DATA.map((phase) => {
-            const isDone = phase.status === "completed";
-            const isCurrent = phase.status === "in-progress";
+          {ROADMAP_DATA.map((goal, idx) => {
+            const isCompleted = goal.status === "completed";
+            const isInProgress = goal.status === "in-progress";
 
             return (
               <div
-                key={phase.phase}
+                key={goal.phase}
                 className={`p-5 rounded-3xl border-2 transition-all flex flex-col justify-between ${
-                  isCurrent
-                    ? "border-blue-500 bg-blue-50/50 dark:bg-slate-800/80 shadow-md ring-2 ring-blue-400/20"
-                    : isDone
-                    ? "border-emerald-300 dark:border-emerald-800/60 bg-emerald-50/30 dark:bg-slate-800/40"
-                    : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/40"
+                  isInProgress
+                    ? "border-amber-400 bg-amber-500/5 dark:bg-amber-400/5 shadow-md"
+                    : isCompleted
+                    ? "border-emerald-400/80 bg-emerald-500/5 dark:bg-emerald-400/5"
+                    : "border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40"
                 }`}
               >
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-black uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                      {phase.phase} • {phase.timeline}
-                    </span>
+                <div className="space-y-3">
+                  {/* Goal Header */}
+                  <div className="flex items-center justify-between">
                     <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
-                        isDone
-                          ? "bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-950 dark:text-emerald-300"
-                          : isCurrent
-                          ? "bg-blue-100 text-blue-800 border-blue-300 dark:bg-blue-950 dark:text-blue-300 animate-pulse"
-                          : "bg-slate-100 text-slate-600 border-slate-300 dark:bg-slate-700 dark:text-slate-400"
+                      className={`text-xs font-black uppercase tracking-widest px-2.5 py-1 rounded-lg ${
+                        isCompleted
+                          ? "bg-emerald-500 text-white"
+                          : isInProgress
+                          ? "bg-amber-400 text-slate-950"
+                          : "bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
                       }`}
                     >
-                      {phase.status.toUpperCase()}
+                      Goal {idx + 1} &middot; {goal.timeline}
+                    </span>
+
+                    <span className="text-xs font-bold flex items-center gap-1.5">
+                      {isCompleted ? (
+                        <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                          <CheckCircle2 className="w-4 h-4" /> Goal Scored!
+                        </span>
+                      ) : isInProgress ? (
+                        <span className="text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                          <Clock className="w-4 h-4 animate-spin" style={{ animationDuration: "8s" }} /> In Progress
+                        </span>
+                      ) : (
+                        <span className="text-slate-400">Upcoming Target</span>
+                      )}
                     </span>
                   </div>
 
-                  <h4 className="text-base font-extrabold text-slate-900 dark:text-white mb-1">
-                    {phase.title}
-                  </h4>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 mb-3 leading-relaxed">
-                    {phase.description}
-                  </p>
+                  <div>
+                    <h4 className="text-base font-black text-slate-900 dark:text-white">
+                      {goal.title}
+                    </h4>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                      {goal.description}
+                    </p>
+                  </div>
 
-                  <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
-                    {phase.items.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        {isDone ? (
-                          <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                        ) : isCurrent ? (
-                          <Sparkles className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
-                        ) : (
-                          <Clock className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
-                        )}
+                  {/* Checklist */}
+                  <ul className="space-y-1.5 pt-2 border-t border-slate-200/60 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+                    {goal.items.map((item, itemIdx) => (
+                      <li key={itemIdx} className="flex items-start gap-2">
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 ${
+                            isCompleted
+                              ? "bg-emerald-500"
+                              : isInProgress
+                              ? "bg-amber-400"
+                              : "bg-slate-400"
+                          }`}
+                        />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -108,6 +126,27 @@ export const RoadmapModal: React.FC<RoadmapModalProps> = ({ isOpen, onClose }) =
             );
           })}
         </div>
+
+        {/* Bottom Whitelist Prompt */}
+        {onOpenWhitelist && (
+          <div className="p-4 rounded-2xl bg-amber-50 dark:bg-slate-800/80 border border-amber-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300">
+              <ShieldCheck className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
+              <span>Be part of Goal 2: Apply for early guaranteed Whitelist minting privileges.</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                soundEngine?.playWoodKnock();
+                onClose();
+                onOpenWhitelist();
+              }}
+              className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs transition-colors shadow-sm cursor-pointer whitespace-nowrap"
+            >
+              Apply Whitelist Form &rarr;
+            </button>
+          </div>
+        )}
       </div>
     </WorldModal>
   );

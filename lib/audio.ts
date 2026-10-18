@@ -14,8 +14,12 @@ class SoundEngine {
         this.ctx = new AudioCtx();
       }
     }
-    if (this.ctx && this.ctx.state === "suspended") {
-      this.ctx.resume();
+    try {
+      if (this.ctx && this.ctx.state === "suspended") {
+        this.ctx.resume().catch(() => {});
+      }
+    } catch {
+      // Audio autoplay policy fallback
     }
   }
 

@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 
+mongoose.set("bufferCommands", false);
+
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
 }
 
 declare global {
-  // eslint-disable-next-line no-var
   var mongooseCache: MongooseCache | undefined;
 }
 
@@ -34,6 +35,7 @@ export async function connectToDatabase(): Promise<typeof mongoose | null> {
   if (!cached!.promise) {
     const opts = {
       bufferCommands: false,
+      serverSelectionTimeoutMS: 2500,
       dbName: process.env.MONGODB_DB_NAME || "moolies_db",
     };
 
@@ -88,7 +90,6 @@ interface MemoryStore {
 }
 
 declare global {
-  // eslint-disable-next-line no-var
   var memoryStore: MemoryStore | undefined;
 }
 

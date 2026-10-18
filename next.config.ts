@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "standalone",
+  images: {
+    contentDispositionType: "inline",
+  },
   turbopack: {
     rules: {
       "*.css": {
