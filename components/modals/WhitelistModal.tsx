@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { WorldModal } from "@/components/world/WorldModal";
 import { KeyRound, ShieldAlert, CheckCircle2, Clock, Search, Sparkles, AlertCircle, ArrowRight, ExternalLink } from "lucide-react";
 import confetti from "canvas-confetti";
+import { DEFAULT_WHITELIST_TASKS, WhitelistTask } from "@/lib/data/defaultSettings";
 
 const XLogo = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -24,16 +25,16 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<"apply" | "check">("apply");
 
-  // Form state — only Twitter + Wallet
+  // Form state — Twitter + Wallet
   const [walletAddress, setWalletAddress] = useState("");
   const [twitterUsername, setTwitterUsername] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [honeypot, setHoneypot] = useState("");
   const [mountTime, setMountTime] = useState<number>(0);
 
-  // Twitter tasks
-  const [hasFollowed, setHasFollowed] = useState(false);
-  const [hasRetweeted, setHasRetweeted] = useState(false);
+  // Dynamic Whitelist Tasks configured by Admin
+  const [tasks, setTasks] = useState<WhitelistTask[]>(DEFAULT_WHITELIST_TASKS);
+  const [completedTaskIds, setCompletedTaskIds] = useState<string[]>([]);
 
   // Status & feedback
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -58,6 +59,22 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
     if (isOpen) {
       setMountTime(Date.now());
       setSubmitError(null);
+
+      // Fetch dynamic whitelist tasks configured from admin
+      fetch("/api/project")
+        .then((res) => res.json())
+        .then((data) => {
+          if (
+            data?.data?.whitelistTasks &&
+            Array.isArray(data.data.whitelistTasks) &&
+            data.data.whitelistTasks.length > 0
+          ) {
+            setTasks(data.data.whitelistTasks);
+          }
+        })
+        .catch(() => {
+          // fallback to DEFAULT_WHITELIST_TASKS
+        });
     }
   }, [isOpen]);
 
@@ -74,6 +91,18 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
     }
   };
 
+  const handleTaskActionClick = (taskId: string) => {
+    if (!completedTaskIds.includes(taskId)) {
+      setCompletedTaskIds((prev) => [...prev, taskId]);
+    }
+  };
+
+  const toggleTaskCompleted = (taskId: string) => {
+    setCompletedTaskIds((prev) =>
+      prev.includes(taskId) ? prev.filter((id) => id !== taskId) : [...prev, taskId]
+    );
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitError(null);
@@ -87,14 +116,16 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
       setSubmitError("Please provide your Twitter / X username.");
       return;
     }
-    if (!hasFollowed) {
-      setSubmitError("Please follow @moolieshq on X to complete the Twitter task.");
+
+    // Verify all required tasks are completed
+    const uncompletedRequired = tasks.filter(
+      (t) => t.isRequired !== false && !completedTaskIds.includes(t.id)
+    );
+    if (uncompletedRequired.length > 0) {
+      setSubmitError(`Please complete required task: "${uncompletedRequired[0].title}"`);
       return;
     }
-    if (!hasRetweeted) {
-      setSubmitError("Please retweet the pinned post to complete the Twitter task.");
-      return;
-    }
+
     if (!agreeToTerms) {
       setSubmitError("You must agree to the Terms of Service and Privacy Policy.");
       return;
@@ -111,7 +142,8 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
           twitterUsername: twitterUsername.trim(),
           discordUsername: "",
           email: "",
-          reason: "Twitter task completed — followed & retweeted.",
+          reason: `Completed ${completedTaskIds.length} whitelist task(s)`,
+          completedTasks: completedTaskIds,
           referralCode: "",
           agreeToTerms,
           websiteHoneypot: honeypot,
@@ -199,7 +231,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
       isOpen={isOpen}
       onClose={onClose}
       title="The Whitelist Gate"
-      subtitle="Guaranteed Mint Access & Owl Fellowship"
+      subtitle="Guaranteed Mint Access & Whitelist Application"
       icon={<KeyRound className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />}
       badge={isWhitelistOpen ? "Open for Submissions" : "Gate Closed"}
       maxWidth="max-w-2xl"
@@ -241,7 +273,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                   The Whitelist Gate is Currently Closed
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-md mx-auto">
-                  Applications for Wave 1 have concluded. Please stay tuned to our Twitter announcements for the Wave 2 opening date!
+                  Applications for Wave 1 have concluded. Please stay tuned to our announcements for the next opening date!
                 </p>
                 <div className="pt-2">
                   <button
@@ -298,8 +330,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                     setSubmitSuccess(null);
                     setWalletAddress("");
                     setTwitterUsername("");
-                    setHasFollowed(false);
-                    setHasRetweeted(false);
+                    setCompletedTaskIds([]);
                   }}
                   className="px-5 py-2 rounded-xl bg-slate-900 dark:bg-slate-700 text-white text-xs font-bold hover:bg-slate-800 transition-colors"
                 >
@@ -327,120 +358,98 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                   aria-hidden="true"
                 />
 
-                {/* ===== TWITTER TASKS SECTION ===== */}
+                {/* ===== DYNAMIC WHITELIST TASKS SECTION ===== */}
                 <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-4">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center">
-                      <XLogo className="w-4.5 h-4.5 text-white" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-slate-900 dark:text-white">
-                        Twitter Tasks
-                      </h4>
-                      <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                        Complete both tasks to qualify for whitelist
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Task 1: Follow */}
-                  <div className={`flex items-center justify-between p-3.5 rounded-xl border transition-all ${
-                    hasFollowed
-                      ? "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-700"
-                      : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
-                  }`}>
-                    <div className="flex items-center gap-3">
-                      <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
-                        hasFollowed
-                          ? "bg-emerald-500 text-white"
-                          : "bg-slate-200 dark:bg-slate-700 text-slate-400"
-                      }`}>
-                        {hasFollowed ? (
-                          <CheckCircle2 className="w-4 h-4" />
-                        ) : (
-                          <span className="text-xs font-black">1</span>
-                        )}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center">
+                        <XLogo className="w-4.5 h-4.5 text-white" />
                       </div>
                       <div>
-                        <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                          Follow @moolieshq on X
+                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                          Whitelist Tasks
+                        </h4>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                          Complete all required tasks below to qualify
                         </p>
-                        <p className="text-[10px] text-slate-400">Stay updated with project news</p>
                       </div>
                     </div>
-                    <a
-                      href="https://x.com/moolieshq"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setHasFollowed(true)}
-                      className={`px-3 py-1.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-colors shrink-0 ${
-                        hasFollowed
-                          ? "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 cursor-default"
-                          : "bg-slate-900 hover:bg-slate-800 text-white cursor-pointer"
-                      }`}
-                    >
-                      {hasFollowed ? (
-                        <>
-                          <CheckCircle2 className="w-3 h-3" />
-                          <span>Followed</span>
-                        </>
-                      ) : (
-                        <>
-                          <ExternalLink className="w-3 h-3" />
-                          <span>Follow</span>
-                        </>
-                      )}
-                    </a>
+                    <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
+                      {completedTaskIds.length} / {tasks.length} Completed
+                    </span>
                   </div>
 
-                  {/* Task 2: Retweet */}
-                  <div className={`flex items-center justify-between p-3.5 rounded-xl border transition-all ${
-                    hasRetweeted
-                      ? "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-700"
-                      : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
-                  }`}>
-                    <div className="flex items-center gap-3">
-                      <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
-                        hasRetweeted
-                          ? "bg-emerald-500 text-white"
-                          : "bg-slate-200 dark:bg-slate-700 text-slate-400"
-                      }`}>
-                        {hasRetweeted ? (
-                          <CheckCircle2 className="w-4 h-4" />
-                        ) : (
-                          <span className="text-xs font-black">2</span>
-                        )}
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                          Retweet the pinned post
-                        </p>
-                        <p className="text-[10px] text-slate-400">Help spread the word about Moolies</p>
-                      </div>
-                    </div>
-                    <a
-                      href="https://x.com/moolieshq"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setHasRetweeted(true)}
-                      className={`px-3 py-1.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-colors shrink-0 ${
-                        hasRetweeted
-                          ? "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 cursor-default"
-                          : "bg-slate-900 hover:bg-slate-800 text-white cursor-pointer"
-                      }`}
-                    >
-                      {hasRetweeted ? (
-                        <>
-                          <CheckCircle2 className="w-3 h-3" />
-                          <span>Retweeted</span>
-                        </>
-                      ) : (
-                        <>
-                          <ExternalLink className="w-3 h-3" />
-                          <span>Retweet</span>
-                        </>
-                      )}
-                    </a>
+                  {/* Tasks List */}
+                  <div className="space-y-2.5">
+                    {tasks.map((task, idx) => {
+                      const isDone = completedTaskIds.includes(task.id);
+                      return (
+                        <div
+                          key={task.id}
+                          className={`flex items-center justify-between p-3.5 rounded-xl border transition-all ${
+                            isDone
+                              ? "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-700"
+                              : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                          }`}
+                        >
+                          <div
+                            onClick={() => toggleTaskCompleted(task.id)}
+                            className="flex items-center gap-3 cursor-pointer select-none flex-1 pr-2"
+                          >
+                            <div
+                              className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors ${
+                                isDone
+                                  ? "bg-emerald-500 text-white"
+                                  : "bg-slate-200 dark:bg-slate-700 text-slate-400"
+                              }`}
+                            >
+                              {isDone ? (
+                                <CheckCircle2 className="w-4 h-4" />
+                              ) : (
+                                <span className="text-xs font-black">{idx + 1}</span>
+                              )}
+                            </div>
+                            <div>
+                              <p className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                                <span>{task.title}</span>
+                                {task.isRequired && (
+                                  <span className="text-[10px] text-rose-500 font-semibold">*Required</span>
+                                )}
+                              </p>
+                              {task.description && (
+                                <p className="text-[10px] text-slate-400">{task.description}</p>
+                              )}
+                            </div>
+                          </div>
+
+                          {task.actionUrl && (
+                            <a
+                              href={task.actionUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={() => handleTaskActionClick(task.id)}
+                              className={`px-3 py-1.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-colors shrink-0 ${
+                                isDone
+                                  ? "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200"
+                                  : "bg-slate-900 hover:bg-slate-800 text-white cursor-pointer"
+                              }`}
+                            >
+                              {isDone ? (
+                                <>
+                                  <CheckCircle2 className="w-3 h-3" />
+                                  <span>Done</span>
+                                </>
+                              ) : (
+                                <>
+                                  <ExternalLink className="w-3 h-3" />
+                                  <span>{task.actionLabel || "Complete"}</span>
+                                </>
+                              )}
+                            </a>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -458,7 +467,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                     className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                   <p className="text-[11px] text-slate-400 mt-1">
-                    We&apos;ll verify your follow &amp; retweet from this handle.
+                    We&apos;ll verify your completed whitelist tasks with this handle.
                   </p>
                 </div>
 
@@ -487,10 +496,10 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                     id="terms-check"
                     checked={agreeToTerms}
                     onChange={(e) => setAgreeToTerms(e.target.checked)}
-                    className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 mt-0.5 border-slate-300"
+                    className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 mt-0.5 border-slate-300 cursor-pointer"
                   />
-                  <label htmlFor="terms-check" className="text-xs text-slate-600 dark:text-slate-400 leading-tight">
-                    I agree to the project Terms of Service, anti-sybil community guidelines, and acknowledge that one application is permitted per Ethereum wallet.
+                  <label htmlFor="terms-check" className="text-xs text-slate-600 dark:text-slate-400 leading-tight cursor-pointer">
+                    I agree to the project Terms of Service, anti-sybil guidelines, and confirm that all required whitelist tasks were completed truthfully.
                   </label>
                 </div>
 
@@ -535,7 +544,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
               <button
                 type="submit"
                 disabled={isChecking}
-                className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-colors disabled:opacity-50 flex items-center gap-1.5 shrink-0"
+                className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-colors disabled:opacity-50 flex items-center gap-1.5 shrink-0 cursor-pointer"
               >
                 {isChecking ? (
                   <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />

@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
       discordUsername,
       email,
       reason,
+      completedTasks,
       referralCode,
       websiteHoneypot,
       submissionTimestamp,
@@ -75,6 +76,7 @@ export async function POST(req: NextRequest) {
         discordUsername: discordUsername || "",
         email: email || "",
         reason,
+        completedTasks: completedTasks || [],
         referralCode: referralCode || "",
         status: "pending",
       });
@@ -110,6 +112,7 @@ export async function POST(req: NextRequest) {
         discordUsername: discordUsername || "",
         email: email || "",
         reason,
+        completedTasks: completedTasks || [],
         referralCode: referralCode || "",
         status: "pending" as const,
         createdAt: new Date().toISOString(),

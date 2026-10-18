@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { Sparkles, Shield, ExternalLink } from "lucide-react";
+import { Sparkles, ExternalLink } from "lucide-react";
 
 interface WorldNavbarProps {
   onOpenOpenSea: () => void;
@@ -126,18 +125,8 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           </a>
         </nav>
 
-        {/* Right Controls */}
-        <div className="pointer-events-auto flex items-center gap-1.5 shrink-0 justify-end">
-          {/* Admin Portal Link */}
-          <Link
-            href="/admin"
-            className="p-1.5 sm:px-3 sm:py-2 rounded-2xl bg-slate-950/60 hover:bg-slate-900 text-slate-400 hover:text-slate-200 text-xs font-semibold backdrop-blur-md border border-slate-800 transition-colors flex items-center gap-1"
-            title="Council Admin Portal"
-          >
-            <Shield className="w-3.5 h-3.5" />
-            <span className="hidden lg:inline">Admin</span>
-          </Link>
-        </div>
+        {/* Right Spacer for balance */}
+        <div className="hidden sm:block w-32 shrink-0 pointer-events-none" />
       </header>
 
       {/* Mobile Floating 5-Section Navigation Bar */}

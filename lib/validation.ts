@@ -31,6 +31,7 @@ export const WhitelistSubmissionSchema = z.object({
   agreeToTerms: z
     .boolean()
     .refine((val) => val === true, "You must agree to the Terms of Service and Privacy Policy"),
+  completedTasks: z.array(z.string()).optional().default([]),
   // Honeypot field for bot protection
   websiteHoneypot: z.string().optional(),
   submissionTimestamp: z.number().optional(),
@@ -45,6 +46,15 @@ export const AdminLoginSchema = z.object({
 export const UpdateApplicationStatusSchema = z.object({
   status: z.enum(["pending", "approved", "waitlisted", "rejected"]),
   adminNotes: z.string().max(500).optional(),
+});
+
+export const WhitelistTaskSchema = z.object({
+  id: z.string().min(1),
+  title: z.string().min(1, "Task title is required"),
+  description: z.string().optional().default(""),
+  actionUrl: z.string().optional().default(""),
+  actionLabel: z.string().optional().default("Complete"),
+  isRequired: z.boolean().default(true),
 });
 
 export const ProjectSettingsSchema = z.object({
@@ -68,6 +78,7 @@ export const ProjectSettingsSchema = z.object({
   whitelistEndDate: z.string(),
   publicMintStartDate: z.string(),
   revealDate: z.string(),
+  whitelistTasks: z.array(WhitelistTaskSchema).optional().default([]),
 });
 
 export const CreateAnnouncementSchema = z.object({

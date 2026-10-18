@@ -24,6 +24,14 @@ export interface IProjectSettings extends Document {
   whitelistEndDate: string;
   publicMintStartDate: string;
   revealDate: string;
+  whitelistTasks?: Array<{
+    id: string;
+    title: string;
+    description?: string;
+    actionUrl?: string;
+    actionLabel?: string;
+    isRequired?: boolean;
+  }>;
   updatedAt: Date;
 }
 
@@ -60,6 +68,7 @@ const ProjectSettingsSchema = new Schema<IProjectSettings>(
     whitelistEndDate: { type: String, default: "TBA" },
     publicMintStartDate: { type: String, default: "TBA" },
     revealDate: { type: String, default: "TBA" },
+    whitelistTasks: { type: Array, default: [] },
   },
   { timestamps: true }
 );

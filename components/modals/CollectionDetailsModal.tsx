@@ -82,12 +82,12 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
                 </div>
                 <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-center">
                   <p className="text-[10px] uppercase font-bold text-slate-400">Whitelist</p>
-                  <p className="text-xl sm:text-2xl font-black text-emerald-400 mt-1">0.025 ETH</p>
+                  <p className="text-xl sm:text-2xl font-black text-emerald-400 mt-1">TBA</p>
                   <p className="text-[9px] text-amber-300 font-semibold">Date: TBA</p>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-center">
                   <p className="text-[10px] uppercase font-bold text-slate-400">Public Price</p>
-                  <p className="text-xl sm:text-2xl font-black text-sky-400 mt-1">0.040 ETH</p>
+                  <p className="text-xl sm:text-2xl font-black text-sky-400 mt-1">TBA</p>
                   <p className="text-[9px] text-amber-300 font-semibold">Date: TBA</p>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-center">
@@ -104,16 +104,16 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
                   <span>Artistic Traits &amp; Rarity Engine</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Over 180 hand-drawn vector traits across 7 distinct layer categories: Background Realm, Feather Texture, Beanie &amp; Hats, Expressions, Eyewear, Outfits, and Meadow Held Items (including the Boba Tea and Meadow Soccer Ball).
+                  Hand-drawn vector artwork with 6-10 distinct trait layers: Background Realm, Feather Texture, Beanie &amp; Hats, Expressions, Eyewear, Outfits, and Meadow Held Items (including Boba Tea and Meadow Soccer Ball).
                 </p>
                 <div className="grid grid-cols-3 gap-2 pt-1 text-center text-xs">
                   <div className="p-2 rounded-xl bg-slate-950 border border-slate-800">
                     <span className="text-slate-400 text-[10px] block">Trait Layers</span>
-                    <strong className="text-white text-sm">7 Layers</strong>
+                    <strong className="text-white text-sm">6-10 Layers</strong>
                   </div>
                   <div className="p-2 rounded-xl bg-slate-950 border border-slate-800">
-                    <span className="text-slate-400 text-[10px] block">Hand-Drawn Assets</span>
-                    <strong className="text-amber-300 text-sm">180+ Traits</strong>
+                    <span className="text-slate-400 text-[10px] block">Traits per Owl</span>
+                    <strong className="text-amber-300 text-sm">6-10 Traits</strong>
                   </div>
                   <div className="p-2 rounded-xl bg-slate-950 border border-slate-800">
                     <span className="text-slate-400 text-[10px] block">1-of-1 Legendaries</span>

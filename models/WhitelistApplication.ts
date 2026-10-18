@@ -5,7 +5,8 @@ export interface IWhitelistApplication extends Document {
   twitterUsername: string;
   discordUsername?: string;
   email?: string;
-  reason: string;
+  reason?: string;
+  completedTasks?: string[];
   referralCode?: string;
   status: "pending" | "approved" | "waitlisted" | "rejected";
   adminNotes?: string;
@@ -43,9 +44,13 @@ const WhitelistApplicationSchema = new Schema<IWhitelistApplication>(
     },
     reason: {
       type: String,
-      required: true,
+      default: "Twitter and Whitelist tasks completed",
       trim: true,
       maxlength: 1000,
+    },
+    completedTasks: {
+      type: [String],
+      default: [],
     },
     referralCode: {
       type: String,

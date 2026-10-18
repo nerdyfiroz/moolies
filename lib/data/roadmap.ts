@@ -29,8 +29,8 @@ export const ROADMAP_DATA: RoadmapPhase[] = [
     status: "in-progress",
     description: "Whitelisted birds and public collectors mint their Moolie, followed by an interactive reveal event and OpenSea verification.",
     items: [
-      "Guaranteed Whitelist Mint (0.025 ETH)",
-      "Public Mint Phase (0.04 ETH)",
+      "Guaranteed Whitelist Mint (Price: TBA)",
+      "Public Mint Phase (Price: TBA)",
       "Synchronized metadata reveal with unboxing animation",
       "Secondary marketplace listing & OpenSea badge verification",
       "Rarity sniper integration & community treasury setup",

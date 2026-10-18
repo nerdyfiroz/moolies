@@ -19,7 +19,11 @@ import {
   ArrowLeft,
   AlertCircle,
   ExternalLink,
+  ListChecks,
+  Plus,
+  Trash2,
 } from "lucide-react";
+import { DEFAULT_WHITELIST_TASKS, WhitelistTask } from "@/lib/data/defaultSettings";
 
 interface Application {
   _id: string;
@@ -28,6 +32,7 @@ interface Application {
   discordUsername?: string;
   email?: string;
   reason: string;
+  completedTasks?: string[];
   referralCode?: string;
   status: "pending" | "approved" | "waitlisted" | "rejected";
   adminNotes?: string;
@@ -49,7 +54,7 @@ export default function AdminPage() {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   // Dashboard state
-  const [activeTab, setActiveTab] = useState<"applications" | "settings" | "announcements">("applications");
+  const [activeTab, setActiveTab] = useState<"applications" | "tasks" | "settings" | "announcements">("applications");
   const [applications, setApplications] = useState<Application[]>([]);
   const [stats, setStats] = useState<Stats>({ total: 0, pending: 0, approved: 0, waitlisted: 0, rejected: 0 });
   const [statusFilter, setStatusFilter] = useState("all");
@@ -57,6 +62,18 @@ export default function AdminPage() {
   const [isLoadingApps, setIsLoadingApps] = useState(false);
   const [selectedApp, setSelectedApp] = useState<Application | null>(null);
   const [adminNoteInput, setAdminNoteInput] = useState("");
+
+  // Whitelist tasks state
+  const [whitelistTasks, setWhitelistTasks] = useState<WhitelistTask[]>(DEFAULT_WHITELIST_TASKS);
+  const [tasksSaved, setTasksSaved] = useState(false);
+  const [isSavingTasks, setIsSavingTasks] = useState(false);
+
+  // New task form state
+  const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [newTaskDesc, setNewTaskDesc] = useState("");
+  const [newTaskUrl, setNewTaskUrl] = useState("");
+  const [newTaskLabel, setNewTaskLabel] = useState("Complete");
+  const [newTaskRequired, setNewTaskRequired] = useState(true);
 
   // Settings form state
   const [settingsForm, setSettingsForm] = useState({
@@ -103,12 +120,88 @@ export default function AdminPage() {
           setIsAuthenticated(true);
           setApplications(data.data || []);
           if (data.stats) setStats(data.stats);
+          fetchProjectData();
         }
       }
     } catch {
       setIsAuthenticated(false);
     } finally {
       setIsLoadingApps(false);
+    }
+  };
+
+  const fetchProjectData = async () => {
+    try {
+      const res = await fetch("/api/project");
+      const data = await res.json();
+      if (data?.data) {
+        if (
+          data.data.whitelistTasks &&
+          Array.isArray(data.data.whitelistTasks) &&
+          data.data.whitelistTasks.length > 0
+        ) {
+          setWhitelistTasks(data.data.whitelistTasks);
+        }
+        setSettingsForm((prev) => ({
+          ...prev,
+          ...data.data,
+        }));
+      }
+    } catch {}
+  };
+
+  const handleAddTask = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTaskTitle.trim()) return;
+    const newTask: WhitelistTask = {
+      id: "task-" + Date.now().toString(36),
+      title: newTaskTitle.trim(),
+      description: newTaskDesc.trim(),
+      actionUrl: newTaskUrl.trim(),
+      actionLabel: newTaskLabel.trim() || "Complete",
+      isRequired: newTaskRequired,
+    };
+    setWhitelistTasks((prev) => [...prev, newTask]);
+    setNewTaskTitle("");
+    setNewTaskDesc("");
+    setNewTaskUrl("");
+    setNewTaskLabel("Complete");
+    setNewTaskRequired(true);
+  };
+
+  const handleRemoveTask = (taskId: string) => {
+    setWhitelistTasks((prev) => prev.filter((t) => t.id !== taskId));
+  };
+
+  const handleToggleRequired = (taskId: string) => {
+    setWhitelistTasks((prev) =>
+      prev.map((t) => (t.id === taskId ? { ...t, isRequired: !t.isRequired } : t))
+    );
+  };
+
+  const handleSaveTasks = async () => {
+    setIsSavingTasks(true);
+    setTasksSaved(false);
+    try {
+      const res = await fetch("/api/admin/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...settingsForm,
+          whitelistTasks,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setTasksSaved(true);
+        setTimeout(() => setTasksSaved(false), 3000);
+      } else {
+        alert(data.error || "Failed to save whitelist tasks");
+      }
+    } catch {
+      alert("Error saving whitelist tasks");
+    } finally {
+      setIsSavingTasks(false);
     }
   };
 
@@ -388,6 +481,18 @@ export default function AdminPage() {
           </button>
           <button
             type="button"
+            onClick={() => setActiveTab("tasks")}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer ${
+              activeTab === "tasks"
+                ? "bg-slate-900 text-white dark:bg-white dark:text-slate-950 shadow-xs"
+                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+            }`}
+          >
+            <ListChecks className="w-4 h-4 text-emerald-500" />
+            <span>Whitelist Tasks ({whitelistTasks.length})</span>
+          </button>
+          <button
+            type="button"
             onClick={() => setActiveTab("settings")}
             className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer ${
               activeTab === "settings"
@@ -597,7 +702,30 @@ export default function AdminPage() {
                       </div>
                     )}
                     <div>
-                      <span className="text-slate-400">Reason for joining:</span>
+                      <span className="text-slate-400 font-semibold">Completed Whitelist Tasks:</span>
+                      <div className="flex flex-wrap gap-1.5 mt-1.5">
+                        {selectedApp.completedTasks && selectedApp.completedTasks.length > 0 ? (
+                          selectedApp.completedTasks.map((tId, idx) => {
+                            const taskObj = whitelistTasks.find((wt) => wt.id === tId);
+                            return (
+                              <span
+                                key={idx}
+                                className="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 text-[11px] font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5"
+                              >
+                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                                <span>{taskObj?.title || tId}</span>
+                              </span>
+                            );
+                          })
+                        ) : (
+                          <span className="text-slate-500 italic text-[11px] px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800">
+                            Tasks completed on submission
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <span className="text-slate-400">Submission Note:</span>
                       <p className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 mt-1 leading-relaxed">
                         {selectedApp.reason}
                       </p>
@@ -647,7 +775,229 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* TAB 2: PROJECT SETTINGS & MINT */}
+        {/* TAB 2: WHITELIST TASKS CONFIGURATION */}
+        {activeTab === "tasks" && (
+          <div className="space-y-6 max-w-4xl">
+            {/* Header Banner */}
+            <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-700 text-white shadow-lg space-y-2">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-xs font-black uppercase tracking-wider">
+                  <ListChecks className="w-3.5 h-3.5 text-amber-300" />
+                  Live Whitelist Configuration
+                </span>
+                <span className="text-xs font-semibold text-emerald-100">
+                  {whitelistTasks.length} Configured Tasks
+                </span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black">
+                Whitelist Requirements &amp; Tasks
+              </h3>
+              <p className="text-xs sm:text-sm text-emerald-100 max-w-2xl leading-relaxed">
+                Add, customize, or remove the tasks required for community members to qualify for whitelist. These tasks appear dynamically on the live website. Applicants must complete all required tasks before submitting their wallet.
+              </p>
+            </div>
+
+            {tasksSaved && (
+              <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-300 text-xs text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                <span className="font-bold">Whitelist tasks updated live on website!</span>
+              </div>
+            )}
+
+            {/* Add New Task Card */}
+            <form onSubmit={handleAddTask} className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 shadow-xs">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <Plus className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <span>Add New Whitelist Task</span>
+                </h4>
+                <span className="text-[11px] text-slate-400">Fill in details and click Add Task</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                    Task Title <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Follow @moolieshq on X, Join Community Discord, Like & Retweet"
+                    value={newTaskTitle}
+                    onChange={(e) => setNewTaskTitle(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                    Description / Instruction
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Stay updated with drop alerts and giveaways"
+                    value={newTaskDesc}
+                    onChange={(e) => setNewTaskDesc(e.target.value)}
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                    Action URL
+                  </label>
+                  <input
+                    type="url"
+                    placeholder="e.g. https://x.com/moolieshq or https://discord.gg/..."
+                    value={newTaskUrl}
+                    onChange={(e) => setNewTaskUrl(e.target.value)}
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                    Action Button Label
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Follow, Retweet, Join Discord, Visit"
+                    value={newTaskLabel}
+                    onChange={(e) => setNewTaskLabel(e.target.value)}
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div className="flex items-center gap-2 sm:pt-6">
+                  <input
+                    type="checkbox"
+                    id="new-task-req"
+                    checked={newTaskRequired}
+                    onChange={(e) => setNewTaskRequired(e.target.checked)}
+                    className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                  />
+                  <label htmlFor="new-task-req" className="text-xs font-bold text-slate-700 dark:text-slate-300 cursor-pointer">
+                    Required task for whitelist
+                  </label>
+                </div>
+              </div>
+
+              <div className="pt-1">
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Add Task</span>
+                </button>
+              </div>
+            </form>
+
+            {/* Current Tasks List Card */}
+            <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 shadow-xs">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                  Configured Tasks ({whitelistTasks.length})
+                </h4>
+                <button
+                  type="button"
+                  onClick={handleSaveTasks}
+                  disabled={isSavingTasks}
+                  className="px-5 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-bold text-xs hover:opacity-90 transition-opacity flex items-center gap-1.5 cursor-pointer shadow-sm disabled:opacity-50"
+                >
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 dark:text-emerald-600" />
+                  <span>{isSavingTasks ? "Saving..." : "Save Tasks to Live Site"}</span>
+                </button>
+              </div>
+
+              {whitelistTasks.length === 0 ? (
+                <div className="p-8 text-center text-slate-400 space-y-2">
+                  <ListChecks className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700" />
+                  <p className="text-xs">No whitelist tasks configured yet. Add one above!</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {whitelistTasks.map((task, idx) => (
+                    <div
+                      key={task.id}
+                      className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    >
+                      <div className="flex items-start gap-3 flex-1">
+                        <div className="w-7 h-7 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center justify-center text-xs font-black shrink-0 mt-0.5">
+                          {idx + 1}
+                        </div>
+                        <div className="space-y-1 flex-1">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white">
+                              {task.title}
+                            </span>
+                            <span
+                              onClick={() => handleToggleRequired(task.id)}
+                              className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase cursor-pointer select-none transition-colors ${
+                                task.isRequired
+                                  ? "bg-rose-100 text-rose-800 dark:bg-rose-950/80 dark:text-rose-300 border border-rose-300"
+                                  : "bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-400"
+                              }`}
+                              title="Click to toggle required / optional"
+                            >
+                              {task.isRequired ? "Required" : "Optional"}
+                            </span>
+                          </div>
+                          {task.description && (
+                            <p className="text-xs text-slate-500 dark:text-slate-400">
+                              {task.description}
+                            </p>
+                          )}
+                          {task.actionUrl && (
+                            <a
+                              href={task.actionUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-[11px] text-sky-600 dark:text-sky-400 font-mono hover:underline"
+                            >
+                              <span>{task.actionUrl}</span>
+                              <ExternalLink className="w-3 h-3" />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
+                        {task.actionLabel && (
+                          <span className="px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                            Button: {task.actionLabel}
+                          </span>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveTask(task.id)}
+                          className="p-1.5 rounded-lg text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
+                          title="Delete task"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="pt-2 flex justify-end">
+                <button
+                  type="button"
+                  onClick={handleSaveTasks}
+                  disabled={isSavingTasks}
+                  className="px-6 py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-bold text-xs sm:text-sm hover:opacity-90 transition-opacity flex items-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
+                >
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 dark:text-emerald-600" />
+                  <span>{isSavingTasks ? "Saving to live site..." : "Save Whitelist Tasks"}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 3: PROJECT SETTINGS & MINT */}
         {activeTab === "settings" && (
           <form onSubmit={handleSaveSettings} className="space-y-6 max-w-3xl">
             {settingsSaved && (

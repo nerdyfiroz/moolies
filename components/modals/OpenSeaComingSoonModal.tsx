@@ -107,12 +107,12 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
                 <p className="font-bold text-amber-400">TBA</p>
               </div>
               <div className="space-y-1">
-                <span className="text-[10px] text-slate-400 font-semibold uppercase">Official Contract</span>
-                <p className="font-mono text-[11px] text-sky-300 truncate">0x71C8...9573</p>
+                <span className="text-[10px] text-slate-400 font-semibold uppercase">Mint Price</span>
+                <p className="font-bold text-emerald-400">TBA</p>
               </div>
               <div className="space-y-1">
-                <span className="text-[10px] text-slate-400 font-semibold uppercase">Royalty</span>
-                <p className="font-bold text-emerald-400">0% Protocol</p>
+                <span className="text-[10px] text-slate-400 font-semibold uppercase">Supply</span>
+                <p className="font-bold text-sky-400">2,000</p>
               </div>
             </div>
 
