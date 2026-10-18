@@ -83,12 +83,12 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
                 <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-center">
                   <p className="text-[10px] uppercase font-bold text-slate-400">Whitelist</p>
                   <p className="text-xl sm:text-2xl font-black text-emerald-400 mt-1">0.025 ETH</p>
-                  <p className="text-[9px] text-slate-500">Guaranteed Mint</p>
+                  <p className="text-[9px] text-amber-300 font-semibold">Date: TBA</p>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-center">
                   <p className="text-[10px] uppercase font-bold text-slate-400">Public Price</p>
                   <p className="text-xl sm:text-2xl font-black text-sky-400 mt-1">0.040 ETH</p>
-                  <p className="text-[9px] text-slate-500">Dutch / Fair</p>
+                  <p className="text-[9px] text-amber-300 font-semibold">Date: TBA</p>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-center">
                   <p className="text-[10px] uppercase font-bold text-slate-400">Standard</p>

@@ -56,10 +56,10 @@ const ProjectSettingsSchema = new Schema<IProjectSettings>(
       default: "whitelist",
     },
     isWhitelistOpen: { type: Boolean, default: true },
-    whitelistStartDate: { type: String, default: "2026-11-01T14:00:00Z" },
-    whitelistEndDate: { type: String, default: "2026-11-05T14:00:00Z" },
-    publicMintStartDate: { type: String, default: "2026-11-06T14:00:00Z" },
-    revealDate: { type: String, default: "2026-11-10T18:00:00Z" },
+    whitelistStartDate: { type: String, default: "TBA" },
+    whitelistEndDate: { type: String, default: "TBA" },
+    publicMintStartDate: { type: String, default: "TBA" },
+    revealDate: { type: String, default: "TBA" },
   },
   { timestamps: true }
 );

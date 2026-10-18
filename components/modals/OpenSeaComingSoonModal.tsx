@@ -101,14 +101,18 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
             </div>
 
             {/* Highlights Grid */}
-            <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-slate-900/90 border border-slate-800 text-left text-xs">
+            <div className="grid grid-cols-3 gap-2.5 p-4 rounded-2xl bg-slate-900/90 border border-slate-800 text-left text-xs">
               <div className="space-y-1">
-                <span className="text-[10px] text-slate-400 font-semibold uppercase">Official Contract</span>
-                <p className="font-mono text-[11px] text-sky-300 truncate">0x71C8A1b...9573</p>
+                <span className="text-[10px] text-slate-400 font-semibold uppercase">Mint Date</span>
+                <p className="font-bold text-amber-400">TBA</p>
               </div>
               <div className="space-y-1">
-                <span className="text-[10px] text-slate-400 font-semibold uppercase">Secondary Royalty</span>
-                <p className="font-bold text-emerald-400">0% Protocol / 100% DAO</p>
+                <span className="text-[10px] text-slate-400 font-semibold uppercase">Official Contract</span>
+                <p className="font-mono text-[11px] text-sky-300 truncate">0x71C8...9573</p>
+              </div>
+              <div className="space-y-1">
+                <span className="text-[10px] text-slate-400 font-semibold uppercase">Royalty</span>
+                <p className="font-bold text-emerald-400">0% Protocol</p>
               </div>
             </div>
 

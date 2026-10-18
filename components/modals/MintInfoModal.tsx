@@ -115,7 +115,7 @@ export const MintInfoModal: React.FC<MintInfoModalProps> = ({
             </div>
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
-            Target launch: November 06, 2026 @ 14:00 UTC
+            Target launch: TBA (To Be Announced)
           </p>
         </div>
 
@@ -245,7 +245,7 @@ export const MintInfoModal: React.FC<MintInfoModalProps> = ({
           <div className="flex items-center gap-2 p-3 rounded-xl bg-amber-950/50 border border-amber-600/40 text-amber-200 text-xs">
             <AlertCircle className="w-4 h-4 shrink-0 text-amber-400" />
             <span>
-              <strong>Contract Status:</strong> The mint portal opens on <strong>November 06, 2026</strong>. Apply for whitelist at the gate now to guarantee your allocation!
+              <strong>Contract Status:</strong> The mint date and time is <strong>TBA</strong>. Apply for whitelist at the gate now to guarantee your allocation!
             </span>
           </div>
 

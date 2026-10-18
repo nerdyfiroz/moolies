@@ -24,8 +24,9 @@ export const WhitelistSubmissionSchema = z.object({
   reason: z
     .string()
     .trim()
-    .min(10, "Please share why you'd like to join Moolies (at least 10 characters)")
-    .max(1000, "Reason must not exceed 1000 characters"),
+    .max(1000, "Reason must not exceed 1000 characters")
+    .optional()
+    .default("Twitter task completed — followed & retweeted."),
   referralCode: z.string().trim().max(30).optional().or(z.literal("")),
   agreeToTerms: z
     .boolean()

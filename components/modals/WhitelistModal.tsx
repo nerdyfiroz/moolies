@@ -2,8 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import { WorldModal } from "@/components/world/WorldModal";
-import { KeyRound, ShieldAlert, CheckCircle2, Clock, Search, Sparkles, AlertCircle, ArrowRight } from "lucide-react";
+import { KeyRound, ShieldAlert, CheckCircle2, Clock, Search, Sparkles, AlertCircle, ArrowRight, ExternalLink } from "lucide-react";
 import confetti from "canvas-confetti";
+
+const XLogo = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
 
 interface WhitelistModalProps {
   isOpen: boolean;
@@ -18,16 +24,16 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<"apply" | "check">("apply");
 
-  // Form state
+  // Form state — only Twitter + Wallet
   const [walletAddress, setWalletAddress] = useState("");
   const [twitterUsername, setTwitterUsername] = useState("");
-  const [discordUsername, setDiscordUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [reason, setReason] = useState("");
-  const [referralCode, setReferralCode] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [honeypot, setHoneypot] = useState("");
   const [mountTime, setMountTime] = useState<number>(0);
+
+  // Twitter tasks
+  const [hasFollowed, setHasFollowed] = useState(false);
+  const [hasRetweeted, setHasRetweeted] = useState(false);
 
   // Status & feedback
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -81,8 +87,12 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
       setSubmitError("Please provide your Twitter / X username.");
       return;
     }
-    if (reason.trim().length < 10) {
-      setSubmitError("Please share at least 10 characters on why you'd like to join Moolies.");
+    if (!hasFollowed) {
+      setSubmitError("Please follow @moolieshq on X to complete the Twitter task.");
+      return;
+    }
+    if (!hasRetweeted) {
+      setSubmitError("Please retweet the pinned post to complete the Twitter task.");
       return;
     }
     if (!agreeToTerms) {
@@ -99,10 +109,10 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
         body: JSON.stringify({
           walletAddress: walletAddress.trim(),
           twitterUsername: twitterUsername.trim(),
-          discordUsername: discordUsername.trim(),
-          email: email.trim(),
-          reason: reason.trim(),
-          referralCode: referralCode.trim(),
+          discordUsername: "",
+          email: "",
+          reason: "Twitter task completed — followed & retweeted.",
+          referralCode: "",
           agreeToTerms,
           websiteHoneypot: honeypot,
           submissionTimestamp: mountTime,
@@ -231,7 +241,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                   The Whitelist Gate is Currently Closed
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-md mx-auto">
-                  Applications for Wave 1 have concluded. Please stay tuned to our Discord announcements for the Wave 2 opening date!
+                  Applications for Wave 1 have concluded. Please stay tuned to our Twitter announcements for the Wave 2 opening date!
                 </p>
                 <div className="pt-2">
                   <button
@@ -288,7 +298,8 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                     setSubmitSuccess(null);
                     setWalletAddress("");
                     setTwitterUsername("");
-                    setReason("");
+                    setHasFollowed(false);
+                    setHasRetweeted(false);
                   }}
                   className="px-5 py-2 rounded-xl bg-slate-900 dark:bg-slate-700 text-white text-xs font-bold hover:bg-slate-800 transition-colors"
                 >
@@ -296,7 +307,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 {submitError && (
                   <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-300 flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 shrink-0" />
@@ -316,7 +327,142 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                   aria-hidden="true"
                 />
 
-                {/* Wallet Address */}
+                {/* ===== TWITTER TASKS SECTION ===== */}
+                <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-4">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center">
+                      <XLogo className="w-4.5 h-4.5 text-white" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                        Twitter Tasks
+                      </h4>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                        Complete both tasks to qualify for whitelist
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Task 1: Follow */}
+                  <div className={`flex items-center justify-between p-3.5 rounded-xl border transition-all ${
+                    hasFollowed
+                      ? "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-700"
+                      : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                  }`}>
+                    <div className="flex items-center gap-3">
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
+                        hasFollowed
+                          ? "bg-emerald-500 text-white"
+                          : "bg-slate-200 dark:bg-slate-700 text-slate-400"
+                      }`}>
+                        {hasFollowed ? (
+                          <CheckCircle2 className="w-4 h-4" />
+                        ) : (
+                          <span className="text-xs font-black">1</span>
+                        )}
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                          Follow @moolieshq on X
+                        </p>
+                        <p className="text-[10px] text-slate-400">Stay updated with project news</p>
+                      </div>
+                    </div>
+                    <a
+                      href="https://x.com/moolieshq"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setHasFollowed(true)}
+                      className={`px-3 py-1.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-colors shrink-0 ${
+                        hasFollowed
+                          ? "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 cursor-default"
+                          : "bg-slate-900 hover:bg-slate-800 text-white cursor-pointer"
+                      }`}
+                    >
+                      {hasFollowed ? (
+                        <>
+                          <CheckCircle2 className="w-3 h-3" />
+                          <span>Followed</span>
+                        </>
+                      ) : (
+                        <>
+                          <ExternalLink className="w-3 h-3" />
+                          <span>Follow</span>
+                        </>
+                      )}
+                    </a>
+                  </div>
+
+                  {/* Task 2: Retweet */}
+                  <div className={`flex items-center justify-between p-3.5 rounded-xl border transition-all ${
+                    hasRetweeted
+                      ? "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-700"
+                      : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                  }`}>
+                    <div className="flex items-center gap-3">
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
+                        hasRetweeted
+                          ? "bg-emerald-500 text-white"
+                          : "bg-slate-200 dark:bg-slate-700 text-slate-400"
+                      }`}>
+                        {hasRetweeted ? (
+                          <CheckCircle2 className="w-4 h-4" />
+                        ) : (
+                          <span className="text-xs font-black">2</span>
+                        )}
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                          Retweet the pinned post
+                        </p>
+                        <p className="text-[10px] text-slate-400">Help spread the word about Moolies</p>
+                      </div>
+                    </div>
+                    <a
+                      href="https://x.com/moolieshq"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setHasRetweeted(true)}
+                      className={`px-3 py-1.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-colors shrink-0 ${
+                        hasRetweeted
+                          ? "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 cursor-default"
+                          : "bg-slate-900 hover:bg-slate-800 text-white cursor-pointer"
+                      }`}
+                    >
+                      {hasRetweeted ? (
+                        <>
+                          <CheckCircle2 className="w-3 h-3" />
+                          <span>Retweeted</span>
+                        </>
+                      ) : (
+                        <>
+                          <ExternalLink className="w-3 h-3" />
+                          <span>Retweet</span>
+                        </>
+                      )}
+                    </a>
+                  </div>
+                </div>
+
+                {/* ===== X USERNAME ===== */}
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                    Your X / Twitter Username <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="@yourhandle"
+                    value={twitterUsername}
+                    onChange={(e) => setTwitterUsername(e.target.value)}
+                    className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  />
+                  <p className="text-[11px] text-slate-400 mt-1">
+                    We&apos;ll verify your follow &amp; retweet from this handle.
+                  </p>
+                </div>
+
+                {/* ===== WALLET ADDRESS ===== */}
                 <div>
                   <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                     Ethereum Wallet Address <span className="text-rose-500">*</span>
@@ -327,87 +473,11 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                     placeholder="0x71C8A1b2F89A4c6c21e0B11eE5E729F4a6C49573"
                     value={walletAddress}
                     onChange={(e) => setWalletAddress(e.target.value)}
-                    className="w-full px-3.5 py-2 text-xs sm:text-sm font-mono rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3.5 py-2.5 text-xs sm:text-sm font-mono rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                   <p className="text-[11px] text-slate-400 mt-1">
-                    Your wallet will be granted mint rights if approved. Please verify carefully.
+                    This wallet will be granted mint rights if approved. Please verify carefully.
                   </p>
-                </div>
-
-                {/* Twitter & Discord row */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      X / Twitter Username <span className="text-rose-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="@yourhandle"
-                      value={twitterUsername}
-                      onChange={(e) => setTwitterUsername(e.target.value)}
-                      className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Discord Username <span className="text-slate-400 font-normal">(Optional)</span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Username#0000"
-                      value={discordUsername}
-                      onChange={(e) => setDiscordUsername(e.target.value)}
-                      className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    />
-                  </div>
-                </div>
-
-                {/* Email & Referral code */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Email Address <span className="text-slate-400 font-normal">(Optional notification)</span>
-                    </label>
-                    <input
-                      type="email"
-                      placeholder="you@domain.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Referral Code <span className="text-slate-400 font-normal">(Optional)</span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="e.g. OWLNEST"
-                      value={referralCode}
-                      onChange={(e) => setReferralCode(e.target.value)}
-                      className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    />
-                  </div>
-                </div>
-
-                {/* Reason */}
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                    Why would you like to join the Moolies community? <span className="text-rose-500">*</span>
-                  </label>
-                  <textarea
-                    required
-                    rows={3}
-                    placeholder="Tell us about yourself, your favorite owl character, or how you plan to contribute to the nest..."
-                    value={reason}
-                    onChange={(e) => setReason(e.target.value)}
-                    className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  />
-                  <div className="flex justify-between text-[11px] text-slate-400 mt-1">
-                    <span>Minimum 10 characters</span>
-                    <span>{reason.length}/1000</span>
-                  </div>
                 </div>
 
                 {/* Agreement checkbox */}

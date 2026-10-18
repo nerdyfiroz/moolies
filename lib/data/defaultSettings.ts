@@ -19,8 +19,8 @@ export const DEFAULT_SETTINGS = {
   githubUrl: "https://github.com/moolies-nft",
   mintPhase: "whitelist" as const,
   isWhitelistOpen: true,
-  whitelistStartDate: "2026-11-01T14:00:00Z",
-  whitelistEndDate: "2026-11-05T14:00:00Z",
-  publicMintStartDate: "2026-11-06T14:00:00Z",
-  revealDate: "2026-11-10T18:00:00Z",
+  whitelistStartDate: "TBA",
+  whitelistEndDate: "TBA",
+  publicMintStartDate: "TBA",
+  revealDate: "TBA",
 };

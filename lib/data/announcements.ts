@@ -52,23 +52,23 @@ export interface ProjectEventItem {
 export const INITIAL_EVENTS: ProjectEventItem[] = [
   {
     id: "ev-1",
-    title: "Whitelist Applications Close",
-    description: "Final cutoff timestamp for Whitelist Gate submissions and approvals.",
-    date: "2026-11-05T14:00:00Z",
+    title: "Whitelist Applications Review",
+    description: "Review of Whitelist submissions & verified Twitter tasks. Date & time TBA.",
+    date: "TBA",
     type: "whitelist",
   },
   {
     id: "ev-2",
-    title: "Guaranteed Whitelist Mint Begins",
-    description: "Approved wallet addresses can mint up to 2 Moolies at 0.025 ETH each.",
-    date: "2026-11-06T14:00:00Z",
+    title: "Guaranteed Whitelist Mint",
+    description: "Approved wallet addresses can mint at 0.025 ETH. Exact date and time is TBA.",
+    date: "TBA",
     type: "mint",
   },
   {
     id: "ev-3",
     title: "Public Mint Phase",
-    description: "Public mint opens for all remaining supply at 0.04 ETH (max 3 per tx).",
-    date: "2026-11-07T16:00:00Z",
+    description: "Public mint opens for all remaining supply at 0.04 ETH. Date & time TBA.",
+    date: "TBA",
     type: "mint",
   },
   {
