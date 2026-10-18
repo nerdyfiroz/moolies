@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { WorldModal } from "@/components/world/WorldModal";
 import { KeyRound, ShieldAlert, CheckCircle2, Clock, Search, Sparkles, AlertCircle, ArrowRight, ExternalLink } from "lucide-react";
 import confetti from "canvas-confetti";
@@ -238,14 +239,14 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
     >
       <div className="space-y-5">
         {/* Navigation Tabs */}
-        <div className="flex border-b border-slate-200 dark:border-slate-700">
+        <div className="flex border-b border-purple-500/30">
           <button
             type="button"
             onClick={() => setActiveTab("apply")}
-            className={`flex-1 py-2.5 text-xs sm:text-sm font-bold text-center border-b-2 transition-colors cursor-pointer ${
+            className={`flex-1 py-2.5 text-xs sm:text-sm font-moolies font-bold text-center border-b-2 transition-colors cursor-pointer ${
               activeTab === "apply"
-                ? "border-emerald-500 text-emerald-600 dark:text-emerald-400"
-                : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                ? "border-purple-400 text-purple-200"
+                : "border-transparent text-purple-300/60 hover:text-purple-200"
             }`}
           >
             Apply For Whitelist
@@ -253,10 +254,10 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
           <button
             type="button"
             onClick={() => setActiveTab("check")}
-            className={`flex-1 py-2.5 text-xs sm:text-sm font-bold text-center border-b-2 transition-colors cursor-pointer ${
+            className={`flex-1 py-2.5 text-xs sm:text-sm font-moolies font-bold text-center border-b-2 transition-colors cursor-pointer ${
               activeTab === "check"
-                ? "border-emerald-500 text-emerald-600 dark:text-emerald-400"
-                : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                ? "border-purple-400 text-purple-200"
+                : "border-transparent text-purple-300/60 hover:text-purple-200"
             }`}
           >
             Track Application Status
@@ -267,19 +268,19 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
         {activeTab === "apply" && (
           <div>
             {!isWhitelistOpen ? (
-              <div className="p-6 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-center space-y-3">
-                <ShieldAlert className="w-10 h-10 mx-auto text-amber-600 dark:text-amber-400" />
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">
+              <div className="p-6 rounded-2xl bg-purple-950/40 border border-purple-500/30 text-center space-y-3">
+                <ShieldAlert className="w-10 h-10 mx-auto text-purple-400" />
+                <h3 className="font-moolies moolies-title-gradient text-lg sm:text-xl font-bold">
                   The Whitelist Window is Currently Closed
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-md mx-auto">
+                <p className="text-xs sm:text-sm text-purple-200/80 max-w-md mx-auto">
                   Applications for Wave 1 have concluded. Please stay tuned to our announcements for the next opening date!
                 </p>
                 <div className="pt-2">
                   <button
                     type="button"
                     onClick={() => setActiveTab("check")}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-600 text-white text-xs font-bold shadow-sm"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-moolies text-xs font-bold shadow-sm"
                   >
                     <span>Check Existing Application</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -287,38 +288,38 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                 </div>
               </div>
             ) : submitSuccess ? (
-              <div className="p-6 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700/80 text-center space-y-4">
-                <div className="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-900/60 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
-                  <CheckCircle2 className="w-8 h-8" />
+              <div className="p-6 rounded-2xl bg-purple-950/50 border border-purple-400/50 text-center space-y-4">
+                <div className="w-14 h-14 rounded-full bg-purple-500/20 text-purple-300 mx-auto flex items-center justify-center border border-purple-400/40">
+                  <CheckCircle2 className="w-8 h-8 text-emerald-400" />
                 </div>
                 <div>
-                  <span className="text-xs font-extrabold uppercase tracking-widest text-emerald-700 dark:text-emerald-300">
+                  <span className="moolies-bubble-badge text-xs px-3 py-1 rounded-full uppercase tracking-wider">
                     Application Confirmed
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">
+                  <h3 className="font-moolies moolies-title-gradient text-2xl sm:text-3xl font-black mt-2">
                     Welcome to the Nest!
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 max-w-md mx-auto">
+                  <p className="text-xs sm:text-sm text-purple-200/80 mt-2 max-w-md mx-auto">
                     {submitSuccess.message}
                   </p>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-white dark:bg-slate-800 border border-emerald-200 dark:border-slate-700 text-xs text-left max-w-sm mx-auto space-y-1">
+                <div className="p-3.5 rounded-xl bg-purple-950/60 border border-purple-500/30 text-xs text-left max-w-sm mx-auto space-y-1">
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Application ID:</span>
-                    <span className="font-mono font-semibold text-slate-800 dark:text-slate-200">
+                    <span className="text-purple-300/70">Application ID:</span>
+                    <span className="font-mono font-semibold text-purple-200">
                       {submitSuccess.applicationId}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Wallet:</span>
-                    <span className="font-mono font-semibold text-slate-800 dark:text-slate-200">
+                    <span className="text-purple-300/70">Wallet:</span>
+                    <span className="font-mono font-semibold text-purple-200">
                       {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Initial Status:</span>
-                    <span className="font-semibold text-emerald-600 uppercase">
+                    <span className="text-purple-300/70">Initial Status:</span>
+                    <span className="font-moolies font-semibold text-emerald-400 uppercase">
                       {submitSuccess.status}
                     </span>
                   </div>
@@ -332,7 +333,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                     setTwitterUsername("");
                     setCompletedTaskIds([]);
                   }}
-                  className="px-5 py-2 rounded-xl bg-slate-900 dark:bg-slate-700 text-white text-xs font-bold hover:bg-slate-800 transition-colors"
+                  className="px-5 py-2 rounded-xl bg-purple-950/60 hover:bg-purple-900/80 text-purple-200 font-moolies text-xs font-bold border border-purple-500/40 transition-colors"
                 >
                   Submit Another Application
                 </button>
@@ -340,8 +341,8 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 {submitError && (
-                  <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-300 flex items-center gap-2">
-                    <AlertCircle className="w-4 h-4 shrink-0" />
+                  <div className="p-3 rounded-xl bg-rose-950/50 border border-rose-500/50 text-xs text-rose-300 flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
                     <span>{submitError}</span>
                   </div>
                 )}
@@ -359,37 +360,41 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                 />
 
                 {/* ===== DYNAMIC WHITELIST TASKS SECTION ===== */}
-                <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-4">
+                <div className="p-5 rounded-2xl bg-purple-950/35 border border-purple-500/30 space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center">
-                        <XLogo className="w-4.5 h-4.5 text-white" />
+                      <div className="w-9 h-9 rounded-xl bg-purple-950 border border-purple-500/40 flex items-center justify-center">
+                        <XLogo className="w-4.5 h-4.5 text-purple-200" />
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                        <h4 className="font-moolies text-sm sm:text-base font-bold text-white">
                           Whitelist Tasks
                         </h4>
-                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                        <p className="text-[11px] text-purple-200/70">
                           Complete all required tasks below to qualify
                         </p>
                       </div>
                     </div>
-                    <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
+                    <span className="moolies-bubble-badge text-[11px] font-bold px-2.5 py-1 rounded-full">
                       {completedTaskIds.length} / {tasks.length} Completed
                     </span>
                   </div>
 
-                  {/* Tasks List */}
+                  {/* Tasks Animated List */}
                   <div className="space-y-2.5">
                     {tasks.map((task, idx) => {
                       const isDone = completedTaskIds.includes(task.id);
                       return (
-                        <div
+                        <motion.div
                           key={task.id}
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.05 * idx, type: "spring", stiffness: 350, damping: 25 }}
+                          whileHover={{ scale: 1.01 }}
                           className={`flex items-center justify-between p-3.5 rounded-xl border transition-all ${
                             isDone
-                              ? "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-700"
-                              : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                              ? "bg-purple-950/50 border-purple-400/60 shadow-sm"
+                              : "bg-purple-950/30 border-purple-500/25 hover:border-purple-500/40"
                           }`}
                         >
                           <div
@@ -400,24 +405,24 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                               className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors ${
                                 isDone
                                   ? "bg-emerald-500 text-white"
-                                  : "bg-slate-200 dark:bg-slate-700 text-slate-400"
+                                  : "bg-purple-900/60 text-purple-300 border border-purple-500/30"
                               }`}
                             >
                               {isDone ? (
                                 <CheckCircle2 className="w-4 h-4" />
                               ) : (
-                                <span className="text-xs font-black">{idx + 1}</span>
+                                <span className="font-moolies text-xs font-black">{idx + 1}</span>
                               )}
                             </div>
                             <div>
-                              <p className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                              <p className="font-moolies text-xs font-bold text-white flex items-center gap-1.5">
                                 <span>{task.title}</span>
                                 {task.isRequired && (
-                                  <span className="text-[10px] text-rose-500 font-semibold">*Required</span>
+                                  <span className="text-[10px] text-fuchsia-400 font-semibold">*Required</span>
                                 )}
                               </p>
                               {task.description && (
-                                <p className="text-[10px] text-slate-400">{task.description}</p>
+                                <p className="text-[10px] text-purple-200/70">{task.description}</p>
                               )}
                             </div>
                           </div>
@@ -428,15 +433,15 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={() => handleTaskActionClick(task.id)}
-                              className={`px-3 py-1.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-colors shrink-0 ${
+                              className={`px-3 py-1.5 rounded-lg text-[11px] font-moolies font-bold flex items-center gap-1.5 transition-colors shrink-0 ${
                                 isDone
-                                  ? "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200"
-                                  : "bg-slate-900 hover:bg-slate-800 text-white cursor-pointer"
+                                  ? "bg-purple-500/20 text-purple-200 hover:bg-purple-500/30 border border-purple-400/40"
+                                  : "bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white shadow-sm cursor-pointer"
                               }`}
                             >
                               {isDone ? (
                                 <>
-                                  <CheckCircle2 className="w-3 h-3" />
+                                  <CheckCircle2 className="w-3 h-3 text-emerald-400" />
                                   <span>Done</span>
                                 </>
                               ) : (
@@ -447,7 +452,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                               )}
                             </a>
                           )}
-                        </div>
+                        </motion.div>
                       );
                     })}
                   </div>
@@ -455,8 +460,8 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
 
                 {/* ===== X USERNAME ===== */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                    Your X / Twitter Username <span className="text-rose-500">*</span>
+                  <label className="block font-moolies text-xs font-bold text-purple-200 mb-1">
+                    Your X / Twitter Username <span className="text-fuchsia-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -464,17 +469,17 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                     placeholder="@yourhandle"
                     value={twitterUsername}
                     onChange={(e) => setTwitterUsername(e.target.value)}
-                    className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-purple-950/40 border border-purple-500/40 focus:border-purple-400 text-white placeholder-purple-300/40 focus:outline-none focus:ring-2 focus:ring-purple-400/50"
                   />
-                  <p className="text-[11px] text-slate-400 mt-1">
+                  <p className="text-[11px] text-purple-300/60 mt-1">
                     We&apos;ll verify your completed whitelist tasks with this handle.
                   </p>
                 </div>
 
                 {/* ===== WALLET ADDRESS ===== */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                    Ethereum Wallet Address <span className="text-rose-500">*</span>
+                  <label className="block font-moolies text-xs font-bold text-purple-200 mb-1">
+                    Ethereum Wallet Address <span className="text-fuchsia-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -482,9 +487,9 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                     placeholder="0x71C8A1b2F89A4c6c21e0B11eE5E729F4a6C49573"
                     value={walletAddress}
                     onChange={(e) => setWalletAddress(e.target.value)}
-                    className="w-full px-3.5 py-2.5 text-xs sm:text-sm font-mono rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3.5 py-2.5 text-xs sm:text-sm font-mono rounded-xl bg-purple-950/40 border border-purple-500/40 focus:border-purple-400 text-white placeholder-purple-300/40 focus:outline-none focus:ring-2 focus:ring-purple-400/50"
                   />
-                  <p className="text-[11px] text-slate-400 mt-1">
+                  <p className="text-[11px] text-purple-300/60 mt-1">
                     This wallet will be granted mint rights if approved. Please verify carefully.
                   </p>
                 </div>
@@ -496,9 +501,9 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                     id="terms-check"
                     checked={agreeToTerms}
                     onChange={(e) => setAgreeToTerms(e.target.checked)}
-                    className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 mt-0.5 border-slate-300 cursor-pointer"
+                    className="w-4 h-4 rounded text-purple-600 focus:ring-purple-500 mt-0.5 border-purple-400/50 bg-purple-950/40 cursor-pointer"
                   />
-                  <label htmlFor="terms-check" className="text-xs text-slate-600 dark:text-slate-400 leading-tight cursor-pointer">
+                  <label htmlFor="terms-check" className="text-xs text-purple-200/80 leading-tight cursor-pointer">
                     I agree to the project Terms of Service, anti-sybil guidelines, and confirm that all required whitelist tasks were completed truthfully.
                   </label>
                 </div>
@@ -507,7 +512,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-sm shadow-md transition-all disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:via-purple-500 hover:to-indigo-500 text-white font-moolies font-black text-sm shadow-[0_4px_18px_rgba(168,85,247,0.4)] transition-all disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>
@@ -529,7 +534,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
         {/* TAB 2: STATUS CHECK */}
         {activeTab === "check" && (
           <div className="space-y-4">
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+            <p className="text-xs sm:text-sm text-purple-200/80">
               Enter your Ethereum wallet address below to check the real-time review status of your application.
             </p>
 
@@ -539,12 +544,12 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                 placeholder="0x..."
                 value={checkWallet}
                 onChange={(e) => setCheckWallet(e.target.value)}
-                className="flex-1 px-3.5 py-2 text-xs sm:text-sm font-mono rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="flex-1 px-3.5 py-2 text-xs sm:text-sm font-mono rounded-xl bg-purple-950/40 border border-purple-500/40 focus:border-purple-400 text-white placeholder-purple-300/40 focus:outline-none focus:ring-2 focus:ring-purple-400/50"
               />
               <button
                 type="submit"
                 disabled={isChecking}
-                className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-colors disabled:opacity-50 flex items-center gap-1.5 shrink-0 cursor-pointer"
+                className="px-5 py-2 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-moolies text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-1.5 shrink-0 cursor-pointer shadow-sm"
               >
                 {isChecking ? (
                   <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -558,20 +563,20 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
             </form>
 
             {checkError && (
-              <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-300">
+              <div className="p-3 rounded-xl bg-rose-950/50 border border-rose-500/50 text-xs text-rose-300">
                 {checkError}
               </div>
             )}
 
             {checkResult && (
-              <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-3">
+              <div className="p-5 rounded-2xl bg-purple-950/35 border border-purple-500/30 space-y-3">
                 {!checkResult.found ? (
                   <div className="text-center py-4">
-                    <AlertCircle className="w-8 h-8 mx-auto text-amber-500 mb-2" />
-                    <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                    <AlertCircle className="w-8 h-8 mx-auto text-purple-400 mb-2" />
+                    <h4 className="font-moolies text-sm font-bold text-white">
                       No Application Found
                     </h4>
-                    <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                    <p className="text-xs text-purple-300/70 mt-1 max-w-sm mx-auto">
                       We haven&apos;t received a whitelist submission for this address yet. Switch to the &quot;Apply&quot; tab to submit yours!
                     </p>
                   </div>
@@ -583,10 +588,10 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                         <div className={`p-4 rounded-xl border ${badge.bg} flex items-center gap-3`}>
                           {badge.icon}
                           <div>
-                            <p className="text-xs font-bold uppercase tracking-wider">
+                            <p className="font-moolies text-xs font-bold uppercase tracking-wider">
                               Status
                             </p>
-                            <p className="text-sm font-black mt-0.5">
+                            <p className="font-moolies text-sm font-black mt-0.5">
                               {badge.text}
                             </p>
                           </div>
@@ -594,16 +599,16 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                       );
                     })()}
 
-                    <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700/60 text-xs space-y-1 text-slate-500 dark:text-slate-400">
+                    <div className="mt-3 pt-3 border-t border-purple-500/25 text-xs space-y-1 text-purple-300/70">
                       <div className="flex justify-between">
                         <span>Wallet:</span>
-                        <code className="text-slate-800 dark:text-slate-200">
+                        <code className="text-purple-200">
                           {checkResult.data?.walletAddress}
                         </code>
                       </div>
                       <div className="flex justify-between">
                         <span>Submitted:</span>
-                        <span>
+                        <span className="text-purple-200">
                           {checkResult.data?.createdAt
                             ? new Date(checkResult.data.createdAt).toLocaleDateString(undefined, {
                                 year: "numeric",

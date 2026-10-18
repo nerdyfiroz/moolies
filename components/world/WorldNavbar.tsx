@@ -39,30 +39,30 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           type="button"
           onClick={onOpenCollectionDetails}
           title="Moolies Genesis Collection"
-          className="pointer-events-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl bg-slate-950/90 text-white backdrop-blur-md border border-amber-300/60 shadow-lg flex items-center gap-1.5 sm:gap-2 hover:border-amber-300 transition-all cursor-pointer group shrink-0"
+          className="pointer-events-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl bg-slate-950/70 text-white backdrop-blur-none border border-purple-400/50 shadow-[0_4px_20px_rgba(147,51,234,0.3)] flex items-center gap-1.5 sm:gap-2 hover:border-purple-300 transition-all cursor-pointer group shrink-0"
         >
-          <span className="font-black text-xs sm:text-sm tracking-wider text-amber-300 group-hover:text-amber-200">
+          <span className="font-moolies font-black text-sm sm:text-base tracking-wider bg-gradient-to-r from-fuchsia-300 via-purple-300 to-indigo-200 bg-clip-text text-transparent drop-shadow-sm">
             MOOLIES
           </span>
-          <span className="text-[10px] font-semibold text-slate-300 hidden md:inline border-l border-slate-700 pl-2">
+          <span className="font-moolies text-[11px] font-semibold text-purple-200/80 hidden md:inline border-l border-purple-500/40 pl-2">
             2,000 Genesis Owls
           </span>
-          <Sparkles className="w-3.5 h-3.5 text-amber-400 hidden sm:inline" />
+          <Sparkles className="w-3.5 h-3.5 text-purple-300 hidden sm:inline" />
         </button>
 
         {/* Desktop Centered Navigation Bar */}
         <nav
           aria-label="Core Sections (Desktop)"
-          className="pointer-events-auto hidden sm:flex items-center gap-1 sm:gap-1.5 px-2 py-1 rounded-2xl bg-slate-950/90 backdrop-blur-md border border-slate-800 shadow-xl"
+          className="pointer-events-auto hidden sm:flex items-center gap-1 sm:gap-1.5 px-2 py-1 rounded-2xl bg-slate-950/70 backdrop-blur-none border border-purple-500/40 shadow-[0_10px_30px_rgba(147,51,234,0.25)]"
         >
           {/* Section 1: OpenSea */}
           <button
             type="button"
             onClick={onOpenOpenSea}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
+            className={`font-moolies px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeSection === "opensea"
-                ? "bg-sky-400 text-slate-950 shadow-sm font-black"
-                : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                ? "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 text-white shadow-md font-black"
+                : "text-purple-200/80 hover:text-white hover:bg-purple-900/40"
             }`}
           >
             <span>⛵</span>
@@ -73,10 +73,10 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           <button
             type="button"
             onClick={onOpenWhitelist}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
+            className={`font-moolies px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeSection === "whitelist"
-                ? "bg-amber-400 text-slate-950 shadow-sm font-black"
-                : "text-amber-300 hover:text-white hover:bg-slate-800/60"
+                ? "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 text-white shadow-md font-black"
+                : "text-purple-200/80 hover:text-white hover:bg-purple-900/40"
             }`}
           >
             <span>🦉</span>
@@ -87,10 +87,10 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           <button
             type="button"
             onClick={onOpenCollectionDetails}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
+            className={`font-moolies px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeSection === "collection"
-                ? "bg-purple-400 text-slate-950 shadow-sm font-black"
-                : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                ? "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 text-white shadow-md font-black"
+                : "text-purple-200/80 hover:text-white hover:bg-purple-900/40"
             }`}
           >
             <span>📜</span>
@@ -101,10 +101,10 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           <button
             type="button"
             onClick={onOpenRoadmap}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
+            className={`font-moolies px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeSection === "roadmap"
-                ? "bg-emerald-400 text-slate-950 shadow-sm font-black"
-                : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                ? "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 text-white shadow-md font-black"
+                : "text-purple-200/80 hover:text-white hover:bg-purple-900/40"
             }`}
           >
             <span>⚽</span>
@@ -117,11 +117,11 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
             target="_blank"
             rel="noopener noreferrer"
             title="Official Moolies Project on X (Twitter)"
-            className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 border border-slate-700/80 transition-all cursor-pointer shrink-0"
+            className="font-moolies flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-white bg-purple-950/60 hover:bg-purple-900/80 border border-purple-500/40 transition-all cursor-pointer shrink-0"
           >
-            <XLogo className="w-3.5 h-3.5 text-white" />
+            <XLogo className="w-3.5 h-3.5 text-purple-200" />
             <span>Twitter</span>
-            <ExternalLink className="w-3 h-3 text-slate-400" />
+            <ExternalLink className="w-3 h-3 text-purple-300" />
           </a>
         </nav>
 
@@ -133,16 +133,16 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
       <div className="fixed top-12 sm:hidden inset-x-2 z-40 flex items-center justify-center pointer-events-none">
         <nav
           aria-label="Core Sections (Mobile)"
-          className="pointer-events-auto w-full max-w-sm flex items-center justify-between gap-1 p-1 rounded-2xl bg-slate-950/95 text-white backdrop-blur-md border border-slate-800 shadow-2xl"
+          className="pointer-events-auto w-full max-w-sm flex items-center justify-between gap-1 p-1 rounded-2xl bg-slate-950/80 text-white backdrop-blur-none border border-purple-500/40 shadow-2xl"
         >
           {/* Section 1: OpenSea */}
           <button
             type="button"
             onClick={onOpenOpenSea}
-            className={`flex-1 py-1.5 px-1 rounded-xl text-[11px] font-black transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
+            className={`font-moolies flex-1 py-1.5 px-1 rounded-xl text-[11px] font-black transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
               activeSection === "opensea"
-                ? "bg-sky-400 text-slate-950 shadow-sm"
-                : "text-slate-300 hover:text-white active:bg-slate-800"
+                ? "bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-sm"
+                : "text-purple-200/80 hover:text-white active:bg-purple-900/60"
             }`}
           >
             <span className="text-xs">⛵</span>
@@ -153,10 +153,10 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           <button
             type="button"
             onClick={onOpenWhitelist}
-            className={`flex-1 py-1.5 px-1 rounded-xl text-[11px] font-black transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
+            className={`font-moolies flex-1 py-1.5 px-1 rounded-xl text-[11px] font-black transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
               activeSection === "whitelist"
-                ? "bg-amber-400 text-slate-950 shadow-sm"
-                : "text-amber-300 hover:text-white active:bg-slate-800"
+                ? "bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-sm"
+                : "text-purple-200/80 hover:text-white active:bg-purple-900/60"
             }`}
           >
             <span className="text-xs">🦉</span>
@@ -167,10 +167,10 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           <button
             type="button"
             onClick={onOpenCollectionDetails}
-            className={`flex-1 py-1.5 px-1 rounded-xl text-[11px] font-black transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
+            className={`font-moolies flex-1 py-1.5 px-1 rounded-xl text-[11px] font-black transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
               activeSection === "collection"
-                ? "bg-purple-400 text-slate-950 shadow-sm"
-                : "text-slate-300 hover:text-white active:bg-slate-800"
+                ? "bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-sm"
+                : "text-purple-200/80 hover:text-white active:bg-purple-900/60"
             }`}
           >
             <span className="text-xs">📜</span>
@@ -181,10 +181,10 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           <button
             type="button"
             onClick={onOpenRoadmap}
-            className={`flex-1 py-1.5 px-1 rounded-xl text-[11px] font-black transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
+            className={`font-moolies flex-1 py-1.5 px-1 rounded-xl text-[11px] font-black transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
               activeSection === "roadmap"
-                ? "bg-emerald-400 text-slate-950 shadow-sm"
-                : "text-slate-300 hover:text-white active:bg-slate-800"
+                ? "bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-sm"
+                : "text-purple-200/80 hover:text-white active:bg-purple-900/60"
             }`}
           >
             <span className="text-xs">⚽</span>
@@ -197,10 +197,10 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
             target="_blank"
             rel="noopener noreferrer"
             title="Official Moolies on X"
-            className="flex-none py-1.5 px-2.5 rounded-xl bg-slate-900 text-white border border-slate-700/80 flex flex-col items-center justify-center gap-0.5 active:bg-slate-800"
+            className="font-moolies flex-none py-1.5 px-2.5 rounded-xl bg-purple-950/60 text-white border border-purple-500/40 flex flex-col items-center justify-center gap-0.5 active:bg-purple-900"
           >
-            <XLogo className="w-3.5 h-3.5 text-white" />
-            <span className="text-[10px] leading-none text-slate-300">X</span>
+            <XLogo className="w-3.5 h-3.5 text-purple-200" />
+            <span className="text-[10px] leading-none text-purple-200">X</span>
           </a>
         </nav>
       </div>

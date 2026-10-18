@@ -37,15 +37,12 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
 
           {/* Modal Container */}
           <motion.div
-            initial={{ scale: 0.8, opacity: 0, y: 30 }}
+            initial={{ scale: 0.82, opacity: 0, y: 30 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.85, opacity: 0, y: 20 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            transition={{ type: "spring", stiffness: 380, damping: 25 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-lg rounded-3xl bg-slate-950 text-white border-2 border-sky-400/80 shadow-2xl overflow-visible z-10 p-6 sm:p-8 space-y-6 text-center"
-            style={{
-              boxShadow: "0 25px 60px -15px rgba(14, 165, 233, 0.4), 0 0 40px rgba(14, 165, 233, 0.2)",
-            }}
+            className="relative w-full max-w-lg rounded-3xl bg-slate-950/70 backdrop-blur-none text-white border-2 border-purple-400/50 shadow-[0_25px_60px_-15px_rgba(147,51,234,0.45),0_0_40px_rgba(168,85,247,0.25)] overflow-visible z-10 p-6 sm:p-8 space-y-6 text-center"
           >
             {/* 2 Flying Butterflies fixed to the top-left and top-right corners */}
             <CornerButterflies />
@@ -53,7 +50,7 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center cursor-pointer transition-colors border border-slate-800"
+              className="absolute top-4 right-4 w-9 h-9 rounded-full bg-purple-950/60 hover:bg-purple-900/80 text-purple-200 hover:text-white flex items-center justify-center cursor-pointer transition-colors border border-purple-500/40"
               aria-label="Close"
             >
               <X className="w-5 h-5" />
@@ -62,14 +59,14 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
             {/* Animated OpenSea Boat Logo & Ripple */}
             <div className="relative mx-auto w-24 h-24 flex items-center justify-center">
               <motion.div
-                animate={{ scale: [1, 1.25, 1], opacity: [0.4, 0.1, 0.4] }}
+                animate={{ scale: [1, 1.25, 1], opacity: [0.4, 0.15, 0.4] }}
                 transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute inset-0 rounded-full bg-sky-500 blur-xl"
+                className="absolute inset-0 rounded-full bg-purple-500 blur-xl"
               />
               <motion.div
                 animate={{ y: [-4, 4, -4], rotate: [-3, 3, -3] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center shadow-lg border-2 border-sky-200"
+                className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-fuchsia-500 via-purple-600 to-indigo-600 flex items-center justify-center shadow-lg border-2 border-purple-300/60"
               >
                 {/* Stylized OpenSea Ship Logo */}
                 <svg
@@ -88,35 +85,39 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
                 initial={{ scale: 0.9 }}
                 animate={{ scale: [0.98, 1.04, 0.98] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/20 border border-sky-400/60 text-sky-300 text-xs font-black uppercase tracking-widest"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full moolies-bubble-badge text-xs font-black uppercase tracking-widest"
               >
-                <Sparkles className="w-3.5 h-3.5 text-sky-300 animate-spin" style={{ animationDuration: "6s" }} />
+                <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-spin" style={{ animationDuration: "6s" }} />
                 <span>OpenSea Marketplace</span>
               </motion.div>
 
-              <h3 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
+              <h3 className="font-moolies moolies-title-gradient text-3xl sm:text-4xl font-black tracking-wide">
                 Coming Soon...
               </h3>
 
-              <p className="text-xs sm:text-sm text-slate-300 max-w-sm mx-auto leading-relaxed">
-                The official Moolies Genesis secondary collection on <strong>OpenSea</strong> will unlock immediately following our Whitelist &amp; Public Mint reveal!
+              <p className="text-xs sm:text-sm text-purple-200/80 max-w-sm mx-auto leading-relaxed font-medium">
+                The official Moolies Genesis secondary collection on <strong className="text-purple-200">OpenSea</strong> will unlock immediately following our Whitelist &amp; Public Mint reveal!
               </p>
             </div>
 
-            {/* Highlights Grid */}
-            <div className="grid grid-cols-3 gap-2.5 p-4 rounded-2xl bg-slate-900/90 border border-slate-800 text-left text-xs">
-              <div className="space-y-1">
-                <span className="text-[10px] text-slate-400 font-semibold uppercase">Mint Date</span>
-                <p className="font-bold text-amber-400">TBA</p>
-              </div>
-              <div className="space-y-1">
-                <span className="text-[10px] text-slate-400 font-semibold uppercase">Mint Price</span>
-                <p className="font-bold text-emerald-400">TBA</p>
-              </div>
-              <div className="space-y-1">
-                <span className="text-[10px] text-slate-400 font-semibold uppercase">Supply</span>
-                <p className="font-bold text-sky-400">2,000</p>
-              </div>
+            {/* Highlights Grid with Staggered Animation */}
+            <div className="grid grid-cols-3 gap-2.5 p-4 rounded-2xl bg-purple-950/40 border border-purple-500/30 text-left text-xs">
+              {[
+                { label: "Mint Date", val: "TBA", color: "text-purple-300" },
+                { label: "Mint Price", val: "TBA", color: "text-fuchsia-300" },
+                { label: "Supply", val: "2,000", color: "text-indigo-300" },
+              ].map((item, idx) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 * idx, type: "spring", stiffness: 350, damping: 25 }}
+                  className="space-y-1"
+                >
+                  <span className="font-moolies text-[10px] text-purple-300/70 font-semibold uppercase">{item.label}</span>
+                  <p className={`font-moolies font-black text-base ${item.color}`}>{item.val}</p>
+                </motion.div>
+              ))}
             </div>
 
             {/* Actions */}
@@ -128,7 +129,7 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
                     onClose();
                     onOpenWhitelist();
                   }}
-                  className="w-full sm:flex-1 py-3 px-4 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer shadow-lg transition-colors"
+                  className="w-full sm:flex-1 py-3 px-4 rounded-2xl bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:via-purple-500 hover:to-indigo-500 text-white font-moolies font-black text-xs flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_4px_15px_rgba(168,85,247,0.4)] transition-all"
                 >
                   <span>Apply for Whitelist Slot</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -138,10 +139,10 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
                 href="https://x.com/moolieshq"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:flex-1 py-3 px-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-slate-800 transition-colors"
+                className="w-full sm:flex-1 py-3 px-4 rounded-2xl bg-purple-950/60 hover:bg-purple-900/80 text-purple-200 hover:text-white font-moolies font-bold text-xs flex items-center justify-center gap-1.5 border border-purple-500/40 transition-colors"
               >
                 <span>Follow on X</span>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                <ExternalLink className="w-3.5 h-3.5 text-purple-300" />
               </a>
             </div>
           </motion.div>

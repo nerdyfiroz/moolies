@@ -79,7 +79,7 @@ export const WorldModal: React.FC<WorldModalProps> = ({
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-title"
-            className={`relative w-full ${maxWidth} bg-white dark:bg-slate-900 border-4 border-amber-200/80 dark:border-amber-400/30 rounded-3xl shadow-2xl overflow-visible my-auto z-10 flex flex-col max-h-[90vh]`}
+            className={`relative w-full ${maxWidth} bg-slate-950/70 backdrop-blur-none border-2 border-purple-400/50 rounded-3xl shadow-[0_25px_60px_-15px_rgba(147,51,234,0.45),0_0_40px_rgba(168,85,247,0.2)] overflow-visible my-auto z-10 flex flex-col max-h-[90vh] text-purple-100`}
           >
             {/* 2 Flying Butterflies fixed to the top-left and top-right corners */}
             <CornerButterflies />
@@ -87,10 +87,10 @@ export const WorldModal: React.FC<WorldModalProps> = ({
             {/* Inner Content Wrapper */}
             <div className="overflow-hidden rounded-3xl flex flex-col flex-1 max-h-full">
             {/* Modal Header */}
-            <div className="relative px-6 py-5 bg-gradient-to-r from-amber-50 via-sky-50 to-emerald-50 dark:from-slate-800 dark:via-slate-800/90 dark:to-slate-800 border-b border-amber-100 dark:border-slate-700/80 flex items-center justify-between shrink-0">
+            <div className="relative px-6 py-5 bg-gradient-to-r from-purple-950/80 via-slate-950/70 to-purple-950/80 border-b border-purple-500/30 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3.5 pr-8">
                 {icon && (
-                  <div className="w-11 h-11 rounded-2xl bg-amber-500/10 dark:bg-amber-400/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 shadow-sm border border-amber-200 dark:border-amber-500/30">
+                  <div className="w-11 h-11 rounded-2xl bg-purple-500/20 text-purple-300 flex items-center justify-center shrink-0 shadow-sm border border-purple-400/40">
                     {icon}
                   </div>
                 )}
@@ -98,18 +98,18 @@ export const WorldModal: React.FC<WorldModalProps> = ({
                   <div className="flex items-center gap-2 flex-wrap">
                     <h2
                       id="modal-title"
-                      className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white"
+                      className="font-moolies moolies-title-gradient text-2xl sm:text-3xl font-black tracking-wide"
                     >
                       {title}
                     </h2>
                     {badge && (
-                      <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-300 border border-amber-300/60">
+                      <span className="moolies-bubble-badge text-xs px-3 py-0.5 rounded-full">
                         {badge}
                       </span>
                     )}
                   </div>
                   {subtitle && (
-                    <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+                    <p className="text-xs sm:text-sm font-medium text-purple-200/80 mt-0.5">
                       {subtitle}
                     </p>
                   )}
@@ -121,14 +121,14 @@ export const WorldModal: React.FC<WorldModalProps> = ({
                 type="button"
                 onClick={handleClose}
                 aria-label="Close dialog"
-                className="w-10 h-10 rounded-full bg-slate-100 hover:bg-amber-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 hover:text-amber-700 dark:text-slate-300 transition-colors flex items-center justify-center shrink-0 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-10 h-10 rounded-full bg-purple-950/60 hover:bg-purple-900/80 text-purple-200 hover:text-white transition-all flex items-center justify-center shrink-0 border border-purple-500/40 hover:border-purple-400 shadow-md focus:outline-none focus:ring-2 focus:ring-purple-400 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Modal Body */}
-            <div className="px-6 py-6 overflow-y-auto text-slate-800 dark:text-slate-200 space-y-4">
+            <div className="px-6 py-6 overflow-y-auto text-purple-100 space-y-4">
               {children}
             </div>
             </div>
