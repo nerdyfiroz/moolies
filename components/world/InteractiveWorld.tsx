@@ -12,7 +12,6 @@ import { WhitelistModal } from "@/components/modals/WhitelistModal";
 import { CollectionDetailsModal } from "@/components/modals/CollectionDetailsModal";
 import { RoadmapModal } from "@/components/modals/RoadmapModal";
 import { LivingWorldEffects } from "@/components/world/LivingWorldEffects";
-import { CinematicWhitelistWindow } from "@/components/world/CinematicWhitelistWindow";
 import { CinematicDoorGate } from "@/components/world/CinematicDoorGate";
 import { ScoutedNavbarArrival } from "@/components/world/ScoutedNavbarArrival";
 
@@ -158,12 +157,6 @@ export const InteractiveWorld: React.FC = () => {
           {/* Living World Ambient Atmosphere (Continuous Clouds Left-to-Right, River Waves, Flying Butterflies) */}
           <LivingWorldEffects />
 
-          {/* Cinematic Interactive Treehouse Window (Whitelist Form Trigger) */}
-          <CinematicWhitelistWindow
-            isOpen={activeModal === "whitelist"}
-            onOpen={() => setActiveModal("whitelist")}
-          />
-
           {/* Section 5: Official Project X (Twitter) Quick Access Button on Artwork */}
           <a
             href="https://x.com/moolieshq"
@@ -181,13 +174,14 @@ export const InteractiveWorld: React.FC = () => {
           </a>
 
           {/*
-            The remaining interactive landmark hotspots on the artwork:
+            Interactive landmark hotspots on the artwork:
             1. OpenSea Sign (Left tree trunk) -> OpenSea Coming Soon Modal
+            2. Whitelist (Treehouse porch) -> Whitelist Modal
             3. Roadmap (Meadow goalpost) -> Roadmap Modal
             4. Collection Details (2,000 Supply board on right) -> Collection Details Modal
-            (Whitelist is handled above by CinematicWhitelistWindow)
+            (5. Project Twitter is the X link button at top right)
           */}
-          {WORLD_HOTSPOTS.filter((h) => h.id !== "whitelist").map((hotspot) => (
+          {WORLD_HOTSPOTS.map((hotspot) => (
             <WorldHotspot
               key={hotspot.id}
               hotspot={hotspot}
