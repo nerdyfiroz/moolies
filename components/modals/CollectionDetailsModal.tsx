@@ -42,7 +42,7 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
             exit={{ scale: 0.88, opacity: 0, y: 25 }}
             transition={{ type: "spring", stiffness: 380, damping: 26 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-2xl rounded-3xl bg-slate-950/70 backdrop-blur-none text-white border-2 border-purple-400/50 shadow-[0_25px_60px_-15px_rgba(147,51,234,0.45),0_0_40px_rgba(168,85,247,0.25)] overflow-visible z-10 flex flex-col max-h-[90vh]"
+            className="relative w-full max-w-2xl rounded-3xl bg-slate-950/75 backdrop-blur-none text-white border-2 border-purple-400/50 shadow-[0_25px_60px_-15px_rgba(147,51,234,0.45),0_0_40px_rgba(168,85,247,0.25)] overflow-visible z-10 flex flex-col max-h-[90vh] font-cartoon"
           >
             {/* 2 Flying Butterflies fixed to top-left and top-right corners */}
             <CornerButterflies />
@@ -50,16 +50,16 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
             {/* Inner Content Wrapper */}
             <div className="overflow-hidden rounded-3xl flex flex-col flex-1 max-h-full">
             {/* Header Banner */}
-            <div className="relative p-6 sm:p-7 bg-gradient-to-r from-purple-950/80 via-slate-950/70 to-purple-950/80 border-b border-purple-500/30 text-white flex items-start justify-between shrink-0">
+            <div className="relative p-6 sm:p-7 bg-gradient-to-r from-purple-950/85 via-slate-950/75 to-purple-950/85 border-b border-purple-500/35 text-white flex items-start justify-between shrink-0">
               <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full moolies-bubble-badge text-[11px] font-black uppercase tracking-wider">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-bubble moolies-bubble-badge text-[11px] font-black uppercase tracking-wider">
                   <Coins className="w-3.5 h-3.5 text-purple-300" />
                   <span>Supply &amp; Economics</span>
                 </div>
-                <h3 className="font-moolies moolies-title-gradient text-2xl sm:text-3xl font-black tracking-wide">
+                <h3 className="font-drip moolies-dripping-title text-2xl sm:text-3xl tracking-wide">
                   2,000 Genesis Moolies
                 </h3>
-                <p className="text-xs sm:text-sm font-medium text-purple-200/80 max-w-md">
+                <p className="font-cartoon text-xs sm:text-sm font-semibold text-purple-200/90 max-w-md">
                   Strictly capped generative collection hand-illustrated by Pip. Low gas ERC-721A smart contract on Ethereum.
                 </p>
               </div>

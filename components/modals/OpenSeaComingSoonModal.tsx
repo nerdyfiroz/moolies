@@ -42,7 +42,7 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
             exit={{ scale: 0.85, opacity: 0, y: 20 }}
             transition={{ type: "spring", stiffness: 380, damping: 25 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-lg rounded-3xl bg-slate-950/70 backdrop-blur-none text-white border-2 border-purple-400/50 shadow-[0_25px_60px_-15px_rgba(147,51,234,0.45),0_0_40px_rgba(168,85,247,0.25)] overflow-visible z-10 p-6 sm:p-8 space-y-6 text-center"
+            className="relative w-full max-w-lg rounded-3xl bg-slate-950/75 backdrop-blur-none text-white border-2 border-purple-400/50 shadow-[0_25px_60px_-15px_rgba(147,51,234,0.45),0_0_40px_rgba(168,85,247,0.25)] overflow-visible z-10 p-6 sm:p-8 space-y-6 text-center font-cartoon"
           >
             {/* 2 Flying Butterflies fixed to the top-left and top-right corners */}
             <CornerButterflies />
@@ -85,17 +85,17 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
                 initial={{ scale: 0.9 }}
                 animate={{ scale: [0.98, 1.04, 0.98] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full moolies-bubble-badge text-xs font-black uppercase tracking-widest"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-bubble moolies-bubble-badge text-xs font-black uppercase tracking-widest"
               >
                 <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-spin" style={{ animationDuration: "6s" }} />
                 <span>OpenSea Marketplace</span>
               </motion.div>
 
-              <h3 className="font-moolies moolies-title-gradient text-3xl sm:text-4xl font-black tracking-wide">
+              <h3 className="font-drip moolies-dripping-title text-3xl sm:text-4xl tracking-wide">
                 Coming Soon...
               </h3>
 
-              <p className="text-xs sm:text-sm text-purple-200/80 max-w-sm mx-auto leading-relaxed font-medium">
+              <p className="font-cartoon text-xs sm:text-sm text-purple-200/90 max-w-sm mx-auto leading-relaxed font-medium">
                 The official Moolies Genesis secondary collection on <strong className="text-purple-200">OpenSea</strong> will unlock immediately following our Whitelist &amp; Public Mint reveal!
               </p>
             </div>

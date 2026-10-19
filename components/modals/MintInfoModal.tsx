@@ -84,48 +84,48 @@ export const MintInfoModal: React.FC<MintInfoModalProps> = ({
     >
       <div className="space-y-6">
         {/* Countdown Header */}
-        <div className="p-5 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-400/10 to-sky-500/10 border-2 border-amber-300 dark:border-amber-600/40 text-center">
-          <span className="text-[11px] font-extrabold uppercase tracking-widest text-amber-700 dark:text-amber-300">
+        <div className="p-5 rounded-2xl bg-gradient-to-r from-purple-950/80 via-indigo-950/70 to-purple-950/80 border-2 border-purple-400/50 text-center">
+          <span className="font-bubble text-xs font-black uppercase tracking-widest text-purple-300">
             Next Milestone: Guaranteed Whitelist Mint
           </span>
-          <div className="flex items-center justify-center gap-3 sm:gap-6 mt-3 font-mono">
-            <div className="p-2 sm:p-3 rounded-xl bg-white dark:bg-slate-800 shadow-xs border border-amber-200 dark:border-slate-700 w-16 sm:w-20">
-              <span className="text-xl sm:text-3xl font-black text-slate-900 dark:text-white">
+          <div className="flex items-center justify-center gap-3 sm:gap-6 mt-3">
+            <div className="p-2 sm:p-3 rounded-2xl bg-purple-950/60 shadow-md border border-purple-400/40 w-16 sm:w-20">
+              <span className="font-drip text-xl sm:text-3xl text-fuchsia-200">
                 {String(timeLeft.days).padStart(2, "0")}
               </span>
-              <p className="text-[10px] text-slate-400 font-sans uppercase mt-0.5">Days</p>
+              <p className="font-cartoon text-[11px] text-purple-300/80 uppercase mt-0.5 font-semibold">Days</p>
             </div>
-            <div className="p-2 sm:p-3 rounded-xl bg-white dark:bg-slate-800 shadow-xs border border-amber-200 dark:border-slate-700 w-16 sm:w-20">
-              <span className="text-xl sm:text-3xl font-black text-slate-900 dark:text-white">
+            <div className="p-2 sm:p-3 rounded-2xl bg-purple-950/60 shadow-md border border-purple-400/40 w-16 sm:w-20">
+              <span className="font-drip text-xl sm:text-3xl text-fuchsia-200">
                 {String(timeLeft.hours).padStart(2, "0")}
               </span>
-              <p className="text-[10px] text-slate-400 font-sans uppercase mt-0.5">Hours</p>
+              <p className="font-cartoon text-[11px] text-purple-300/80 uppercase mt-0.5 font-semibold">Hours</p>
             </div>
-            <div className="p-2 sm:p-3 rounded-xl bg-white dark:bg-slate-800 shadow-xs border border-amber-200 dark:border-slate-700 w-16 sm:w-20">
-              <span className="text-xl sm:text-3xl font-black text-slate-900 dark:text-white">
+            <div className="p-2 sm:p-3 rounded-2xl bg-purple-950/60 shadow-md border border-purple-400/40 w-16 sm:w-20">
+              <span className="font-drip text-xl sm:text-3xl text-fuchsia-200">
                 {String(timeLeft.minutes).padStart(2, "0")}
               </span>
-              <p className="text-[10px] text-slate-400 font-sans uppercase mt-0.5">Mins</p>
+              <p className="font-cartoon text-[11px] text-purple-300/80 uppercase mt-0.5 font-semibold">Mins</p>
             </div>
-            <div className="p-2 sm:p-3 rounded-xl bg-white dark:bg-slate-800 shadow-xs border border-amber-200 dark:border-slate-700 w-16 sm:w-20">
-              <span className="text-xl sm:text-3xl font-black text-slate-900 dark:text-white">
+            <div className="p-2 sm:p-3 rounded-2xl bg-purple-950/60 shadow-md border border-purple-400/40 w-16 sm:w-20">
+              <span className="font-drip text-xl sm:text-3xl text-fuchsia-200">
                 {String(timeLeft.seconds).padStart(2, "0")}
               </span>
-              <p className="text-[10px] text-slate-400 font-sans uppercase mt-0.5">Secs</p>
+              <p className="font-cartoon text-[11px] text-purple-300/80 uppercase mt-0.5 font-semibold">Secs</p>
             </div>
           </div>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
+          <p className="font-cartoon text-xs text-purple-300/70 mt-2 font-medium">
             Target launch: TBA (To Be Announced)
           </p>
         </div>
 
         {/* Supply & Progress Bar */}
-        <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-3">
+        <div className="p-5 rounded-2xl bg-purple-950/50 border border-purple-500/35 space-y-3">
           <div className="flex items-center justify-between text-xs sm:text-sm">
-            <span className="font-bold text-slate-800 dark:text-slate-200">
+            <span className="font-bubble font-bold text-purple-200">
               Allocated & Presale Reserve
             </span>
-            <span className="font-mono font-bold text-amber-600 dark:text-amber-400">
+            <span className="font-drip font-bold text-fuchsia-300 text-base">
               412 / 2,000 Moolies (20.6%)
             </span>
           </div>

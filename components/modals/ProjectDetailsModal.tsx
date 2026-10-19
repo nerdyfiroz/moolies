@@ -36,45 +36,45 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({
     >
       <div className="space-y-6">
         {/* Sky banner with kite badge */}
-        <div className="relative rounded-2xl overflow-hidden p-6 bg-gradient-to-r from-sky-400 via-sky-300 to-amber-200 text-slate-900 shadow-md">
+        <div className="relative rounded-2xl overflow-hidden p-6 bg-gradient-to-r from-purple-950/85 via-indigo-950/75 to-purple-950/85 border border-purple-500/40 text-purple-100 shadow-md">
           <div className="relative z-10 max-w-xl">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm text-xs font-bold text-sky-900 mb-2">
-              <Feather className="w-3.5 h-3.5 text-amber-600" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-bubble moolies-bubble-badge text-xs font-bold mb-2">
+              <Feather className="w-3.5 h-3.5 text-purple-300" />
               Handcrafted Generative Art
             </span>
-            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+            <h3 className="font-drip moolies-dripping-title text-2xl sm:text-3xl tracking-wide">
               Welcome to the Sunny Valley of Moolies
             </h3>
-            <p className="text-sm sm:text-base text-slate-800 mt-2 leading-relaxed">
+            <p className="font-cartoon text-sm sm:text-base text-purple-200/90 mt-2 leading-relaxed font-medium">
               Where 2,000 whimsical owls drink boba, read ancient lore by the lake, fly cat-kites, and build the future of decentralized storytelling together.
             </p>
           </div>
-          <div className="absolute right-4 bottom-2 opacity-30 sm:opacity-50 pointer-events-none">
-            <Sparkles className="w-36 h-36 text-white" />
+          <div className="absolute right-4 bottom-2 opacity-20 sm:opacity-35 pointer-events-none">
+            <Sparkles className="w-36 h-36 text-purple-300" />
           </div>
         </div>
 
         {/* Core Specs Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="p-4 rounded-2xl bg-amber-50 dark:bg-slate-800/60 border border-amber-200/70 dark:border-slate-700 text-center">
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Total Supply</p>
-            <p className="text-xl sm:text-2xl font-black text-amber-600 dark:text-amber-400 mt-1">2,000</p>
-            <p className="text-[10px] text-slate-400">Strictly Capped</p>
+          <div className="p-4 rounded-2xl bg-purple-950/50 border border-purple-500/35 text-center">
+            <p className="font-cartoon text-xs font-semibold text-purple-300/80">Total Supply</p>
+            <p className="font-drip text-2xl sm:text-3xl text-purple-200 mt-1 moolies-dripping-title">2,000</p>
+            <p className="font-cartoon text-[10px] text-purple-300/70">Strictly Capped</p>
           </div>
-          <div className="p-4 rounded-2xl bg-sky-50 dark:bg-slate-800/60 border border-sky-200/70 dark:border-slate-700 text-center">
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Network</p>
-            <p className="text-xl sm:text-2xl font-black text-sky-600 dark:text-sky-400 mt-1">Ethereum</p>
-            <p className="text-[10px] text-slate-400">ERC-721A Low Gas</p>
+          <div className="p-4 rounded-2xl bg-purple-950/50 border border-purple-500/35 text-center">
+            <p className="font-cartoon text-xs font-semibold text-purple-300/80">Network</p>
+            <p className="font-drip text-2xl sm:text-3xl text-sky-300 mt-1">Ethereum</p>
+            <p className="font-cartoon text-[10px] text-purple-300/70">ERC-721A Low Gas</p>
           </div>
-          <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-slate-800/60 border border-emerald-200/70 dark:border-slate-700 text-center">
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Whitelist Price</p>
-            <p className="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">0.025 ETH</p>
-            <p className="text-[10px] text-slate-400">Max 2 per wallet</p>
+          <div className="p-4 rounded-2xl bg-purple-950/50 border border-purple-500/35 text-center">
+            <p className="font-cartoon text-xs font-semibold text-purple-300/80">Whitelist Price</p>
+            <p className="font-drip text-2xl sm:text-3xl text-emerald-300 mt-1">0.025 ETH</p>
+            <p className="font-cartoon text-[10px] text-purple-300/70">Max 2 per wallet</p>
           </div>
-          <div className="p-4 rounded-2xl bg-purple-50 dark:bg-slate-800/60 border border-purple-200/70 dark:border-slate-700 text-center">
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Public Price</p>
-            <p className="text-xl sm:text-2xl font-black text-purple-600 dark:text-purple-400 mt-1">0.040 ETH</p>
-            <p className="text-[10px] text-slate-400">Fair Community Mint</p>
+          <div className="p-4 rounded-2xl bg-purple-950/50 border border-purple-500/35 text-center">
+            <p className="font-cartoon text-xs font-semibold text-purple-300/80">Public Price</p>
+            <p className="font-drip text-2xl sm:text-3xl text-fuchsia-300 mt-1">0.040 ETH</p>
+            <p className="font-cartoon text-[10px] text-purple-300/70">Fair Community Mint</p>
           </div>
         </div>
 

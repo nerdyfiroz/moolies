@@ -39,12 +39,12 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           type="button"
           onClick={onOpenCollectionDetails}
           title="Moolies Genesis Collection"
-          className="pointer-events-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl bg-slate-950/70 text-white backdrop-blur-none border border-purple-400/50 shadow-[0_4px_20px_rgba(147,51,234,0.3)] flex items-center gap-1.5 sm:gap-2 hover:border-purple-300 transition-all cursor-pointer group shrink-0"
+          className="pointer-events-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl bg-slate-950/75 text-white backdrop-blur-none border border-purple-400/50 shadow-[0_4px_20px_rgba(147,51,234,0.3)] flex items-center gap-1.5 sm:gap-2 hover:border-purple-300 transition-all cursor-pointer group shrink-0"
         >
-          <span className="font-moolies font-black text-sm sm:text-base tracking-wider bg-gradient-to-r from-fuchsia-300 via-purple-300 to-indigo-200 bg-clip-text text-transparent drop-shadow-sm">
+          <span className="font-drip text-sm sm:text-base tracking-wider moolies-dripping-title">
             MOOLIES
           </span>
-          <span className="font-moolies text-[11px] font-semibold text-purple-200/80 hidden md:inline border-l border-purple-500/40 pl-2">
+          <span className="font-cartoon text-[11px] font-semibold text-purple-200/90 hidden md:inline border-l border-purple-500/40 pl-2">
             2,000 Genesis Owls
           </span>
           <Sparkles className="w-3.5 h-3.5 text-purple-300 hidden sm:inline" />

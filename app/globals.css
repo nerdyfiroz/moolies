@@ -1,10 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Wet+Paint&family=Rubik+Bubbles&family=Modak&family=Sedgwick+Ave+Display&family=DynaPuff:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 :root {
   --background: #5fc2ea;
   --foreground: #0f172a;
-  --font-moolies: var(--font-fredoka), "Fredoka", cursive, sans-serif;
+  --font-drip: 'Rubik Wet Paint', cursive, display;
+  --font-bubble: 'Rubik Bubbles', 'Modak', cursive, display;
+  --font-cartoon: 'DynaPuff', 'Fredoka', cursive, sans-serif;
+  --font-graffiti: 'Sedgwick Ave Display', 'Rubik Wet Paint', cursive;
+  --font-moolies: var(--font-cartoon);
 }
 
 @theme inline {
@@ -12,7 +16,11 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-moolies: var(--font-fredoka), "Fredoka", cursive, sans-serif;
+  --font-drip: 'Rubik Wet Paint', cursive, display;
+  --font-bubble: 'Rubik Bubbles', 'Modak', cursive, display;
+  --font-cartoon: 'DynaPuff', 'Fredoka', cursive, sans-serif;
+  --font-graffiti: 'Sedgwick Ave Display', 'Rubik Wet Paint', cursive;
+  --font-moolies: 'DynaPuff', 'Fredoka', cursive, sans-serif;
 }
 
 body {
@@ -34,18 +42,15 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.4);
+  background: rgba(168, 85, 247, 0.4);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.7);
+  background: rgba(168, 85, 247, 0.7);
 }
 
-/* World artwork canvas responsive sizing:
-   - On mobile/portrait: full viewport height so users can pan horizontally.
-   - On desktop view: fills the entire viewport edge-to-edge (100vw x 100dvh) with zero cropping at top/bottom and zero empty side bars!
-*/
+/* World artwork canvas responsive sizing */
 .world-canvas-container {
   width: calc(100dvh * 1024 / 650);
   height: 100dvh;
@@ -64,24 +69,142 @@ body {
   }
 }
 
-/* Moolies Cartoon Typography & Glass Utilities */
-.font-moolies {
-  font-family: var(--font-moolies), 'Fredoka', cursive, sans-serif;
+/* Dripping Bubble / Graffiti / Cartoon Display Font Utility Classes */
+.font-drip {
+  font-family: var(--font-drip), 'Rubik Wet Paint', cursive !important;
+  letter-spacing: 0.04em;
 }
 
-.moolies-title-gradient {
-  background: linear-gradient(135deg, #f5d0fe 0%, #c084fc 30%, #9333ea 70%, #6b21a8 100%);
+.font-bubble {
+  font-family: var(--font-bubble), 'Rubik Bubbles', 'Modak', cursive !important;
+  letter-spacing: 0.03em;
+}
+
+.font-cartoon {
+  font-family: var(--font-cartoon), 'DynaPuff', 'Fredoka', cursive, sans-serif !important;
+}
+
+.font-graffiti {
+  font-family: var(--font-graffiti), 'Sedgwick Ave Display', 'Rubik Wet Paint', cursive !important;
+}
+
+.font-moolies {
+  font-family: var(--font-cartoon), 'DynaPuff', 'Fredoka', cursive, sans-serif !important;
+}
+
+/* Dripping Bubble Graffiti Title Style (Inspired by Moolies Violet Dripping Bubble Logo) */
+.moolies-dripping-title {
+  font-family: var(--font-drip), 'Rubik Wet Paint', cursive !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.05em;
+  background: linear-gradient(180deg, #fce7f3 0%, #f0abfc 22%, #c084fc 48%, #9333ea 78%, #581c87 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 10px rgba(147, 51, 234, 0.45));
+  filter: drop-shadow(0 2px 0 #180828) drop-shadow(0 4px 12px rgba(168, 85, 247, 0.65));
+  line-height: 1.25;
+  padding-bottom: 0.12em;
+}
+
+.moolies-bubble-heading {
+  font-family: var(--font-bubble), 'Rubik Bubbles', 'Modak', cursive !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.03em;
+  background: linear-gradient(180deg, #ffffff 0%, #fae8ff 22%, #d8b4fe 55%, #9333ea 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 0 #180828) drop-shadow(0 3px 8px rgba(168, 85, 247, 0.5));
+}
+
+.moolies-title-gradient {
+  background: linear-gradient(180deg, #fce7f3 0%, #f0abfc 20%, #c084fc 48%, #9333ea 78%, #581c87 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 0 #180828) drop-shadow(0 4px 12px rgba(147, 51, 234, 0.55));
 }
 
 .moolies-bubble-badge {
-  font-family: var(--font-moolies), 'Fredoka', cursive, sans-serif;
-  background: rgba(147, 51, 234, 0.25);
-  border: 1px solid rgba(192, 132, 252, 0.4);
-  color: #e9d5ff;
-  box-shadow: 0 0 15px rgba(168, 85, 247, 0.25);
+  font-family: var(--font-bubble), 'Rubik Bubbles', 'DynaPuff', cursive !important;
+  background: rgba(147, 51, 234, 0.32);
+  border: 1.5px solid rgba(192, 132, 252, 0.55);
+  color: #f5d0fe;
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
+  letter-spacing: 0.04em;
+}
+
+/* Sections & Modal Dialogs: Comprehensive Dripping Bubble / Cartoon Display Rules */
+[role="dialog"] {
+  font-family: var(--font-cartoon), 'DynaPuff', 'Fredoka', cursive, sans-serif !important;
+  color: #f3e8ff;
+}
+
+[role="dialog"] h1,
+[role="dialog"] h2 {
+  font-family: var(--font-drip), 'Rubik Wet Paint', cursive !important;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+[role="dialog"] h3 {
+  font-family: var(--font-bubble), 'Rubik Bubbles', 'Modak', cursive !important;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+[role="dialog"] h4,
+[role="dialog"] h5,
+[role="dialog"] h6 {
+  font-family: var(--font-cartoon), 'DynaPuff', cursive, sans-serif !important;
+  letter-spacing: 0.02em;
+}
+
+[role="dialog"] p,
+[role="dialog"] span:not(.font-mono),
+[role="dialog"] li,
+[role="dialog"] label,
+[role="dialog"] button,
+[role="dialog"] input,
+[role="dialog"] textarea {
+  font-family: var(--font-cartoon), 'DynaPuff', 'Fredoka', cursive, sans-serif;
+}
+
+[role="dialog"] code,
+[role="dialog"] .font-mono {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+}
+
+/* Modal Inner Card Translucency & Purple Tinting */
+[role="dialog"] .bg-white,
+[role="dialog"] .bg-slate-50,
+[role="dialog"] .bg-slate-100,
+[role="dialog"] .bg-slate-800,
+[role="dialog"] .bg-slate-800\/60,
+[role="dialog"] .bg-slate-800\/80,
+[role="dialog"] .bg-slate-900,
+[role="dialog"] .bg-amber-50 {
+  background-color: rgba(30, 12, 58, 0.55) !important;
+  border-color: rgba(168, 85, 247, 0.35) !important;
+  color: #f3e8ff !important;
+}
+
+[role="dialog"] .text-slate-900,
+[role="dialog"] .text-slate-800,
+[role="dialog"] .text-slate-700 {
+  color: #fdf4ff !important;
+}
+
+[role="dialog"] .text-slate-600,
+[role="dialog"] .text-slate-500,
+[role="dialog"] .text-slate-400 {
+  color: #e9d5ff !important;
+}
+
+[role="dialog"] .border-slate-200,
+[role="dialog"] .border-slate-300,
+[role="dialog"] .border-slate-700,
+[role="dialog"] .border-slate-800 {
+  border-color: rgba(168, 85, 247, 0.3) !important;
 }
 
