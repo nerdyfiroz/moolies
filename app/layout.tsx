@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Fredoka } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+
+const cooperBlack = localFont({
+  src: "../public/fonts/CooperBlack.woff2",
+  variable: "--font-cooper-black",
+  display: "swap",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,7 +42,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${fredoka.variable} h-full antialiased`}
+      className={`${cooperBlack.variable} ${geistSans.variable} ${geistMono.variable} ${fredoka.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#5fc2ea] text-slate-900 overflow-x-hidden">
         {children}
