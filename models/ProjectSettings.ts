@@ -38,11 +38,11 @@ export interface IProjectSettings extends Document {
 const ProjectSettingsSchema = new Schema<IProjectSettings>(
   {
     projectName: { type: String, default: "Moolies" },
-    tagline: { type: String, default: "A cozy, whimsical owl realm exploring the metaverse" },
+    tagline: { type: String, default: "A cozy, whimsical Moolies realm exploring the metaverse" },
     description: {
       type: String,
       default:
-        "Moolies is a generative collection of 2,000 lovable owl adventurers living peacefully across the sunny meadow, lake, and treehouse. Each Moolie grants membership to the Nest DAO, exclusive lore drops, and staking rewards.",
+        "Moolies is a generative collection of 2,000 lovable Moolies adventurers living peacefully across the sunny meadow, lake, and treehouse. Each Moolie grants membership to the Nest DAO, exclusive lore drops, and staking rewards.",
     },
     logoUrl: { type: String, default: "/logo.png" },
     totalSupply: { type: Number, default: 2000 },

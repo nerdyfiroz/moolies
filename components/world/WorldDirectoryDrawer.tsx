@@ -61,7 +61,7 @@ export const WorldDirectoryDrawer: React.FC<WorldDirectoryDrawerProps> = ({
     { id: "all", label: "All (15)" },
     { id: "core", label: "Core & Vision" },
     { id: "mint", label: "Mint & Economics" },
-    { id: "team", label: "Owls Team" },
+    { id: "team", label: "Moolies Team" },
     { id: "blockchain", label: "Ethereum" },
     { id: "lore", label: "Lore & Docs" },
     { id: "community", label: "Community" },

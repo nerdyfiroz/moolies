@@ -29,7 +29,7 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({
       isOpen={isOpen}
       onClose={onClose}
       title="The Moolies Realm"
-      subtitle="Genesis Owl Collection & Metaverse Ecosystem"
+      subtitle="Genesis Moolies Collection & Metaverse Ecosystem"
       icon={<Sparkles className="w-6 h-6 text-amber-500" />}
       badge="Genesis 2,000"
       maxWidth="max-w-4xl"
@@ -46,7 +46,7 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({
               Welcome to the Sunny Valley of Moolies
             </h3>
             <p className="font-cartoon text-sm sm:text-base text-purple-200/90 mt-2 leading-relaxed font-medium">
-              Where 2,000 whimsical owls drink boba, read ancient lore by the lake, fly cat-kites, and build the future of decentralized storytelling together.
+              Where 2,000 whimsical Moolies drink boba, read ancient lore by the lake, fly cat-kites, and build the future of decentralized storytelling together.
             </p>
           </div>
           <div className="absolute right-4 bottom-2 opacity-20 sm:opacity-35 pointer-events-none">
@@ -117,7 +117,7 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({
               </li>
               <li className="flex items-start gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-sky-500 mt-1.5 shrink-0" />
-                <span><strong>ERC-721A Standard:</strong> Batch mint multiple owls for the gas price of a single mint.</span>
+                <span><strong>ERC-721A Standard:</strong> Batch mint multiple Moolies for the gas price of a single mint.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-sky-500 mt-1.5 shrink-0" />

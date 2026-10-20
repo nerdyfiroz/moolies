@@ -15,7 +15,7 @@ export default function NotFound() {
           Meadow Clearing Not Found
         </h2>
         <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
-          The owl scout could not find this branch. Let&apos;s guide you back to the sunny picnic meadow!
+          The Moolies scout could not find this branch. Let&apos;s guide you back to the sunny picnic meadow!
         </p>
 
         <div className="pt-2">

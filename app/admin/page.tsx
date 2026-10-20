@@ -78,8 +78,8 @@ export default function AdminPage() {
   // Settings form state
   const [settingsForm, setSettingsForm] = useState({
     projectName: "Moolies",
-    tagline: "A cozy, whimsical owl realm exploring the metaverse",
-    description: "Moolies is a generative collection of 2,000 lovable owl adventurers.",
+    tagline: "A cozy, whimsical Moolies realm exploring the metaverse",
+    description: "Moolies is a generative collection of 2,000 lovable Moolies adventurers.",
     totalSupply: 2000,
     mintedSupply: 412,
     whitelistPrice: "0.025",

@@ -44,7 +44,7 @@ export const CitizenCardHUD: React.FC<CitizenCardHUDProps> = ({
                 CITIZEN CARD
               </p>
               <p className="text-[9px] text-slate-400 font-mono leading-tight">
-                PASS: #2026-OWL
+                PASS: #2026-MOOLIES
               </p>
             </div>
             <ChevronUp className="w-3.5 h-3.5 text-amber-300 group-hover:translate-y--0.5 transition-transform" />
@@ -84,7 +84,7 @@ export const CitizenCardHUD: React.FC<CitizenCardHUDProps> = ({
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 via-sky-400 to-indigo-500 p-0.5 shadow-md shrink-0 flex items-center justify-center">
                 <div className="w-full h-full rounded-[14px] bg-slate-950 flex flex-col items-center justify-center text-amber-300">
                   <Feather className="w-6 h-6 text-amber-400" />
-                  <span className="text-[8px] font-black tracking-tighter">OWL PASS</span>
+                  <span className="text-[8px] font-black tracking-tighter">MOOLIES PASS</span>
                 </div>
               </div>
 

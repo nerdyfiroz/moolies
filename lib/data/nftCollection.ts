@@ -36,7 +36,7 @@ export const DEMO_NFTS: NFTItem[] = [
   {
     tokenId: 2,
     name: "Moolie #0002 - Sir Archibald",
-    description: "Distinguished gentleman owl equipped with golden spectacles and tailored wool tuxedo.",
+    description: "Distinguished gentleman Moolies equipped with golden spectacles and tailored wool tuxedo.",
     image: "/moolies-world.png",
     rarityTier: "Legendary",
     rarityScore: 97.8,
@@ -55,7 +55,7 @@ export const DEMO_NFTS: NFTItem[] = [
   {
     tokenId: 42,
     name: "Moolie #0042 - Boba Barnaby",
-    description: "Relaxed owl sipping brown sugar boba tea in his cozy lavender polka-dot hoodie.",
+    description: "Relaxed Moolies sipping brown sugar boba tea in his cozy lavender polka-dot hoodie.",
     image: "/moolies-world.png",
     rarityTier: "Epic",
     rarityScore: 88.5,
@@ -90,7 +90,7 @@ export const DEMO_NFTS: NFTItem[] = [
   {
     tokenId: 128,
     name: "Moolie #0128 - Otis Nightshift",
-    description: "The hardworking dev owl who dreams in Solidity. Cozy under a quilt with his cyan sleeping mask.",
+    description: "The hardworking dev Moolies who dreams in Solidity. Cozy under a quilt with his cyan sleeping mask.",
     image: "/moolies-world.png",
     rarityTier: "Rare",
     rarityScore: 76.3,

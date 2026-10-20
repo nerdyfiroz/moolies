@@ -9,7 +9,7 @@ export const FAQ_DATA: FAQItem[] = [
     category: "General",
     question: "What is Moolies?",
     answer:
-      "Moolies is an interactive NFT universe centered around 2,000 whimsical, hand-drawn owl characters living across a serene countryside meadow, lake, and treehouse. Each Moolie is a high-resolution vector artwork tokenized on Ethereum.",
+      "Moolies is an interactive NFT universe centered around 2,000 whimsical, hand-drawn Moolies characters living across a serene countryside meadow, lake, and treehouse. Each Moolie is a high-resolution vector artwork tokenized on Ethereum.",
   },
   {
     category: "General",

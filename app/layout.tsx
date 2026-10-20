@@ -28,7 +28,7 @@ const fredoka = Fredoka({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   title: "Moolies — The Cozy Interactive NFT Realm",
-  description: "Explore the illustrated world of Moolies! 2,000 lovable owl adventurers on Ethereum.",
+  description: "Explore the illustrated world of Moolies! 2,000 lovable Moolies adventurers on Ethereum.",
   icons: {
     icon: "/favicon.ico",
   },

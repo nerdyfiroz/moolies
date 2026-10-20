@@ -123,12 +123,12 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
                     <strong className="font-moolies text-white text-sm">6-10 Layers</strong>
                   </div>
                   <div className="p-2 rounded-xl bg-purple-950/50 border border-purple-500/30">
-                    <span className="font-moolies text-purple-300/70 text-[10px] block">Traits per Owl</span>
+                    <span className="font-moolies text-purple-300/70 text-[10px] block">Traits per Moolie</span>
                     <strong className="font-moolies text-fuchsia-300 text-sm">6-10 Traits</strong>
                   </div>
                   <div className="p-2 rounded-xl bg-purple-950/50 border border-purple-500/30">
                     <span className="font-moolies text-purple-300/70 text-[10px] block">1-of-1 Legendaries</span>
-                    <strong className="font-moolies text-emerald-300 text-sm">10 Owls</strong>
+                    <strong className="font-moolies text-emerald-300 text-sm">10 Moolies</strong>
                   </div>
                 </div>
               </motion.div>
@@ -142,7 +142,7 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
               >
                 <div className="flex items-center gap-2 text-fuchsia-300 font-moolies font-bold text-sm">
                   <Award className="w-4 h-4 text-fuchsia-400" />
-                  <span>Genesis Owl Holder Benefits</span>
+                  <span>Genesis Moolies Holder Benefits</span>
                 </div>
                 <ul className="text-xs space-y-1.5 text-purple-200/80">
                   <li className="flex items-start gap-2">

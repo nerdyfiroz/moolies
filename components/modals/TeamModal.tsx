@@ -34,7 +34,7 @@ export const TeamModal: React.FC<TeamModalProps> = ({
       title="The Moolies Council"
       subtitle="Founders, Artists & Core Builders"
       icon={<Users className="w-6 h-6 text-purple-600 dark:text-purple-400" />}
-      badge="Core Owls"
+      badge="Core Moolies"
       maxWidth="max-w-4xl"
     >
       <div className="space-y-6">
@@ -109,10 +109,10 @@ export const TeamModal: React.FC<TeamModalProps> = ({
           </p>
         </div>
 
-        {/* All Owls in the Artwork Grid */}
+        {/* All Moolies in the Artwork Grid */}
         <div>
           <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
-            Spot every owl in the landscape
+            Spot every Moolie in the landscape
           </h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {TEAM_MEMBERS.map((member: TeamMember) => (

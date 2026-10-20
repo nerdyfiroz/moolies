@@ -7,8 +7,8 @@ interface CinematicDoorGateProps {
   onEnter: () => void;
 }
 
-/* ─── Web Audio: Owl Hoot + Magical Whoosh ─── */
-function playOwlAudio() {
+/* ─── Web Audio: Moolies Hoot + Magical Whoosh ─── */
+function playMooliesAudio() {
   try {
     const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     if (!Ctx) return;
@@ -16,7 +16,7 @@ function playOwlAudio() {
     if (ctx.state === "suspended") ctx.resume();
     const now = ctx.currentTime;
 
-    // 1. Owl Hoot — two‑tone "hoo‑HOO"
+    // 1. Moolies Hoot — two‑tone "hoo‑HOO"
     const hoot = (t: number, f: number, dur: number, vol: number) => {
       const o = ctx.createOscillator();
       const g = ctx.createGain();
@@ -172,11 +172,11 @@ function Sparkle({ delay, x, y }: { delay: number; x: number; y: number }) {
 }
 
 /**
- * CinematicDoorGate — Owl Loading Interface
+ * CinematicDoorGate — Moolies Loading Interface
  *
- * A beautiful owl flies in from above, flaps its wings, then opens its mouth wide.
- * The Moolies website is revealed from inside the owl's mouth (zoom-into-mouth transition).
- * Butterflies flutter around the owl throughout the animation.
+ * A beautiful Moolies character flies in from above, flaps its wings, then opens its mouth wide.
+ * The Moolies website is revealed from inside the mouth (zoom-into-mouth transition).
+ * Butterflies flutter around throughout the animation.
  */
 export const CinematicDoorGate: React.FC<CinematicDoorGateProps> = ({ onEnter }) => {
   const [phase, setPhase] = useState<"flying" | "landing" | "opening" | "reveal" | "done">("flying");
@@ -194,7 +194,7 @@ export const CinematicDoorGate: React.FC<CinematicDoorGateProps> = ({ onEnter })
     if (phase === "flying") return; // Wait for landing
     hasTriggeredRef.current = true;
 
-    playOwlAudio();
+    playMooliesAudio();
     setPhase("opening");
 
     // Mouth open animation
@@ -249,7 +249,7 @@ export const CinematicDoorGate: React.FC<CinematicDoorGateProps> = ({ onEnter })
       onClick={handleClick}
       role="button"
       tabIndex={0}
-      aria-label="Click to let the owl reveal the Moolies world"
+      aria-label="Click to let Moolies reveal the Moolies world"
     >
       {/* Night sky / mystical forest background */}
       <div className="absolute inset-0" style={{
@@ -280,7 +280,7 @@ export const CinematicDoorGate: React.FC<CinematicDoorGateProps> = ({ onEnter })
           }}
         />
 
-        {/* Magical ambient glow behind owl */}
+        {/* Magical ambient glow behind Moolies */}
         <motion.div
           animate={{
             scale: isOpening || isRevealing ? [1, 2.5] : [1, 1.15, 1],
@@ -300,7 +300,7 @@ export const CinematicDoorGate: React.FC<CinematicDoorGateProps> = ({ onEnter })
       </div>
 
       {/* ═══════════════════════════════════════ */}
-      {/* THE OWL */}
+      {/* THE MOOLIES */}
       {/* ═══════════════════════════════════════ */}
       <motion.div
         initial={{ y: -400, scale: 0.4, rotate: -5 }}
@@ -324,12 +324,12 @@ export const CinematicDoorGate: React.FC<CinematicDoorGateProps> = ({ onEnter })
         }
         className="relative z-10 flex flex-col items-center"
       >
-        {/* Butterflies around the owl */}
+        {/* Butterflies around Moolies */}
         {butterflies.map((b, i) => (
           <Butterfly key={i} delay={b.delay} startX={b.startX} startY={b.startY} color={b.color} />
         ))}
 
-        {/* Owl SVG Body */}
+        {/* Moolies SVG Body */}
         <svg
           viewBox="0 0 300 340"
           width="280"
@@ -551,7 +551,7 @@ export const CinematicDoorGate: React.FC<CinematicDoorGateProps> = ({ onEnter })
           </defs>
         </svg>
 
-        {/* Glow ring around owl during mouth open */}
+        {/* Glow ring around Moolies during mouth open */}
         <AnimatePresence>
           {(isOpening || isRevealing) && (
             <motion.div
@@ -606,7 +606,7 @@ export const CinematicDoorGate: React.FC<CinematicDoorGateProps> = ({ onEnter })
               }}
               className="text-2xl sm:text-3xl md:text-4xl font-bold select-none leading-tight"
             >
-              {isFlying ? "The Owl is arriving..." : "Tap to awaken the Owl"}
+              {isFlying ? "The Moolies is arriving..." : "Tap to awaken the Moolies"}
             </h1>
 
             {/* Subtitle */}

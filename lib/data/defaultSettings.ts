@@ -28,9 +28,9 @@ export const DEFAULT_WHITELIST_TASKS: WhitelistTask[] = [
 
 export const DEFAULT_SETTINGS = {
   projectName: "Moolies",
-  tagline: "A cozy, whimsical owl realm exploring the metaverse",
+  tagline: "A cozy, whimsical Moolies realm exploring the metaverse",
   description:
-    "Moolies is a generative collection of 2,000 lovable owl adventurers living peacefully across the sunny meadow, lake, and treehouse. Each Moolie grants membership to the Nest DAO, exclusive physical & digital art drops, and staking rewards.",
+    "Moolies is a generative collection of 2,000 lovable Moolies adventurers living peacefully across the sunny meadow, lake, and treehouse. Each Moolie grants membership to the Nest DAO, exclusive physical & digital art drops, and staking rewards.",
   logoUrl: "/logo.png",
   totalSupply: 2000,
   mintedSupply: 412,

@@ -24,7 +24,7 @@ export const WhitepaperModal: React.FC<WhitepaperModalProps> = ({
       content: (
         <div className="space-y-3">
           <p className="text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-300">
-            <strong>Moolies</strong> is a generative digital art ecosystem featuring 2,000 unique owl adventurers living in a decentralized, community-governed realm on Ethereum. Beyond visual aesthetics, Moolies pioneers sustainable NFT tokenomics, gas-minimized ERC-721A architecture, and non-custodial soft-staking (&quot;Nesting&quot;).
+            <strong>Moolies</strong> is a generative digital art ecosystem featuring 2,000 unique Moolies adventurers living in a decentralized, community-governed realm on Ethereum. Beyond visual aesthetics, Moolies pioneers sustainable NFT tokenomics, gas-minimized ERC-721A architecture, and non-custodial soft-staking (&quot;Nesting&quot;).
           </p>
           <div className="p-3.5 rounded-xl bg-amber-50 dark:bg-slate-800 border border-amber-200 dark:border-slate-700 flex items-start gap-2.5">
             <ShieldCheck className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
@@ -68,8 +68,8 @@ export const WhitepaperModal: React.FC<WhitepaperModalProps> = ({
             <span className="font-bold text-emerald-800 dark:text-emerald-300">How Moolies Nesting Works:</span>
             <ul className="space-y-1.5 text-slate-700 dark:text-slate-300 pl-4 list-disc text-xs">
               <li><strong>Zero Custody Loss:</strong> Your Moolie never leaves your cold wallet or hardware device.</li>
-              <li><strong>Zero Gas Staking:</strong> Simply hold your owl in your wallet; nesting begins automatically from your acquisition block.</li>
-              <li><strong>Tiered Multipliers:</strong> Owls nested continuously for 30, 60, and 90 days unlock upgraded physical merch eligibility and exclusive Discord roles.</li>
+              <li><strong>Zero Gas Staking:</strong> Simply hold your Moolie in your wallet; nesting begins automatically from your acquisition block.</li>
+              <li><strong>Tiered Multipliers:</strong> Moolies nested continuously for 30, 60, and 90 days unlock upgraded physical merch eligibility and exclusive Discord roles.</li>
             </ul>
           </div>
         </div>
@@ -85,7 +85,7 @@ export const WhitepaperModal: React.FC<WhitepaperModalProps> = ({
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
             <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-300/40 text-center">
-              <p className="font-black text-amber-600 dark:text-amber-400 text-base">1 Owl = 1 Vote</p>
+              <p className="font-black text-amber-600 dark:text-amber-400 text-base">1 Moolie = 1 Vote</p>
               <p className="text-slate-500 dark:text-slate-400 text-[11px] mt-0.5">Snapshot weighted</p>
             </div>
             <div className="p-3 rounded-xl bg-sky-500/10 border border-sky-300/40 text-center">

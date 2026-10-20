@@ -221,7 +221,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
       default:
         return {
           bg: "bg-sky-100 dark:bg-sky-950/60 text-sky-800 dark:text-sky-300 border-sky-300",
-          text: "Application Under Review by Owl Council",
+          text: "Application Under Review by Moolies Council",
           icon: <Clock className="w-5 h-5 text-sky-600 dark:text-sky-400" />,
         };
     }
@@ -517,7 +517,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                   {isSubmitting ? (
                     <>
                       <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span>Submitting to Owl Council...</span>
+                      <span>Submitting to Moolies Council...</span>
                     </>
                   ) : (
                     <>

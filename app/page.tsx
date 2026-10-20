@@ -4,8 +4,8 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Moolies — The Cozy Interactive NFT Realm",
   description:
-    "Explore the illustrated world of Moolies! A collection of 2,000 lovable owl adventurers tokenized on Ethereum with fair launch tokenomics and non-custodial Nesting.",
-  keywords: ["Moolies", "NFT", "Interactive NFT", "Ethereum", "Web3", "Generative Art", "Owls"],
+    "Explore the illustrated world of Moolies! A collection of 2,000 lovable Moolies adventurers tokenized on Ethereum with fair launch tokenomics and non-custodial Nesting.",
+  keywords: ["Moolies", "NFT", "Interactive NFT", "Ethereum", "Web3", "Generative Art", "Moolies"],
   openGraph: {
     title: "Moolies — The Cozy Interactive NFT Realm",
     description:
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Moolies — Interactive NFT Realm",
-    description: "Explore the illustrated world of Moolies! 2,000 owls living across the sunny meadow and lake.",
+    description: "Explore the illustrated world of Moolies! 2,000 Moolies living across the sunny meadow and lake.",
     images: ["/moolies-world.png"],
     creator: "@moolieshq",
   },
@@ -37,7 +37,7 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name: "Moolies NFT Collection",
-    description: "An interactive, illustrated NFT world featuring 2,000 generative owls on Ethereum.",
+    description: "An interactive, illustrated NFT world featuring 2,000 generative Moolies on Ethereum.",
     image: "https://moolies.world/moolies-world.png",
     author: {
       "@type": "Organization",

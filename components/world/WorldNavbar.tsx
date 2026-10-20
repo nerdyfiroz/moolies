@@ -90,7 +90,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
                 fontFamily: 'var(--font-cooper-black), "Cooper Black", "Caprasimo", serif',
               }}
             >
-              2,000 Genesis Owls
+              2,000 Genesis Moolies
             </span>
             <Sparkles className="w-3.5 h-3.5 text-purple-300 hidden sm:inline group-hover:rotate-12 transition-transform" />
           </button>
