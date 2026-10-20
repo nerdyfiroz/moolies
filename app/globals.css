@@ -1,9 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik+Wet+Paint&family=Rubik+Bubbles&family=Modak&family=Sedgwick+Ave+Display&family=DynaPuff:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Rubik+Wet+Paint&family=Rubik+Bubbles&family=Modak&family=Sedgwick+Ave+Display&family=DynaPuff:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+
+@font-face {
+  font-family: 'Cooper Black';
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+  src: local('Cooper Black'),
+       local('Cooper-Black'),
+       local('Cooper'),
+       url('https://cdn.jsdelivr.net/npm/fonts-archive-cooper-black/CooperBlack-Regular.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/npm/fonts-archive-cooper-black/CooperBlack-Regular.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/npm/fonts-archive-cooper-black/CooperBlack-Regular.ttf') format('truetype');
+}
 
 :root {
   --background: #5fc2ea;
   --foreground: #0f172a;
+  --font-cooper: 'Cooper Black', 'Cooper-Black', 'Cooper', 'Caprasimo', cursive, serif;
   --font-drip: 'Rubik Wet Paint', cursive, display;
   --font-bubble: 'Rubik Bubbles', 'Modak', cursive, display;
   --font-cartoon: 'DynaPuff', 'Fredoka', cursive, sans-serif;
@@ -16,6 +30,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-cooper: 'Cooper Black', 'Cooper-Black', 'Cooper', 'Caprasimo', cursive, serif;
   --font-drip: 'Rubik Wet Paint', cursive, display;
   --font-bubble: 'Rubik Bubbles', 'Modak', cursive, display;
   --font-cartoon: 'DynaPuff', 'Fredoka', cursive, sans-serif;
@@ -67,6 +82,61 @@ body {
     max-height: 100dvh;
     aspect-ratio: auto;
   }
+}
+
+/* Cooper Black & Display Font Utility Classes */
+.font-cooper {
+  font-family: var(--font-cooper), 'Cooper Black', 'Caprasimo', cursive, serif !important;
+  letter-spacing: 0.02em;
+}
+
+.navbar-cooper-text {
+  font-family: var(--font-cooper), 'Cooper Black', 'Caprasimo', cursive, serif !important;
+  letter-spacing: 0.025em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Moolies Brand Title in Navbar with Cooper Black + Glossy Purple Drip */
+.moolies-cooper-brand {
+  font-family: var(--font-cooper), 'Cooper Black', 'Caprasimo', cursive, serif !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.05em;
+  background: linear-gradient(180deg, #ffffff 0%, #f5d0fe 22%, #d8b4fe 48%, #a855f7 75%, #6b21a8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 0 #180828) drop-shadow(0 3px 8px rgba(168, 85, 247, 0.65));
+  position: relative;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+/* Subtle organic liquid wobble animation for hanging drip droplets */
+@keyframes drip-hang {
+  0%, 100% {
+    transform: scaleY(1) translateY(0);
+  }
+  50% {
+    transform: scaleY(1.18) translateY(1.5px);
+  }
+}
+
+@keyframes drip-pulse-glow {
+  0%, 100% {
+    filter: drop-shadow(0 2px 4px rgba(168, 85, 247, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 4px 12px rgba(217, 70, 239, 0.85));
+  }
+}
+
+.animate-drip-hang {
+  transform-origin: top center;
+  animation: drip-hang 2.8s ease-in-out infinite;
+}
+
+.animate-drip-glow {
+  animation: drip-pulse-glow 2.4s ease-in-out infinite;
 }
 
 /* Dripping Bubble / Graffiti / Cartoon Display Font Utility Classes */
