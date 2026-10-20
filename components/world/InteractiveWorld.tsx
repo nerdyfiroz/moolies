@@ -3,7 +3,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { WorldHotspot } from "@/components/world/WorldHotspot";
-import { XLogo } from "@/components/world/WorldNavbar";
 import { WORLD_HOTSPOTS } from "@/lib/data/hotspots";
 
 // The 4 Section Modals (5th Section is Project Twitter direct link)
@@ -152,29 +151,12 @@ export const InteractiveWorld: React.FC = () => {
           {/* Living World Ambient Atmosphere (Continuous Clouds Left-to-Right, River Waves, Flying Butterflies) */}
           <LivingWorldEffects />
 
-          {/* Section 5: Official Project X (Twitter) Quick Access Button on Artwork */}
-          <a
-            href="https://x.com/moolieshq"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Follow Official Project on X / Twitter (@moolieshq)"
-            style={{
-              right: "2.5%",
-              top: "14.0%",
-            }}
-            className="absolute z-30 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-slate-950/90 hover:bg-black text-white hover:text-amber-300 backdrop-blur-md border border-slate-700/80 hover:border-amber-400 shadow-xl cursor-pointer transition-all hover:scale-105 active:scale-95"
-            aria-label="Official Project X Twitter"
-          >
-            <XLogo className="w-4 h-4 sm:w-5 sm:h-5 text-current" />
-          </a>
-
           {/*
             Interactive landmark hotspots on the artwork:
             1. OpenSea Sign (Left tree trunk) -> OpenSea Coming Soon Modal
             2. Whitelist (Treehouse porch) -> Whitelist Modal
             3. Roadmap (Meadow goalpost) -> Roadmap Modal
             4. Collection Details (2,000 Supply board on right) -> Collection Details Modal
-            (5. Project Twitter is the X link button at top right)
           */}
           {WORLD_HOTSPOTS.map((hotspot) => (
             <WorldHotspot
