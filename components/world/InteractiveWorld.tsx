@@ -11,7 +11,7 @@ import { WhitelistModal } from "@/components/modals/WhitelistModal";
 import { CollectionDetailsModal } from "@/components/modals/CollectionDetailsModal";
 import { RoadmapModal } from "@/components/modals/RoadmapModal";
 import { LivingWorldEffects } from "@/components/world/LivingWorldEffects";
-import { CinematicDoorGate } from "@/components/world/CinematicDoorGate";
+import { MooliesGatewayLoader } from "@/components/world/MooliesGatewayLoader";
 import { ScoutedNavbarArrival } from "@/components/world/ScoutedNavbarArrival";
 
 // The 4 interactive modal sections
@@ -103,9 +103,9 @@ export const InteractiveWorld: React.FC = () => {
 
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden bg-[#5fc2ea] select-none">
-      {/* Cinematic Wooden Door Gate Entry Loading Interface */}
+      {/* Modern Cinematic Moolies Gateway Loading Interface */}
       {!hasEntered && (
-        <CinematicDoorGate onEnter={() => setHasEntered(true)} />
+        <MooliesGatewayLoader onEnter={() => setHasEntered(true)} />
       )}
 
       {/* Floating Navbar: Hidden at first, scouts in with butterflies on canvas click */}

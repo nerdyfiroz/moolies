@@ -70,7 +70,7 @@ export const NFTExplorerModal: React.FC<NFTExplorerModalProps> = ({ isOpen, onCl
         <div className="px-4 py-2.5 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/60 flex items-center justify-between text-xs text-purple-800 dark:text-purple-300">
           <span className="flex items-center gap-1.5 font-medium">
             <Sparkles className="w-4 h-4 text-purple-500" />
-            <span><strong>Live Demo Metadata:</strong> Showing preview samples from the Genesis 2,000 collection trait generator.</span>
+            <span><strong>Live Demo Metadata:</strong> Showing preview samples from the PFP 2,000 collection trait generator.</span>
           </span>
           <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-purple-200 dark:bg-purple-900 text-purple-900 dark:text-purple-200">
             Preview Mode

@@ -96,7 +96,7 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
               </h3>
 
               <p className="font-cartoon text-xs sm:text-sm text-purple-200/90 max-w-sm mx-auto leading-relaxed font-medium">
-                The official Moolies Genesis secondary collection on <strong className="text-purple-200">OpenSea</strong> will unlock immediately following our Whitelist &amp; Public Mint reveal!
+                The official Moolies PFP secondary collection on <strong className="text-purple-200">OpenSea</strong> will unlock immediately following our Whitelist &amp; Public Mint reveal!
               </p>
             </div>
 

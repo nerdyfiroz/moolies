@@ -29,7 +29,7 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({
       isOpen={isOpen}
       onClose={onClose}
       title="The Moolies Realm"
-      subtitle="Genesis Moolies Collection & Metaverse Ecosystem"
+      subtitle="Moolies PFP Collection & Metaverse Ecosystem"
       icon={<Sparkles className="w-6 h-6 text-amber-500" />}
       badge="Genesis 2,000"
       maxWidth="max-w-4xl"

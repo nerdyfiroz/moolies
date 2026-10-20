@@ -72,7 +72,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           <button
             type="button"
             onClick={onOpenCollectionDetails}
-            title="Moolies Genesis Collection"
+            title="Moolies PFP Collection"
             className="px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-2xl bg-slate-950/90 text-white backdrop-blur-none border border-purple-400/60 shadow-[0_4px_22px_rgba(147,51,234,0.4)] flex items-center gap-1.5 sm:gap-2 hover:border-purple-300 transition-all cursor-pointer group shrink-0 relative overflow-visible"
           >
             {/* Cooper Black Brand Title with Glossy Slime Drip */}
