@@ -268,7 +268,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
         {activeTab === "apply" && (
           <div>
             {!isWhitelistOpen ? (
-              <div className="p-6 rounded-2xl bg-purple-950/40 border border-purple-500/30 text-center space-y-3">
+              <div className="p-6 rounded-2xl bg-purple-950/25 backdrop-blur-sm border border-purple-500/25 text-center space-y-3">
                 <ShieldAlert className="w-10 h-10 mx-auto text-purple-400" />
                 <h3 className="font-moolies moolies-title-gradient text-lg sm:text-xl font-bold">
                   The Whitelist Window is Currently Closed
@@ -288,7 +288,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                 </div>
               </div>
             ) : submitSuccess ? (
-              <div className="p-6 rounded-2xl bg-purple-950/50 border border-purple-400/50 text-center space-y-4">
+              <div className="p-6 rounded-2xl bg-purple-950/25 backdrop-blur-sm border border-purple-400/40 text-center space-y-4">
                 <div className="w-14 h-14 rounded-full bg-purple-500/20 text-purple-300 mx-auto flex items-center justify-center border border-purple-400/40">
                   <CheckCircle2 className="w-8 h-8 text-emerald-400" />
                 </div>
@@ -304,7 +304,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                   </p>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-purple-950/60 border border-purple-500/30 text-xs text-left max-w-sm mx-auto space-y-1">
+                <div className="p-3.5 rounded-xl bg-purple-950/35 border border-purple-500/25 text-xs text-left max-w-sm mx-auto space-y-1">
                   <div className="flex justify-between">
                     <span className="text-purple-300/70">Application ID:</span>
                     <span className="font-mono font-semibold text-purple-200">
@@ -360,7 +360,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                 />
 
                 {/* ===== DYNAMIC WHITELIST TASKS SECTION ===== */}
-                <div className="p-5 rounded-2xl bg-purple-950/35 border border-purple-500/30 space-y-4">
+                <div className="p-5 rounded-2xl bg-purple-950/25 backdrop-blur-sm border border-purple-500/25 space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
                       <div className="w-9 h-9 rounded-xl bg-purple-950 border border-purple-500/40 flex items-center justify-center">
@@ -569,7 +569,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
             )}
 
             {checkResult && (
-              <div className="p-5 rounded-2xl bg-purple-950/35 border border-purple-500/30 space-y-3">
+              <div className="p-5 rounded-2xl bg-purple-950/25 backdrop-blur-sm border border-purple-500/25 space-y-3">
                 {!checkResult.found ? (
                   <div className="text-center py-4">
                     <AlertCircle className="w-8 h-8 mx-auto text-purple-400 mb-2" />

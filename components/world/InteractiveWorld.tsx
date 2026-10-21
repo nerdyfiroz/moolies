@@ -117,6 +117,7 @@ export const InteractiveWorld: React.FC = () => {
         onOpenCollectionDetails={handleNavCollection}
         onOpenRoadmap={handleNavRoadmap}
         activeSection={activeModal}
+        onClose={() => setNavbarState("hidden")}
       />
 
       {/* Full-Screen Edge-to-Edge Main Viewport with Panning */}

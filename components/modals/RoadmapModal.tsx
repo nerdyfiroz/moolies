@@ -30,7 +30,7 @@ export const RoadmapModal: React.FC<RoadmapModalProps> = ({
     >
       <div className="space-y-6">
         {/* Goalpost Header Banner */}
-        <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-purple-950/80 via-indigo-950/70 to-purple-950/80 border border-purple-500/40 text-white shadow-lg space-y-2">
+        <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-purple-950/40 via-indigo-950/35 to-purple-950/40 backdrop-blur-sm border border-purple-500/30 text-white shadow-lg space-y-2">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full moolies-bubble-badge text-xs font-black uppercase tracking-wider">
               <Flag className="w-3.5 h-3.5 text-purple-300" />
@@ -62,12 +62,12 @@ export const RoadmapModal: React.FC<RoadmapModalProps> = ({
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ delay: 0.08 * idx, type: "spring", stiffness: 350, damping: 25 }}
                 whileHover={{ scale: 1.02, y: -2 }}
-                className={`p-5 rounded-3xl border-2 transition-all flex flex-col justify-between backdrop-blur-none ${
+                className={`p-5 rounded-3xl border-2 transition-all flex flex-col justify-between backdrop-blur-sm ${
                   isInProgress
-                    ? "border-purple-400 bg-purple-950/45 shadow-[0_0_25px_rgba(168,85,247,0.25)]"
+                    ? "border-purple-400 bg-purple-950/35 shadow-[0_0_25px_rgba(168,85,247,0.2)]"
                     : isCompleted
-                    ? "border-emerald-400/80 bg-emerald-950/30"
-                    : "border-purple-500/25 bg-purple-950/30"
+                    ? "border-emerald-400/80 bg-emerald-950/25"
+                    : "border-purple-500/25 bg-purple-950/20"
                 }`}
               >
                 <div className="space-y-3">
@@ -134,7 +134,7 @@ export const RoadmapModal: React.FC<RoadmapModalProps> = ({
 
         {/* Bottom Whitelist Prompt */}
         {onOpenWhitelist && (
-          <div className="p-4 rounded-2xl bg-purple-950/40 border border-purple-500/30 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="p-4 rounded-2xl bg-purple-950/25 backdrop-blur-sm border border-purple-500/25 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-xs text-purple-200">
               <ShieldCheck className="w-5 h-5 text-purple-300 shrink-0" />
               <span>Be part of Goal 2: Apply for early guaranteed Whitelist minting privileges.</span>

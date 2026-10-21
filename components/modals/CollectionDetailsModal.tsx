@@ -25,13 +25,13 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
             if (e.target === e.currentTarget) onClose();
           }}
         >
-          {/* Backdrop: Visible background without blur */}
+          {/* Backdrop: Translucent background */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-950/40 backdrop-blur-none"
+            className="fixed inset-0 bg-slate-950/25 backdrop-blur-sm"
             aria-hidden="true"
           />
 
@@ -42,7 +42,7 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
             exit={{ scale: 0.88, opacity: 0, y: 25 }}
             transition={{ type: "spring", stiffness: 380, damping: 26 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-2xl rounded-3xl bg-slate-950/75 backdrop-blur-none text-white border-2 border-purple-400/50 shadow-[0_25px_60px_-15px_rgba(147,51,234,0.45),0_0_40px_rgba(168,85,247,0.25)] overflow-visible z-10 flex flex-col max-h-[90vh] font-cartoon"
+            className="relative w-full max-w-2xl rounded-3xl bg-slate-950/40 backdrop-blur-md text-white border border-purple-400/40 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5),0_0_40px_rgba(168,85,247,0.25)] overflow-visible z-10 flex flex-col max-h-[90vh] font-cartoon"
           >
             {/* 2 Flying Butterflies fixed to top-left and top-right corners */}
             <CornerButterflies />
@@ -50,7 +50,7 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
             {/* Inner Content Wrapper */}
             <div className="overflow-hidden rounded-3xl flex flex-col flex-1 max-h-full">
             {/* Header Banner */}
-            <div className="relative p-6 sm:p-7 bg-gradient-to-r from-purple-950/85 via-slate-950/75 to-purple-950/85 border-b border-purple-500/35 text-white flex items-start justify-between shrink-0">
+            <div className="relative p-6 sm:p-7 bg-gradient-to-r from-purple-950/40 via-slate-950/30 to-purple-950/40 border-b border-purple-500/25 text-white flex items-start justify-between shrink-0">
               <div className="space-y-1">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-bubble moolies-bubble-badge text-[11px] font-black uppercase tracking-wider">
                   <Coins className="w-3.5 h-3.5 text-purple-300" />
@@ -67,7 +67,7 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="w-10 h-10 rounded-full bg-purple-950/60 hover:bg-purple-900/80 text-purple-200 hover:text-white flex items-center justify-center cursor-pointer transition-colors border border-purple-500/40 hover:border-purple-400"
+                className="w-10 h-10 rounded-full bg-purple-950/40 hover:bg-purple-900/60 text-purple-200 hover:text-white flex items-center justify-center cursor-pointer transition-colors border border-purple-500/40 hover:border-purple-400"
                 aria-label="Close"
               >
                 <X className="w-5 h-5" />
@@ -90,7 +90,7 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     transition={{ delay: 0.08 * idx, type: "spring", stiffness: 360, damping: 24 }}
                     whileHover={{ scale: 1.04, y: -2 }}
-                    className="p-3.5 rounded-2xl bg-purple-950/40 border border-purple-500/30 text-center shadow-lg hover:border-purple-400/60 transition-all"
+                    className="p-3.5 rounded-2xl bg-purple-950/25 backdrop-blur-sm border border-purple-500/25 text-center shadow-lg hover:border-purple-400/60 transition-all"
                   >
                     <p className="font-moolies text-[10px] uppercase font-bold text-purple-300/80 tracking-wider">
                       {stat.label}
@@ -108,7 +108,7 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.32, duration: 0.4 }}
-                className="p-4 rounded-2xl bg-purple-950/35 border border-purple-500/30 space-y-3"
+                className="p-4 rounded-2xl bg-purple-950/25 backdrop-blur-sm border border-purple-500/20 space-y-3"
               >
                 <div className="flex items-center gap-2 text-purple-300 font-moolies font-bold text-sm">
                   <Layers className="w-4 h-4 text-purple-400" />
@@ -118,15 +118,15 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
                   Hand-drawn vector artwork with 6-10 distinct trait layers: Background Realm, Feather Texture, Beanie &amp; Hats, Expressions, Eyewear, Outfits, and Meadow Held Items (including Boba Tea and Meadow Soccer Ball).
                 </p>
                 <div className="grid grid-cols-3 gap-2 pt-1 text-center text-xs">
-                  <div className="p-2 rounded-xl bg-purple-950/50 border border-purple-500/30">
+                  <div className="p-2 rounded-xl bg-purple-950/35 border border-purple-500/25">
                     <span className="font-moolies text-purple-300/70 text-[10px] block">Trait Layers</span>
                     <strong className="font-moolies text-white text-sm">6-10 Layers</strong>
                   </div>
-                  <div className="p-2 rounded-xl bg-purple-950/50 border border-purple-500/30">
+                  <div className="p-2 rounded-xl bg-purple-950/35 border border-purple-500/25">
                     <span className="font-moolies text-purple-300/70 text-[10px] block">Traits per Moolie</span>
                     <strong className="font-moolies text-fuchsia-300 text-sm">6-10 Traits</strong>
                   </div>
-                  <div className="p-2 rounded-xl bg-purple-950/50 border border-purple-500/30">
+                  <div className="p-2 rounded-xl bg-purple-950/35 border border-purple-500/25">
                     <span className="font-moolies text-purple-300/70 text-[10px] block">1-of-1 Legendaries</span>
                     <strong className="font-moolies text-emerald-300 text-sm">10 Moolies</strong>
                   </div>
@@ -138,7 +138,7 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.4 }}
-                className="p-4 rounded-2xl bg-purple-950/35 border border-purple-500/30 space-y-2.5"
+                className="p-4 rounded-2xl bg-purple-950/25 backdrop-blur-sm border border-purple-500/20 space-y-2.5"
               >
                 <div className="flex items-center gap-2 text-fuchsia-300 font-moolies font-bold text-sm">
                   <Award className="w-4 h-4 text-fuchsia-400" />
@@ -162,7 +162,7 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
             </div>
 
             {/* Footer Action */}
-            <div className="p-4 bg-slate-950/70 border-t border-purple-500/30 flex items-center justify-between gap-3 shrink-0">
+            <div className="p-4 bg-slate-950/40 backdrop-blur-sm border-t border-purple-500/25 flex items-center justify-between gap-3 shrink-0">
               <span className="text-xs text-purple-300/70 hidden sm:inline font-medium">
                 Need early mint access? Apply to the whitelist!
               </span>
@@ -183,7 +183,7 @@ export const CollectionDetailsModal: React.FC<CollectionDetailsModalProps> = ({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="py-2.5 px-4 rounded-xl bg-purple-950/60 hover:bg-purple-900/80 text-purple-200 text-xs font-semibold cursor-pointer border border-purple-500/40"
+                  className="py-2.5 px-4 rounded-xl bg-purple-950/40 hover:bg-purple-900/60 text-purple-200 text-xs font-semibold cursor-pointer border border-purple-500/30"
                 >
                   Close
                 </button>

@@ -25,13 +25,13 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
             if (e.target === e.currentTarget) onClose();
           }}
         >
-          {/* Backdrop: Visible background without blur */}
+          {/* Backdrop: Translucent background */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-950/40 backdrop-blur-none"
+            className="fixed inset-0 bg-slate-950/25 backdrop-blur-sm"
             aria-hidden="true"
           />
 
@@ -42,7 +42,7 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
             exit={{ scale: 0.85, opacity: 0, y: 20 }}
             transition={{ type: "spring", stiffness: 380, damping: 25 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-lg rounded-3xl bg-slate-950/75 backdrop-blur-none text-white border-2 border-purple-400/50 shadow-[0_25px_60px_-15px_rgba(147,51,234,0.45),0_0_40px_rgba(168,85,247,0.25)] overflow-visible z-10 p-6 sm:p-8 space-y-6 text-center font-cartoon"
+            className="relative w-full max-w-lg rounded-3xl bg-slate-950/40 backdrop-blur-md text-white border border-purple-400/40 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5),0_0_40px_rgba(168,85,247,0.25)] overflow-visible z-10 p-6 sm:p-8 space-y-6 text-center font-cartoon"
           >
             {/* 2 Flying Butterflies fixed to the top-left and top-right corners */}
             <CornerButterflies />
@@ -50,7 +50,7 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="absolute top-4 right-4 w-9 h-9 rounded-full bg-purple-950/60 hover:bg-purple-900/80 text-purple-200 hover:text-white flex items-center justify-center cursor-pointer transition-colors border border-purple-500/40"
+              className="absolute top-4 right-4 w-9 h-9 rounded-full bg-purple-950/40 hover:bg-purple-900/60 text-purple-200 hover:text-white flex items-center justify-center cursor-pointer transition-colors border border-purple-500/40"
               aria-label="Close"
             >
               <X className="w-5 h-5" />
@@ -101,7 +101,7 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
             </div>
 
             {/* Highlights Grid with Staggered Animation */}
-            <div className="grid grid-cols-3 gap-2.5 p-4 rounded-2xl bg-purple-950/40 border border-purple-500/30 text-left text-xs">
+            <div className="grid grid-cols-3 gap-2.5 p-4 rounded-2xl bg-purple-950/25 backdrop-blur-sm border border-purple-500/25 text-left text-xs">
               {[
                 { label: "Mint Date", val: "TBA", color: "text-purple-300" },
                 { label: "Mint Price", val: "TBA", color: "text-fuchsia-300" },
@@ -139,7 +139,7 @@ export const OpenSeaComingSoonModal: React.FC<OpenSeaComingSoonModalProps> = ({
                 href="https://x.com/moolieshq"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:flex-1 py-3 px-4 rounded-2xl bg-purple-950/60 hover:bg-purple-900/80 text-purple-200 hover:text-white font-moolies font-bold text-xs flex items-center justify-center gap-1.5 border border-purple-500/40 transition-colors"
+                className="w-full sm:flex-1 py-3 px-4 rounded-2xl bg-purple-950/40 hover:bg-purple-900/60 text-purple-200 hover:text-white font-moolies font-bold text-xs flex items-center justify-center gap-1.5 border border-purple-500/30 transition-colors"
               >
                 <span>Follow on X</span>
                 <ExternalLink className="w-3.5 h-3.5 text-purple-300" />

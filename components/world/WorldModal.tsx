@@ -58,14 +58,14 @@ export const WorldModal: React.FC<WorldModalProps> = ({
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-          {/* Backdrop: Visible, clear background without any blur */}
+          {/* Backdrop: Translucent background */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={handleClose}
-            className="fixed inset-0 bg-slate-950/40 backdrop-blur-none"
+            className="fixed inset-0 bg-slate-950/25 backdrop-blur-sm"
             aria-hidden="true"
           />
 
@@ -79,7 +79,7 @@ export const WorldModal: React.FC<WorldModalProps> = ({
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-title"
-            className={`relative w-full ${maxWidth} bg-slate-950/75 backdrop-blur-none border-2 border-purple-400/50 rounded-3xl shadow-[0_25px_60px_-15px_rgba(147,51,234,0.45),0_0_40px_rgba(168,85,247,0.25)] overflow-visible my-auto z-10 flex flex-col max-h-[90vh] text-purple-100 font-cartoon`}
+            className={`relative w-full ${maxWidth} bg-slate-950/40 backdrop-blur-md border border-purple-400/40 rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5),0_0_40px_rgba(168,85,247,0.25)] overflow-visible my-auto z-10 flex flex-col max-h-[90vh] text-purple-100 font-cartoon`}
           >
             {/* 2 Flying Butterflies fixed to the top-left and top-right corners */}
             <CornerButterflies />
@@ -87,7 +87,7 @@ export const WorldModal: React.FC<WorldModalProps> = ({
             {/* Inner Content Wrapper */}
             <div className="overflow-hidden rounded-3xl flex flex-col flex-1 max-h-full">
             {/* Modal Header */}
-            <div className="relative px-6 py-5 bg-gradient-to-r from-purple-950/85 via-slate-950/75 to-purple-950/85 border-b border-purple-500/35 flex items-center justify-between shrink-0">
+            <div className="relative px-6 py-5 bg-gradient-to-r from-purple-950/40 via-slate-950/30 to-purple-950/40 border-b border-purple-500/25 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3.5 pr-8">
                 {icon && (
                   <div className="w-11 h-11 rounded-2xl bg-purple-500/20 text-purple-300 flex items-center justify-center shrink-0 shadow-sm border border-purple-400/40">
@@ -121,7 +121,7 @@ export const WorldModal: React.FC<WorldModalProps> = ({
                 type="button"
                 onClick={handleClose}
                 aria-label="Close dialog"
-                className="w-10 h-10 rounded-full bg-purple-950/60 hover:bg-purple-900/80 text-purple-200 hover:text-white transition-all flex items-center justify-center shrink-0 border border-purple-500/40 hover:border-purple-400 shadow-md focus:outline-none focus:ring-2 focus:ring-purple-400 cursor-pointer font-cartoon"
+                className="w-10 h-10 rounded-full bg-purple-950/40 hover:bg-purple-900/60 text-purple-200 hover:text-white transition-all flex items-center justify-center shrink-0 border border-purple-500/40 hover:border-purple-400 shadow-md focus:outline-none focus:ring-2 focus:ring-purple-400 cursor-pointer font-cartoon"
               >
                 <X className="w-5 h-5" />
               </button>
