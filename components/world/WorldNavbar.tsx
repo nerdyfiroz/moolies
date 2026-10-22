@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion, type Variants } from "framer-motion";
 import { Sparkles, ExternalLink, X } from "lucide-react";
 
 interface WorldNavbarProps {
@@ -11,6 +12,62 @@ interface WorldNavbarProps {
   activeSection?: "opensea" | "whitelist" | "collection" | "roadmap" | null;
   onClose?: () => void;
 }
+
+// Staggered column reveal variants
+const cardVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.92, y: 15 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: [0.16, 1, 0.3, 1],
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const headerVariants: Variants = {
+  hidden: { opacity: 0, y: -10, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 350,
+      damping: 24,
+    },
+  },
+};
+
+const buttonVariants: Variants = {
+  hidden: { opacity: 0, y: 18, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 380,
+      damping: 22,
+    },
+  },
+};
+
+const dripVariants: Variants = {
+  hidden: { opacity: 0, scaleY: 0 },
+  visible: {
+    opacity: 1,
+    scaleY: 1,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+    },
+  },
+};
 
 // Official X (Twitter) Logo SVG Component
 export const XLogo = ({ className = "w-4 h-4" }: { className?: string }) => (
@@ -79,8 +136,13 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
         </defs>
       </svg>
 
-      {/* Floating Vertical Column Navigation in Middle / Docked on Screen */}
-      <div className="relative w-64 sm:w-72 rounded-3xl bg-slate-950/75 backdrop-blur-md border-2 border-purple-400/50 shadow-[0_20px_50px_rgba(0,0,0,0.55),0_0_35px_rgba(147,51,234,0.35)] p-4 flex flex-col gap-2.5 pointer-events-auto select-none overflow-visible transition-all duration-300">
+      {/* Floating Vertical Column Navigation with Staggered Entrance Animation */}
+      <motion.div
+        variants={cardVariants}
+        initial="hidden"
+        animate="visible"
+        className="relative w-64 sm:w-72 rounded-3xl bg-slate-950/75 backdrop-blur-md border-2 border-purple-400/50 shadow-[0_20px_50px_rgba(0,0,0,0.55),0_0_35px_rgba(147,51,234,0.35)] p-4 flex flex-col gap-2.5 pointer-events-auto select-none overflow-visible transition-all duration-300"
+      >
         {/* Optional Close / Minimize Button in Top-Right when a section is active */}
         {onClose && (
           <button
@@ -94,7 +156,8 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
         )}
 
         {/* Brand Header */}
-        <div
+        <motion.div
+          variants={headerVariants}
           className={`relative flex flex-col items-center text-center pt-1 pb-2 transition-all duration-300 ${
             hasActive ? "filter blur-[2px] opacity-50" : "filter-none opacity-100"
           }`}
@@ -141,7 +204,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
             <circle cx="91" cy="13" r="1.6" fill="#fdf4ff" opacity="0.9" />
             <circle cx="131" cy="12" r="1.5" fill="#fdf4ff" opacity="0.9" />
           </svg>
-        </div>
+        </motion.div>
 
         {/* Glowing Subtle Divider */}
         <div
@@ -150,184 +213,196 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           }`}
         />
 
-        {/* 5 Distinctive Sections Stacked in a Column */}
+        {/* 5 Distinctive Sections Revealed One After Another in Staggered Column */}
         <nav aria-label="Core Realm Sections" className="flex flex-col gap-2 w-full">
           {/* Section 1: OpenSea */}
-          <button
-            type="button"
-            onClick={onOpenOpenSea}
-            className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between group relative ${
-              isOpenSeaActive
-                ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
-                : hasActive
-                ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/60"
-                : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <span className={`text-base transition-transform ${isOpenSeaActive ? "scale-115" : "group-hover:scale-110"}`}>
-                ⛵
-              </span>
-              <span
-                className={`font-cooper text-sm font-black tracking-wide ${
-                  isOpenSeaActive
-                    ? "navbar-drip-text-active"
-                    : "navbar-drip-text group-hover:brightness-125"
-                }`}
-                style={{
-                  fontFamily: 'var(--font-cooper-black), "Cooper Black", "Caprasimo", serif',
-                }}
-              >
-                OpenSea
-              </span>
-            </div>
-            {isOpenSeaActive ? (
-              <ActiveDripDrop />
-            ) : (
-              <span className="text-[10px] font-mono text-purple-300/60 uppercase">Market</span>
-            )}
-          </button>
+          <motion.div variants={buttonVariants}>
+            <button
+              type="button"
+              onClick={onOpenOpenSea}
+              className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between group relative ${
+                isOpenSeaActive
+                  ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
+                  : hasActive
+                  ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/60"
+                  : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <span className={`text-base transition-transform ${isOpenSeaActive ? "scale-115" : "group-hover:scale-110"}`}>
+                  ⛵
+                </span>
+                <span
+                  className={`font-cooper text-sm font-black tracking-wide ${
+                    isOpenSeaActive
+                      ? "navbar-drip-text-active"
+                      : "navbar-drip-text group-hover:brightness-125"
+                  }`}
+                  style={{
+                    fontFamily: 'var(--font-cooper-black), "Cooper Black", "Caprasimo", serif',
+                  }}
+                >
+                  OpenSea
+                </span>
+              </div>
+              {isOpenSeaActive ? (
+                <ActiveDripDrop />
+              ) : (
+                <span className="text-[10px] font-mono text-purple-300/60 uppercase">Market</span>
+              )}
+            </button>
+          </motion.div>
 
           {/* Section 2: Whitelist */}
-          <button
-            type="button"
-            onClick={onOpenWhitelist}
-            className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between group relative ${
-              isWhitelistActive
-                ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
-                : hasActive
-                ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/60"
-                : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <span className={`text-base transition-transform ${isWhitelistActive ? "scale-115" : "group-hover:scale-110"}`}>
-                🦉
-              </span>
-              <span
-                className={`font-cooper text-sm font-black tracking-wide ${
-                  isWhitelistActive
-                    ? "navbar-drip-text-active"
-                    : "navbar-drip-text group-hover:brightness-125"
-                }`}
-                style={{
-                  fontFamily: 'var(--font-cooper-black), "Cooper Black", "Caprasimo", serif',
-                }}
-              >
-                Whitelist
-              </span>
-            </div>
-            {isWhitelistActive ? (
-              <ActiveDripDrop />
-            ) : (
-              <span className="text-[10px] font-mono text-purple-300/60 uppercase">Access</span>
-            )}
-          </button>
+          <motion.div variants={buttonVariants}>
+            <button
+              type="button"
+              onClick={onOpenWhitelist}
+              className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between group relative ${
+                isWhitelistActive
+                  ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
+                  : hasActive
+                  ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/60"
+                  : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <span className={`text-base transition-transform ${isWhitelistActive ? "scale-115" : "group-hover:scale-110"}`}>
+                  🦉
+                </span>
+                <span
+                  className={`font-cooper text-sm font-black tracking-wide ${
+                    isWhitelistActive
+                      ? "navbar-drip-text-active"
+                      : "navbar-drip-text group-hover:brightness-125"
+                  }`}
+                  style={{
+                    fontFamily: 'var(--font-cooper-black), "Cooper Black", "Caprasimo", serif',
+                  }}
+                >
+                  Whitelist
+                </span>
+              </div>
+              {isWhitelistActive ? (
+                <ActiveDripDrop />
+              ) : (
+                <span className="text-[10px] font-mono text-purple-300/60 uppercase">Access</span>
+              )}
+            </button>
+          </motion.div>
 
           {/* Section 3: Collection Details */}
-          <button
-            type="button"
-            onClick={onOpenCollectionDetails}
-            className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between group relative ${
-              isCollectionActive
-                ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
-                : hasActive
-                ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/60"
-                : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <span className={`text-base transition-transform ${isCollectionActive ? "scale-115" : "group-hover:scale-110"}`}>
-                📜
-              </span>
-              <span
-                className={`font-cooper text-sm font-black tracking-wide ${
-                  isCollectionActive
-                    ? "navbar-drip-text-active"
-                    : "navbar-drip-text group-hover:brightness-125"
-                }`}
-                style={{
-                  fontFamily: 'var(--font-cooper-black), "Cooper Black", "Caprasimo", serif',
-                }}
-              >
-                Collection
-              </span>
-            </div>
-            {isCollectionActive ? (
-              <ActiveDripDrop />
-            ) : (
-              <span className="text-[10px] font-mono text-purple-300/60 uppercase">Supply</span>
-            )}
-          </button>
+          <motion.div variants={buttonVariants}>
+            <button
+              type="button"
+              onClick={onOpenCollectionDetails}
+              className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between group relative ${
+                isCollectionActive
+                  ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
+                  : hasActive
+                  ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/60"
+                  : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <span className={`text-base transition-transform ${isCollectionActive ? "scale-115" : "group-hover:scale-110"}`}>
+                  📜
+                </span>
+                <span
+                  className={`font-cooper text-sm font-black tracking-wide ${
+                    isCollectionActive
+                      ? "navbar-drip-text-active"
+                      : "navbar-drip-text group-hover:brightness-125"
+                  }`}
+                  style={{
+                    fontFamily: 'var(--font-cooper-black), "Cooper Black", "Caprasimo", serif',
+                  }}
+                >
+                  Collection
+                </span>
+              </div>
+              {isCollectionActive ? (
+                <ActiveDripDrop />
+              ) : (
+                <span className="text-[10px] font-mono text-purple-300/60 uppercase">Supply</span>
+              )}
+            </button>
+          </motion.div>
 
           {/* Section 4: Roadmap */}
-          <button
-            type="button"
-            onClick={onOpenRoadmap}
-            className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between group relative ${
-              isRoadmapActive
-                ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
-                : hasActive
-                ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/60"
-                : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <span className={`text-base transition-transform ${isRoadmapActive ? "scale-115" : "group-hover:scale-110"}`}>
-                ⚽
-              </span>
-              <span
-                className={`font-cooper text-sm font-black tracking-wide ${
-                  isRoadmapActive
-                    ? "navbar-drip-text-active"
-                    : "navbar-drip-text group-hover:brightness-125"
-                }`}
-                style={{
-                  fontFamily: 'var(--font-cooper-black), "Cooper Black", "Caprasimo", serif',
-                }}
-              >
-                Roadmap
-              </span>
-            </div>
-            {isRoadmapActive ? (
-              <ActiveDripDrop />
-            ) : (
-              <span className="text-[10px] font-mono text-purple-300/60 uppercase">Goals</span>
-            )}
-          </button>
+          <motion.div variants={buttonVariants}>
+            <button
+              type="button"
+              onClick={onOpenRoadmap}
+              className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between group relative ${
+                isRoadmapActive
+                  ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
+                  : hasActive
+                  ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/60"
+                  : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <span className={`text-base transition-transform ${isRoadmapActive ? "scale-115" : "group-hover:scale-110"}`}>
+                  ⚽
+                </span>
+                <span
+                  className={`font-cooper text-sm font-black tracking-wide ${
+                    isRoadmapActive
+                      ? "navbar-drip-text-active"
+                      : "navbar-drip-text group-hover:brightness-125"
+                  }`}
+                  style={{
+                    fontFamily: 'var(--font-cooper-black), "Cooper Black", "Caprasimo", serif',
+                  }}
+                >
+                  Roadmap
+                </span>
+              </div>
+              {isRoadmapActive ? (
+                <ActiveDripDrop />
+              ) : (
+                <span className="text-[10px] font-mono text-purple-300/60 uppercase">Goals</span>
+              )}
+            </button>
+          </motion.div>
 
           {/* Section 5: Twitter X */}
-          <a
-            href="https://x.com/moolieshq"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Official Moolies Project on X (Twitter)"
-            className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between border group ${
-              hasActive
-                ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border-purple-500/20 text-purple-300/60"
-                : "filter-none opacity-100 bg-purple-950/45 hover:bg-purple-900/65 border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <XLogo className="w-4 h-4 text-purple-200 group-hover:scale-110 transition-transform" />
-              <span
-                className="font-cooper text-sm font-black tracking-wide navbar-drip-text group-hover:brightness-125"
-                style={{
-                  fontFamily: 'var(--font-cooper-black), "Cooper Black", "Caprasimo", serif',
-                }}
-              >
-                Twitter
-              </span>
-            </div>
-            <ExternalLink className="w-3.5 h-3.5 text-purple-300 group-hover:translate-x-0.5 transition-transform" />
-          </a>
+          <motion.div variants={buttonVariants}>
+            <a
+              href="https://x.com/moolieshq"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Official Moolies Project on X (Twitter)"
+              className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between border group ${
+                hasActive
+                  ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border-purple-500/20 text-purple-300/60"
+                  : "filter-none opacity-100 bg-purple-950/45 hover:bg-purple-900/65 border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <XLogo className="w-4 h-4 text-purple-200 group-hover:scale-110 transition-transform" />
+                <span
+                  className="font-cooper text-sm font-black tracking-wide navbar-drip-text group-hover:brightness-125"
+                  style={{
+                    fontFamily: 'var(--font-cooper-black), "Cooper Black", "Caprasimo", serif',
+                  }}
+                >
+                  Twitter
+                </span>
+              </div>
+              <ExternalLink className="w-3.5 h-3.5 text-purple-300 group-hover:translate-x-0.5 transition-transform" />
+            </a>
+          </motion.div>
         </nav>
 
         {/* SVG Liquid Drips Hanging from Bottom of Column */}
-        <svg
+        <motion.svg
+          variants={dripVariants}
           viewBox="0 0 200 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          style={{ transformOrigin: "top center" }}
           className={`absolute -bottom-3.5 left-1/2 -translate-x-1/2 w-48 h-4 pointer-events-none overflow-visible filter drop-shadow-[0_3px_6px_rgba(147,51,234,0.6)] transition-all duration-300 ${
             hasActive ? "blur-[2px] opacity-40" : "opacity-100"
           }`}
@@ -346,8 +421,8 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           <circle cx="67.5" cy="13" r="1.8" fill="#ffffff" opacity="0.9" />
           <circle cx="121.5" cy="11" r="1.4" fill="#ffffff" opacity="0.9" />
           <circle cx="174" cy="12" r="1.5" fill="#ffffff" opacity="0.9" />
-        </svg>
-      </div>
+        </motion.svg>
+      </motion.div>
     </>
   );
 };

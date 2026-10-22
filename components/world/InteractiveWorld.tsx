@@ -104,25 +104,27 @@ export const InteractiveWorld: React.FC = () => {
         <MooliesGatewayLoader onEnter={() => setHasEntered(true)} />
       )}
 
-      {/* Floating Center/Docked Column Navbar with Section Buttons */}
-      <div
-        className={`fixed inset-0 z-[60] pointer-events-none flex items-center p-4 transition-all duration-500 ease-in-out ${
-          activeModal
-            ? "justify-center md:justify-start md:pl-8 lg:pl-14"
-            : "justify-center"
-        }`}
-      >
-        <div className="pointer-events-auto">
-          <WorldNavbar
-            onOpenOpenSea={handleNavOpenSea}
-            onOpenWhitelist={handleNavWhitelist}
-            onOpenCollectionDetails={handleNavCollection}
-            onOpenRoadmap={handleNavRoadmap}
-            activeSection={activeModal}
-            onClose={activeModal ? closeModal : undefined}
-          />
+      {/* Floating Center/Docked Column Navbar with Section Buttons (reveals with staggered buttons on entry) */}
+      {hasEntered && (
+        <div
+          className={`fixed inset-0 z-[60] pointer-events-none flex items-center p-4 transition-all duration-500 ease-in-out ${
+            activeModal
+              ? "justify-center md:justify-start md:pl-8 lg:pl-14"
+              : "justify-center"
+          }`}
+        >
+          <div className="pointer-events-auto">
+            <WorldNavbar
+              onOpenOpenSea={handleNavOpenSea}
+              onOpenWhitelist={handleNavWhitelist}
+              onOpenCollectionDetails={handleNavCollection}
+              onOpenRoadmap={handleNavRoadmap}
+              activeSection={activeModal}
+              onClose={activeModal ? closeModal : undefined}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Full-Screen Edge-to-Edge Main Viewport with Panning */}
       <main
