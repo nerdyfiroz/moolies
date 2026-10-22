@@ -18,7 +18,8 @@ type SectionModalId = "opensea" | "whitelist" | "collection" | "roadmap" | null;
 
 export const InteractiveWorld: React.FC = () => {
   const [activeModal, setActiveModal] = useState<SectionModalId>(null);
-  const [hasEntered, setHasEntered] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
@@ -62,8 +63,28 @@ export const InteractiveWorld: React.FC = () => {
     isDraggingRef.current = false;
   };
 
-  // Hotspot click handler — opens the corresponding modal
+  // Canvas Click: when user clicks on the page (except on section buttons or modals),
+  // the menu arrives with the animation and the background becomes blurred!
+  const handleCanvasClick = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).closest("button, a, input, [data-hotspot], [role='dialog']")) {
+      return;
+    }
+    if (hasMovedRef.current) {
+      return;
+    }
+
+    if (activeModal) {
+      setActiveModal(null);
+      return;
+    }
+
+    // Toggle menu: opens with animation and blurs background
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  // Hotspot click handler — opens the corresponding modal and shows menu with section highlighted
   const handleHotspotClick = (hotspotId: string) => {
+    setIsMenuOpen(true);
     if (hotspotId === "opensea" || hotspotId === "sign-opensea") {
       setActiveModal("opensea");
     } else if (
@@ -88,26 +109,40 @@ export const InteractiveWorld: React.FC = () => {
   };
 
   // Navbar section triggers
-  const handleNavOpenSea = () => setActiveModal("opensea");
-  const handleNavWhitelist = () => setActiveModal("whitelist");
-  const handleNavCollection = () => setActiveModal("collection");
-  const handleNavRoadmap = () => setActiveModal("roadmap");
+  const handleNavOpenSea = () => {
+    setIsMenuOpen(true);
+    setActiveModal("opensea");
+  };
+  const handleNavWhitelist = () => {
+    setIsMenuOpen(true);
+    setActiveModal("whitelist");
+  };
+  const handleNavCollection = () => {
+    setIsMenuOpen(true);
+    setActiveModal("collection");
+  };
+  const handleNavRoadmap = () => {
+    setIsMenuOpen(true);
+    setActiveModal("roadmap");
+  };
 
   const closeModal = () => {
     setActiveModal(null);
   };
 
+  const isBackgroundBlurred = isMenuOpen || activeModal !== null;
+
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden bg-[#5fc2ea] select-none">
-      {/* Modern Simple Moolies Gateway Loading Interface (0-100% count auto-enter, no audio, no buttons) */}
-      {!hasEntered && (
-        <MooliesGatewayLoader onEnter={() => setHasEntered(true)} />
+      {/* 1. Loading Interface: Only 0-100% count, completely overlays everything until finished */}
+      {isLoading && (
+        <MooliesGatewayLoader onEnter={() => setIsLoading(false)} />
       )}
 
-      {/* Floating Center/Docked Column Navbar with Section Buttons (reveals with staggered buttons on entry) */}
-      {hasEntered && (
+      {/* 2. Menu in Middle: Only arrives when user clicks the page (or a section hotspot) */}
+      {!isLoading && isMenuOpen && (
         <div
-          className={`fixed inset-0 z-[60] pointer-events-none flex items-center p-4 transition-all duration-500 ease-in-out ${
+          className={`fixed inset-0 z-50 pointer-events-none flex items-center p-4 transition-all duration-500 ease-in-out ${
             activeModal
               ? "justify-center md:justify-start md:pl-8 lg:pl-14"
               : "justify-center"
@@ -120,29 +155,37 @@ export const InteractiveWorld: React.FC = () => {
               onOpenCollectionDetails={handleNavCollection}
               onOpenRoadmap={handleNavRoadmap}
               activeSection={activeModal}
-              onClose={activeModal ? closeModal : undefined}
+              onClose={() => {
+                if (activeModal) {
+                  setActiveModal(null);
+                } else {
+                  setIsMenuOpen(false);
+                }
+              }}
             />
           </div>
         </div>
       )}
 
-      {/* Full-Screen Edge-to-Edge Main Viewport with Panning */}
+      {/* 3. Full-Screen Edge-to-Edge Main Viewport with Panning */}
       <main
         ref={scrollContainerRef}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
+        onClick={handleCanvasClick}
         className="relative w-full h-[100dvh] overflow-x-auto overflow-y-hidden select-none bg-[#5fc2ea] no-scrollbar flex items-center justify-start md:justify-center cursor-grab active:cursor-grabbing touch-pan-x"
       >
         {/*
-          World Artwork Canvas — Blurred & Not Live per user request.
-          Static illustration with rich aesthetic Gaussian blur.
+          World Artwork Canvas:
+          Clear upon arrival.
+          When user clicks on the page and menu arrives, background blurs!
         */}
         <div
           className="world-canvas-container relative flex-shrink-0 bg-[#5fc2ea] overflow-hidden scale-[1.04] transition-all duration-700"
           style={{
-            filter: "blur(14px) brightness(0.92)",
+            filter: isBackgroundBlurred ? "blur(14px) brightness(0.92)" : "none",
           }}
         >
           {/* Main Landscape Illustration Image */}
@@ -168,8 +211,12 @@ export const InteractiveWorld: React.FC = () => {
           ))}
         </div>
 
-        {/* Ambient Darkened Tint Overlay for maximum contrast with unblurred elements */}
-        <div className="absolute inset-0 bg-slate-950/20 pointer-events-none z-10" />
+        {/* Ambient Darkened Tint Overlay when background is blurred */}
+        <div
+          className={`absolute inset-0 bg-slate-950/20 pointer-events-none z-10 transition-opacity duration-700 ${
+            isBackgroundBlurred ? "opacity-100" : "opacity-0"
+          }`}
+        />
       </main>
 
       {/* ==================== 5 SECTIONS: MODALS ==================== */}

@@ -63,7 +63,7 @@ export const MooliesGatewayLoader: React.FC<MooliesGatewayLoaderProps> = ({ onEn
       initial={{ opacity: 1 }}
       animate={{ opacity: isWarping ? 0 : 1, scale: isWarping ? 1.05 : 1 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden select-none pointer-events-none"
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden select-none pointer-events-auto"
       style={{
         background:
           "radial-gradient(circle at 50% 50%, #1a0d33 0%, #100824 50%, #080314 85%, #04010a 100%)",
