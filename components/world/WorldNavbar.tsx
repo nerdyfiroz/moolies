@@ -159,7 +159,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
         <motion.div
           variants={headerVariants}
           className={`relative flex flex-col items-center text-center pt-1 pb-2 transition-all duration-300 ${
-            hasActive ? "filter blur-[2px] opacity-50" : "filter-none opacity-100"
+            hasActive ? "filter blur-[1px] opacity-60" : "filter-none opacity-100"
           }`}
         >
           <button
@@ -224,7 +224,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
                 isOpenSeaActive
                   ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
                   : hasActive
-                  ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/60"
+                  ? "filter blur-[2px] opacity-45 scale-95 pointer-events-auto hover:opacity-85 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/70"
                   : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
               }`}
             >
@@ -262,7 +262,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
                 isWhitelistActive
                   ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
                   : hasActive
-                  ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/60"
+                  ? "filter blur-[2px] opacity-45 scale-95 pointer-events-auto hover:opacity-85 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/70"
                   : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
               }`}
             >
@@ -300,7 +300,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
                 isCollectionActive
                   ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
                   : hasActive
-                  ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/60"
+                  ? "filter blur-[2px] opacity-45 scale-95 pointer-events-auto hover:opacity-85 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/70"
                   : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
               }`}
             >
@@ -338,7 +338,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
                 isRoadmapActive
                   ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
                   : hasActive
-                  ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/60"
+                  ? "filter blur-[2px] opacity-45 scale-95 pointer-events-auto hover:opacity-85 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/70"
                   : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
               }`}
             >
@@ -376,7 +376,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
               title="Official Moolies Project on X (Twitter)"
               className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between border group ${
                 hasActive
-                  ? "filter blur-[4px] opacity-35 scale-95 pointer-events-auto hover:opacity-80 hover:blur-none bg-purple-950/20 border-purple-500/20 text-purple-300/60"
+                  ? "filter blur-[2px] opacity-45 scale-95 pointer-events-auto hover:opacity-85 hover:blur-none bg-purple-950/20 border-purple-500/20 text-purple-300/70"
                   : "filter-none opacity-100 bg-purple-950/45 hover:bg-purple-900/65 border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
               }`}
             >
@@ -404,7 +404,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           xmlns="http://www.w3.org/2000/svg"
           style={{ transformOrigin: "top center" }}
           className={`absolute -bottom-3.5 left-1/2 -translate-x-1/2 w-48 h-4 pointer-events-none overflow-visible filter drop-shadow-[0_3px_6px_rgba(147,51,234,0.6)] transition-all duration-300 ${
-            hasActive ? "blur-[2px] opacity-40" : "opacity-100"
+            hasActive ? "blur-[1px] opacity-60" : "opacity-100"
           }`}
           aria-hidden="true"
         >

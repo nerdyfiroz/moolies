@@ -185,7 +185,7 @@ export const InteractiveWorld: React.FC = () => {
         <div
           className="world-canvas-container relative flex-shrink-0 bg-[#5fc2ea] overflow-hidden scale-[1.04] transition-all duration-700"
           style={{
-            filter: isBackgroundBlurred ? "blur(14px) brightness(0.92)" : "none",
+            filter: isBackgroundBlurred ? "blur(7px) brightness(0.95)" : "none",
           }}
         >
           {/* Main Landscape Illustration Image */}
