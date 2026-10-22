@@ -110,12 +110,6 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
   activeSection = null,
   onClose,
 }) => {
-  const hasActive = activeSection !== null;
-  const isOpenSeaActive = activeSection === "opensea";
-  const isWhitelistActive = activeSection === "whitelist";
-  const isCollectionActive = activeSection === "collection";
-  const isRoadmapActive = activeSection === "roadmap";
-
   return (
     <>
       {/* Global SVG Gradients for Drip Effects */}
@@ -141,7 +135,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
         variants={cardVariants}
         initial="hidden"
         animate="visible"
-        className="relative w-64 sm:w-72 rounded-3xl bg-slate-950/75 backdrop-blur-md border-2 border-purple-400/50 shadow-[0_20px_50px_rgba(0,0,0,0.55),0_0_35px_rgba(147,51,234,0.35)] p-4 flex flex-col gap-2.5 pointer-events-auto select-none overflow-visible transition-all duration-300"
+        className="relative w-64 sm:w-72 rounded-3xl bg-slate-950/75 backdrop-blur-md border-2 border-purple-400/50 shadow-[0_20px_50px_rgba(0,0,0,0.55),0_0_35px_rgba(147,51,234,0.35)] p-4 flex flex-col gap-2.5 pointer-events-auto select-none overflow-visible"
       >
         {/* Optional Close / Minimize Button in Top-Right when a section is active */}
         {onClose && (
@@ -158,9 +152,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
         {/* Brand Header */}
         <motion.div
           variants={headerVariants}
-          className={`relative flex flex-col items-center text-center pt-1 pb-2 transition-all duration-300 ${
-            hasActive ? "filter blur-[1px] opacity-60" : "filter-none opacity-100"
-          }`}
+          className="relative flex flex-col items-center text-center pt-1 pb-2"
         >
           <button
             type="button"
@@ -207,11 +199,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
         </motion.div>
 
         {/* Glowing Subtle Divider */}
-        <div
-          className={`h-[1px] w-full bg-gradient-to-r from-transparent via-purple-500/35 to-transparent my-0.5 transition-all duration-300 ${
-            hasActive ? "opacity-30" : "opacity-100"
-          }`}
-        />
+        <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-purple-500/35 to-transparent my-0.5" />
 
         {/* 5 Distinctive Sections Revealed One After Another in Staggered Column */}
         <nav aria-label="Core Realm Sections" className="flex flex-col gap-2 w-full">
@@ -220,21 +208,19 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
             <button
               type="button"
               onClick={onOpenOpenSea}
-              className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between group relative ${
-                isOpenSeaActive
-                  ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
-                  : hasActive
-                  ? "filter blur-[2px] opacity-45 scale-95 pointer-events-auto hover:opacity-85 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/70"
-                  : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
+              className={`w-full px-3.5 py-2.5 rounded-2xl transition-all cursor-pointer flex items-center justify-between group relative ${
+                activeSection === "opensea"
+                  ? "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_16px_rgba(217,70,239,0.5)] border border-fuchsia-400/60 text-white"
+                  : "bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <span className={`text-base transition-transform ${isOpenSeaActive ? "scale-115" : "group-hover:scale-110"}`}>
+                <span className="text-base group-hover:scale-110 transition-transform">
                   ⛵
                 </span>
                 <span
                   className={`font-cooper text-sm font-black tracking-wide ${
-                    isOpenSeaActive
+                    activeSection === "opensea"
                       ? "navbar-drip-text-active"
                       : "navbar-drip-text group-hover:brightness-125"
                   }`}
@@ -245,7 +231,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
                   OpenSea
                 </span>
               </div>
-              {isOpenSeaActive ? (
+              {activeSection === "opensea" ? (
                 <ActiveDripDrop />
               ) : (
                 <span className="text-[10px] font-mono text-purple-300/60 uppercase">Market</span>
@@ -258,21 +244,19 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
             <button
               type="button"
               onClick={onOpenWhitelist}
-              className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between group relative ${
-                isWhitelistActive
-                  ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
-                  : hasActive
-                  ? "filter blur-[2px] opacity-45 scale-95 pointer-events-auto hover:opacity-85 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/70"
-                  : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
+              className={`w-full px-3.5 py-2.5 rounded-2xl transition-all cursor-pointer flex items-center justify-between group relative ${
+                activeSection === "whitelist"
+                  ? "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_16px_rgba(217,70,239,0.5)] border border-fuchsia-400/60 text-white"
+                  : "bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <span className={`text-base transition-transform ${isWhitelistActive ? "scale-115" : "group-hover:scale-110"}`}>
+                <span className="text-base group-hover:scale-110 transition-transform">
                   🦉
                 </span>
                 <span
                   className={`font-cooper text-sm font-black tracking-wide ${
-                    isWhitelistActive
+                    activeSection === "whitelist"
                       ? "navbar-drip-text-active"
                       : "navbar-drip-text group-hover:brightness-125"
                   }`}
@@ -283,7 +267,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
                   Whitelist
                 </span>
               </div>
-              {isWhitelistActive ? (
+              {activeSection === "whitelist" ? (
                 <ActiveDripDrop />
               ) : (
                 <span className="text-[10px] font-mono text-purple-300/60 uppercase">Access</span>
@@ -296,21 +280,19 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
             <button
               type="button"
               onClick={onOpenCollectionDetails}
-              className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between group relative ${
-                isCollectionActive
-                  ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
-                  : hasActive
-                  ? "filter blur-[2px] opacity-45 scale-95 pointer-events-auto hover:opacity-85 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/70"
-                  : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
+              className={`w-full px-3.5 py-2.5 rounded-2xl transition-all cursor-pointer flex items-center justify-between group relative ${
+                activeSection === "collection"
+                  ? "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_16px_rgba(217,70,239,0.5)] border border-fuchsia-400/60 text-white"
+                  : "bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <span className={`text-base transition-transform ${isCollectionActive ? "scale-115" : "group-hover:scale-110"}`}>
+                <span className="text-base group-hover:scale-110 transition-transform">
                   📜
                 </span>
                 <span
                   className={`font-cooper text-sm font-black tracking-wide ${
-                    isCollectionActive
+                    activeSection === "collection"
                       ? "navbar-drip-text-active"
                       : "navbar-drip-text group-hover:brightness-125"
                   }`}
@@ -321,7 +303,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
                   Collection
                 </span>
               </div>
-              {isCollectionActive ? (
+              {activeSection === "collection" ? (
                 <ActiveDripDrop />
               ) : (
                 <span className="text-[10px] font-mono text-purple-300/60 uppercase">Supply</span>
@@ -334,21 +316,19 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
             <button
               type="button"
               onClick={onOpenRoadmap}
-              className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between group relative ${
-                isRoadmapActive
-                  ? "filter-none opacity-100 scale-105 z-20 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_24px_rgba(217,70,239,0.85)] border-2 border-fuchsia-300 ring-2 ring-purple-300/80 text-white"
-                  : hasActive
-                  ? "filter blur-[2px] opacity-45 scale-95 pointer-events-auto hover:opacity-85 hover:blur-none bg-purple-950/20 border border-purple-500/20 text-purple-300/70"
-                  : "filter-none opacity-100 bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
+              className={`w-full px-3.5 py-2.5 rounded-2xl transition-all cursor-pointer flex items-center justify-between group relative ${
+                activeSection === "roadmap"
+                  ? "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 shadow-[0_0_16px_rgba(217,70,239,0.5)] border border-fuchsia-400/60 text-white"
+                  : "bg-purple-950/35 hover:bg-purple-900/55 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <span className={`text-base transition-transform ${isRoadmapActive ? "scale-115" : "group-hover:scale-110"}`}>
+                <span className="text-base group-hover:scale-110 transition-transform">
                   ⚽
                 </span>
                 <span
                   className={`font-cooper text-sm font-black tracking-wide ${
-                    isRoadmapActive
+                    activeSection === "roadmap"
                       ? "navbar-drip-text-active"
                       : "navbar-drip-text group-hover:brightness-125"
                   }`}
@@ -359,7 +339,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
                   Roadmap
                 </span>
               </div>
-              {isRoadmapActive ? (
+              {activeSection === "roadmap" ? (
                 <ActiveDripDrop />
               ) : (
                 <span className="text-[10px] font-mono text-purple-300/60 uppercase">Goals</span>
@@ -374,11 +354,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               title="Official Moolies Project on X (Twitter)"
-              className={`w-full px-3.5 py-2.5 rounded-2xl transition-all duration-300 cursor-pointer flex items-center justify-between border group ${
-                hasActive
-                  ? "filter blur-[2px] opacity-45 scale-95 pointer-events-auto hover:opacity-85 hover:blur-none bg-purple-950/20 border-purple-500/20 text-purple-300/70"
-                  : "filter-none opacity-100 bg-purple-950/45 hover:bg-purple-900/65 border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 text-white"
-              }`}
+              className="w-full px-3.5 py-2.5 rounded-2xl transition-all cursor-pointer flex items-center justify-between bg-purple-950/45 hover:bg-purple-900/65 border border-purple-500/30 hover:border-purple-400/50 hover:translate-x-1 group text-white"
             >
               <div className="flex items-center gap-2.5">
                 <XLogo className="w-4 h-4 text-purple-200 group-hover:scale-110 transition-transform" />
@@ -403,9 +379,7 @@ export const WorldNavbar: React.FC<WorldNavbarProps> = ({
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={{ transformOrigin: "top center" }}
-          className={`absolute -bottom-3.5 left-1/2 -translate-x-1/2 w-48 h-4 pointer-events-none overflow-visible filter drop-shadow-[0_3px_6px_rgba(147,51,234,0.6)] transition-all duration-300 ${
-            hasActive ? "blur-[1px] opacity-60" : "opacity-100"
-          }`}
+          className="absolute -bottom-3.5 left-1/2 -translate-x-1/2 w-48 h-4 pointer-events-none overflow-visible filter drop-shadow-[0_3px_6px_rgba(147,51,234,0.6)]"
           aria-hidden="true"
         >
           <path

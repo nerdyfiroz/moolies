@@ -65,7 +65,7 @@ export const WorldModal: React.FC<WorldModalProps> = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={handleClose}
-            className="fixed inset-0 bg-slate-950/25 backdrop-blur-sm"
+            className="fixed inset-0 bg-slate-950/30"
             aria-hidden="true"
           />
 

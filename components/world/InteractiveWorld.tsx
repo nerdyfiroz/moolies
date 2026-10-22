@@ -12,6 +12,7 @@ import { CollectionDetailsModal } from "@/components/modals/CollectionDetailsMod
 import { RoadmapModal } from "@/components/modals/RoadmapModal";
 import { MooliesGatewayLoader } from "@/components/world/MooliesGatewayLoader";
 import { WorldNavbar } from "@/components/world/WorldNavbar";
+import { LivingWorldEffects } from "@/components/world/LivingWorldEffects";
 
 // The 4 interactive modal sections
 type SectionModalId = "opensea" | "whitelist" | "collection" | "roadmap" | null;
@@ -142,7 +143,7 @@ export const InteractiveWorld: React.FC = () => {
       {/* 2. Menu in Middle: Only arrives when user clicks the page (or a section hotspot) */}
       {!isLoading && isMenuOpen && (
         <div
-          className={`fixed inset-0 z-50 pointer-events-none flex items-center p-4 transition-all duration-500 ease-in-out ${
+          className={`fixed inset-0 z-[60] pointer-events-none flex items-center p-4 transition-all duration-500 ease-in-out ${
             activeModal
               ? "justify-center md:justify-start md:pl-8 lg:pl-14"
               : "justify-center"
@@ -199,6 +200,9 @@ export const InteractiveWorld: React.FC = () => {
             referrerPolicy="no-referrer"
             className="w-full h-full object-fill pointer-events-none select-none"
           />
+
+          {/* Living World Ambient Atmosphere (River waves & caustics, flying butterflies, 3D atmosphere) */}
+          <LivingWorldEffects />
 
           {/* Interactive landmark hotspots on the artwork */}
           {WORLD_HOTSPOTS.map((hotspot) => (

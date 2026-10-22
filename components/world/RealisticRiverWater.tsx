@@ -50,6 +50,11 @@ export const RealisticRiverWater: React.FC = () => {
       const width = rect.width;
       const height = rect.height;
 
+      if (!width || !height) {
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
+
       ctx.clearRect(0, 0, width, height);
 
       time += 0.032;
@@ -218,7 +223,7 @@ export const RealisticRiverWater: React.FC = () => {
         height: "8.8%",
         borderRadius: "45% 45% 40% 40% / 60% 60% 30% 30%",
       }}
-      className="absolute z-12 overflow-hidden pointer-events-auto cursor-pointer select-none"
+      className="absolute z-[15] overflow-hidden pointer-events-auto cursor-pointer select-none"
       title="Gentle River — Click or hover to create water ripples"
     >
       {/* Soft Water Depth Atmosphere (Gentle shimmer, no harsh lines) */}
