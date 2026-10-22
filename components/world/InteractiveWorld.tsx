@@ -10,9 +10,8 @@ import { OpenSeaComingSoonModal } from "@/components/modals/OpenSeaComingSoonMod
 import { WhitelistModal } from "@/components/modals/WhitelistModal";
 import { CollectionDetailsModal } from "@/components/modals/CollectionDetailsModal";
 import { RoadmapModal } from "@/components/modals/RoadmapModal";
-import { LivingWorldEffects } from "@/components/world/LivingWorldEffects";
 import { MooliesGatewayLoader } from "@/components/world/MooliesGatewayLoader";
-import { ScoutedNavbarArrival } from "@/components/world/ScoutedNavbarArrival";
+import { WorldNavbar } from "@/components/world/WorldNavbar";
 
 // The 4 interactive modal sections
 type SectionModalId = "opensea" | "whitelist" | "collection" | "roadmap" | null;
@@ -20,7 +19,6 @@ type SectionModalId = "opensea" | "whitelist" | "collection" | "roadmap" | null;
 export const InteractiveWorld: React.FC = () => {
   const [activeModal, setActiveModal] = useState<SectionModalId>(null);
   const [hasEntered, setHasEntered] = useState(false);
-  const [navbarState, setNavbarState] = useState<"hidden" | "arriving" | "visible">("hidden");
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
@@ -64,29 +62,27 @@ export const InteractiveWorld: React.FC = () => {
     isDraggingRef.current = false;
   };
 
-  // Canvas Click: when user clicks anywhere on the website except the selected sections,
-  // the navbar arrives with butterfly scouts!
-  const handleCanvasClick = (e: React.MouseEvent) => {
-    if ((e.target as HTMLElement).closest("button, a, input, [data-hotspot]")) {
-      return;
-    }
-    if (hasMovedRef.current) {
-      return;
-    }
-    if (navbarState === "hidden") {
-      setNavbarState("arriving");
-    }
-  };
-
   // Hotspot click handler — opens the corresponding modal
   const handleHotspotClick = (hotspotId: string) => {
     if (hotspotId === "opensea" || hotspotId === "sign-opensea") {
       setActiveModal("opensea");
-    } else if (hotspotId === "whitelist" || hotspotId === "whitelist-window" || hotspotId === "whitelist-gate") {
+    } else if (
+      hotspotId === "whitelist" ||
+      hotspotId === "whitelist-window" ||
+      hotspotId === "whitelist-gate"
+    ) {
       setActiveModal("whitelist");
-    } else if (hotspotId === "collection" || hotspotId === "supply" || hotspotId === "sign-supply") {
+    } else if (
+      hotspotId === "collection" ||
+      hotspotId === "supply" ||
+      hotspotId === "sign-supply"
+    ) {
       setActiveModal("collection");
-    } else if (hotspotId === "roadmap" || hotspotId === "goalpost" || hotspotId === "roadmap-book") {
+    } else if (
+      hotspotId === "roadmap" ||
+      hotspotId === "goalpost" ||
+      hotspotId === "roadmap-book"
+    ) {
       setActiveModal("roadmap");
     }
   };
@@ -103,22 +99,30 @@ export const InteractiveWorld: React.FC = () => {
 
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden bg-[#5fc2ea] select-none">
-      {/* Modern Cinematic Moolies Gateway Loading Interface */}
+      {/* Modern Simple Moolies Gateway Loading Interface (0-100% count auto-enter, no audio, no buttons) */}
       {!hasEntered && (
         <MooliesGatewayLoader onEnter={() => setHasEntered(true)} />
       )}
 
-      {/* Floating Navbar: Hidden at first, scouts in with butterflies on canvas click */}
-      <ScoutedNavbarArrival
-        navbarState={navbarState}
-        onArrivalComplete={() => setNavbarState("visible")}
-        onOpenOpenSea={handleNavOpenSea}
-        onOpenWhitelist={handleNavWhitelist}
-        onOpenCollectionDetails={handleNavCollection}
-        onOpenRoadmap={handleNavRoadmap}
-        activeSection={activeModal}
-        onClose={() => setNavbarState("hidden")}
-      />
+      {/* Floating Center/Docked Column Navbar with Section Buttons */}
+      <div
+        className={`fixed inset-0 z-[60] pointer-events-none flex items-center p-4 transition-all duration-500 ease-in-out ${
+          activeModal
+            ? "justify-center md:justify-start md:pl-8 lg:pl-14"
+            : "justify-center"
+        }`}
+      >
+        <div className="pointer-events-auto">
+          <WorldNavbar
+            onOpenOpenSea={handleNavOpenSea}
+            onOpenWhitelist={handleNavWhitelist}
+            onOpenCollectionDetails={handleNavCollection}
+            onOpenRoadmap={handleNavRoadmap}
+            activeSection={activeModal}
+            onClose={activeModal ? closeModal : undefined}
+          />
+        </div>
+      </div>
 
       {/* Full-Screen Edge-to-Edge Main Viewport with Panning */}
       <main
@@ -127,20 +131,22 @@ export const InteractiveWorld: React.FC = () => {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        onClick={handleCanvasClick}
         className="relative w-full h-[100dvh] overflow-x-auto overflow-y-hidden select-none bg-[#5fc2ea] no-scrollbar flex items-center justify-start md:justify-center cursor-grab active:cursor-grabbing touch-pan-x"
       >
         {/*
-          World Artwork Canvas — 100% full screen edge-to-edge on desktop.
-          Fixed firmly in place (no mouse tilt / wobble).
+          World Artwork Canvas — Blurred & Not Live per user request.
+          Static illustration with rich aesthetic Gaussian blur.
         */}
         <div
-          className="world-canvas-container relative flex-shrink-0 bg-[#5fc2ea] overflow-hidden"
+          className="world-canvas-container relative flex-shrink-0 bg-[#5fc2ea] overflow-hidden scale-[1.04] transition-all duration-700"
+          style={{
+            filter: "blur(14px) brightness(0.92)",
+          }}
         >
           {/* Main Landscape Illustration Image */}
           <Image
             src="/moolies-world.png"
-            alt="Moolies Interactive Illustrated World"
+            alt="Moolies Illustrated World"
             fill
             priority
             quality={95}
@@ -149,24 +155,19 @@ export const InteractiveWorld: React.FC = () => {
             className="w-full h-full object-fill pointer-events-none select-none"
           />
 
-          {/* Living World Ambient Atmosphere (Continuous Clouds Left-to-Right, River Waves, Flying Butterflies) */}
-          <LivingWorldEffects />
-
-          {/*
-            Interactive landmark hotspots on the artwork:
-            1. OpenSea Sign (Left tree trunk) -> OpenSea Coming Soon Modal
-            2. Whitelist (Treehouse porch) -> Whitelist Modal
-            3. Roadmap (Meadow goalpost) -> Roadmap Modal
-            4. Collection Details (2,000 Supply board on right) -> Collection Details Modal
-          */}
+          {/* Interactive landmark hotspots on the artwork */}
           {WORLD_HOTSPOTS.map((hotspot) => (
             <WorldHotspot
               key={hotspot.id}
               hotspot={hotspot}
               onClick={handleHotspotClick}
+              isActive={activeModal === hotspot.modalId}
             />
           ))}
         </div>
+
+        {/* Ambient Darkened Tint Overlay for maximum contrast with unblurred elements */}
+        <div className="absolute inset-0 bg-slate-950/20 pointer-events-none z-10" />
       </main>
 
       {/* ==================== 5 SECTIONS: MODALS ==================== */}

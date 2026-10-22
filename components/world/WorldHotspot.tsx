@@ -36,12 +36,13 @@ interface WorldHotspotProps {
 
 /**
  * WorldHotspot
- * Clean, seamless interactive hotspot over artwork landmarks.
- * No hover glows or colored outline boxes. Triggers modal opening on click/tap with cursor: pointer.
+ * Interactive hotspot over artwork landmarks.
+ * When active, remains sharply unblurred with subtle highlight.
  */
 export const WorldHotspot = ({
   hotspot,
   onClick,
+  isActive = false,
 }: WorldHotspotProps) => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -59,8 +60,12 @@ export const WorldHotspot = ({
         width: `${hotspot.width}%`,
         height: `${hotspot.height}%`,
       }}
-      className={`absolute z-20 cursor-pointer select-none bg-transparent border-0 ring-0 outline-none p-0 m-0 focus:outline-none transition-none ${
+      className={`absolute z-20 cursor-pointer select-none outline-none p-0 m-0 focus:outline-none transition-all duration-300 ${
         hotspot.borderRadius || "rounded-2xl"
+      } ${
+        isActive
+          ? "filter-none ring-2 ring-purple-300/80 bg-purple-500/20 shadow-[0_0_30px_rgba(217,70,239,0.7)]"
+          : "bg-transparent border-0 ring-0"
       }`}
       onClick={handleClick}
       aria-label={`${hotspot.title} — ${hotspot.subtitle}`}
