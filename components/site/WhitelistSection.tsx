@@ -12,6 +12,7 @@ import {
   ArrowRight,
   ExternalLink,
   Check,
+  MessageSquareQuote,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import { DEFAULT_WHITELIST_TASKS, WhitelistTask } from "@/lib/data/defaultSettings";
@@ -29,13 +30,15 @@ export const WhitelistSection: React.FC<WhitelistSectionProps> = ({
   // Form inputs
   const [walletAddress, setWalletAddress] = useState("");
   const [twitterUsername, setTwitterUsername] = useState("");
+  const [twitterCommentUrl, setTwitterCommentUrl] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [honeypot, setHoneypot] = useState("");
   const [mountTime, setMountTime] = useState<number>(0);
 
-  // Dynamic Whitelist Tasks
+  // Dynamic Whitelist Tasks & Open/Closed Status
   const [tasks, setTasks] = useState<WhitelistTask[]>(DEFAULT_WHITELIST_TASKS);
   const [completedTaskIds, setCompletedTaskIds] = useState<string[]>([]);
+  const [whitelistOpen, setWhitelistOpen] = useState(isWhitelistOpen);
 
   // Submission Status
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,7 +54,13 @@ export const WhitelistSection: React.FC<WhitelistSectionProps> = ({
   const [isChecking, setIsChecking] = useState(false);
   const [checkResult, setCheckResult] = useState<{
     found: boolean;
-    data?: { walletAddress: string; status: string; createdAt: string };
+    data?: {
+      walletAddress: string;
+      twitterUsername?: string;
+      twitterCommentUrl?: string;
+      status: string;
+      createdAt: string;
+    };
     message?: string;
   } | null>(null);
   const [checkError, setCheckError] = useState<string | null>(null);
@@ -59,16 +68,20 @@ export const WhitelistSection: React.FC<WhitelistSectionProps> = ({
   useEffect(() => {
     setMountTime(Date.now());
 
-    // Fetch dynamic whitelist tasks if configured
+    // Fetch dynamic project settings & whitelist tasks from API
     fetch("/api/project")
       .then((res) => res.json())
       .then((data) => {
-        if (
-          data?.data?.whitelistTasks &&
-          Array.isArray(data.data.whitelistTasks) &&
-          data.data.whitelistTasks.length > 0
-        ) {
-          setTasks(data.data.whitelistTasks);
+        if (data?.data) {
+          if (typeof data.data.isWhitelistOpen === "boolean") {
+            setWhitelistOpen(data.data.isWhitelistOpen);
+          }
+          if (
+            Array.isArray(data.data.whitelistTasks) &&
+            data.data.whitelistTasks.length > 0
+          ) {
+            setTasks(data.data.whitelistTasks);
+          }
         }
       })
       .catch(() => {
@@ -107,6 +120,7 @@ export const WhitelistSection: React.FC<WhitelistSectionProps> = ({
 
     const cleanWallet = walletAddress.trim();
     const cleanTwitter = twitterUsername.trim();
+    const cleanComment = twitterCommentUrl.trim();
 
     // Validations
     if (!cleanWallet || !/^0x[a-fA-F0-9]{40}$/.test(cleanWallet)) {
@@ -117,13 +131,26 @@ export const WhitelistSection: React.FC<WhitelistSectionProps> = ({
       setSubmitError("Please provide your Twitter / X username.");
       return;
     }
+    if (!cleanComment) {
+      setSubmitError("Please provide the direct link to your Twitter / X reply or comment.");
+      return;
+    }
+    if (!cleanComment.startsWith("http://") && !cleanComment.startsWith("https://")) {
+      setSubmitError("Please enter a valid URL (starting with https://...) for your Twitter comment.");
+      return;
+    }
+
+    // Ensure the comment task is registered as completed if present
+    const updatedCompleted = completedTaskIds.includes("task-comment-twitter")
+      ? completedTaskIds
+      : [...completedTaskIds, "task-comment-twitter"];
 
     // Required tasks validation
     const uncompletedRequired = tasks.filter(
-      (t) => t.isRequired !== false && !completedTaskIds.includes(t.id)
+      (t) => t.isRequired !== false && !updatedCompleted.includes(t.id)
     );
     if (uncompletedRequired.length > 0) {
-      setSubmitError(`Please complete the required task: "${uncompletedRequired[0].title}"`);
+      setSubmitError(`Please complete required task: "${uncompletedRequired[0].title}"`);
       return;
     }
 
@@ -141,10 +168,11 @@ export const WhitelistSection: React.FC<WhitelistSectionProps> = ({
         body: JSON.stringify({
           walletAddress: cleanWallet,
           twitterUsername: cleanTwitter.startsWith("@") ? cleanTwitter : `@${cleanTwitter}`,
+          twitterCommentUrl: cleanComment,
           discordUsername: "",
           email: "",
-          reason: `Completed ${completedTaskIds.length} whitelist task(s)`,
-          completedTasks: completedTaskIds,
+          reason: `Completed ${updatedCompleted.length} whitelist task(s)`,
+          completedTasks: updatedCompleted,
           referralCode: "",
           agreeToTerms,
           websiteHoneypot: honeypot,
@@ -283,14 +311,15 @@ export const WhitelistSection: React.FC<WhitelistSectionProps> = ({
           {/* TAB 1: APPLY FOR WHITELIST */}
           {activeTab === "apply" && (
             <div>
-              {!isWhitelistOpen ? (
+              {!whitelistOpen ? (
+                /* Closed Window View */
                 <div className="p-8 rounded-2xl bg-purple-950/30 border border-purple-500/25 text-center space-y-4">
                   <ShieldAlert className="w-12 h-12 mx-auto text-purple-400" />
                   <h3 className="font-cooper text-2xl text-purple-200">
                     The Whitelist Window is Currently Closed
                   </h3>
                   <p className="text-xs sm:text-sm text-purple-200/80 max-w-md mx-auto font-cartoon">
-                    Applications for this wave have closed. Follow @moolieshq on X for announcements about the next wave!
+                    Whitelist applications are currently paused by the team. Please stay tuned to @moolieshq on X for announcements about the next wave!
                   </p>
                   <button
                     type="button"
@@ -352,6 +381,7 @@ export const WhitelistSection: React.FC<WhitelistSectionProps> = ({
                         setSubmitSuccess(null);
                         setWalletAddress("");
                         setTwitterUsername("");
+                        setTwitterCommentUrl("");
                         setCompletedTaskIds([]);
                         setAgreeToTerms(false);
                       }}
@@ -421,10 +451,50 @@ export const WhitelistSection: React.FC<WhitelistSectionProps> = ({
                     </div>
                   </div>
 
-                  {/* Field 3: Required Whitelist Tasks */}
+                  {/* Field 3: Twitter Comment / Reply Link */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label
+                        htmlFor="twitter-comment-input"
+                        className="block text-xs sm:text-sm font-cartoon font-bold text-purple-200"
+                      >
+                        3. Twitter / X Comment or Reply Link *
+                      </label>
+                      <span className="text-[10px] text-fuchsia-300 font-cartoon font-semibold px-2 py-0.5 rounded-md bg-purple-900/50 border border-purple-500/30">
+                        Required
+                      </span>
+                    </div>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-purple-400">
+                        <MessageSquareQuote className="w-4 h-4" />
+                      </div>
+                      <input
+                        id="twitter-comment-input"
+                        type="url"
+                        required
+                        placeholder="https://x.com/yourhandle/status/123456789..."
+                        value={twitterCommentUrl}
+                        onChange={(e) => {
+                          setTwitterCommentUrl(e.target.value);
+                          if (
+                            e.target.value.trim().length > 10 &&
+                            !completedTaskIds.includes("task-comment-twitter")
+                          ) {
+                            setCompletedTaskIds((prev) => [...prev, "task-comment-twitter"]);
+                          }
+                        }}
+                        className="w-full pl-10 pr-4 py-3 rounded-xl bg-purple-950/40 border border-purple-500/40 focus:border-fuchsia-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/30 font-cartoon text-xs sm:text-sm text-white placeholder-purple-400/40 transition-all"
+                      />
+                    </div>
+                    <p className="text-[11px] text-purple-300/70 font-cartoon">
+                      Reply or comment on our pinned post on X, copy your direct comment URL, and paste it here.
+                    </p>
+                  </div>
+
+                  {/* Field 4: Required Whitelist Tasks */}
                   <div className="space-y-2.5 pt-1">
                     <label className="block text-xs sm:text-sm font-cartoon font-bold text-purple-200">
-                      3. Complete Whitelist Tasks *
+                      4. Complete Whitelist Tasks *
                     </label>
 
                     <div className="space-y-2.5">
@@ -453,9 +523,16 @@ export const WhitelistSection: React.FC<WhitelistSectionProps> = ({
                                 {isDone && <Check className="w-4 h-4 stroke-[3]" />}
                               </button>
                               <div className="space-y-0.5">
-                                <p className="font-cartoon font-bold text-xs sm:text-sm text-white">
-                                  {task.title}
-                                </p>
+                                <div className="flex items-center gap-2">
+                                  <p className="font-cartoon font-bold text-xs sm:text-sm text-white">
+                                    {task.title}
+                                  </p>
+                                  {task.isRequired && (
+                                    <span className="text-[9px] px-1.5 py-0.2 rounded font-bold bg-purple-500/20 text-purple-300 border border-purple-400/30">
+                                      Required
+                                    </span>
+                                  )}
+                                </div>
                                 <p className="font-cartoon text-[11px] text-purple-300/80">
                                   {task.description}
                                 </p>
@@ -478,7 +555,7 @@ export const WhitelistSection: React.FC<WhitelistSectionProps> = ({
                     </div>
                   </div>
 
-                  {/* Field 4: Terms Checkbox */}
+                  {/* Field 5: Terms Checkbox */}
                   <div className="pt-2">
                     <label className="flex items-start gap-3 cursor-pointer select-none">
                       <input
@@ -489,7 +566,7 @@ export const WhitelistSection: React.FC<WhitelistSectionProps> = ({
                         className="w-4 h-4 mt-0.5 rounded accent-purple-600 cursor-pointer shrink-0"
                       />
                       <span className="text-[11px] sm:text-xs text-purple-200/85 font-cartoon leading-relaxed">
-                        I confirm that the submitted Ethereum wallet address belongs to me, that I have completed the required social tasks, and agree to the Moolies Minting Terms.
+                        I confirm that the submitted Ethereum wallet address belongs to me, that I have completed the required social tasks (including replying on X), and agree to the Moolies Minting Terms.
                       </span>
                     </label>
                   </div>
@@ -610,13 +687,35 @@ export const WhitelistSection: React.FC<WhitelistSectionProps> = ({
                         })()}
                       </div>
 
-                      <div className="p-3 rounded-xl bg-slate-900/70 border border-purple-500/20 font-mono text-xs space-y-1">
+                      <div className="p-3.5 rounded-xl bg-slate-900/70 border border-purple-500/20 font-mono text-xs space-y-2">
                         <div className="flex justify-between text-purple-300">
                           <span>Wallet:</span>
                           <span className="text-white truncate max-w-[220px]">
                             {checkResult.data.walletAddress}
                           </span>
                         </div>
+                        {checkResult.data.twitterUsername && (
+                          <div className="flex justify-between text-purple-300">
+                            <span>Twitter / X:</span>
+                            <span className="text-sky-300">
+                              {checkResult.data.twitterUsername}
+                            </span>
+                          </div>
+                        )}
+                        {checkResult.data.twitterCommentUrl && (
+                          <div className="flex justify-between items-center text-purple-300">
+                            <span>Comment Link:</span>
+                            <a
+                              href={checkResult.data.twitterCommentUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-fuchsia-300 hover:text-white underline truncate max-w-[220px] flex items-center gap-1"
+                            >
+                              <span className="truncate">{checkResult.data.twitterCommentUrl}</span>
+                              <ExternalLink className="w-3 h-3 shrink-0" />
+                            </a>
+                          </div>
+                        )}
                         {checkResult.data.createdAt && (
                           <div className="flex justify-between text-purple-300">
                             <span>Submitted:</span>

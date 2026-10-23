@@ -26,9 +26,10 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<"apply" | "check">("apply");
 
-  // Form state — Twitter + Wallet
+  // Form state — Twitter + Wallet + Comment Link
   const [walletAddress, setWalletAddress] = useState("");
   const [twitterUsername, setTwitterUsername] = useState("");
+  const [twitterCommentUrl, setTwitterCommentUrl] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [honeypot, setHoneypot] = useState("");
   const [mountTime, setMountTime] = useState<number>(0);
@@ -51,7 +52,13 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
   const [isChecking, setIsChecking] = useState(false);
   const [checkResult, setCheckResult] = useState<{
     found: boolean;
-    data?: { walletAddress: string; status: string; createdAt: string };
+    data?: {
+      walletAddress: string;
+      status: string;
+      createdAt: string;
+      twitterUsername?: string;
+      twitterCommentUrl?: string;
+    };
     message?: string;
   } | null>(null);
   const [checkError, setCheckError] = useState<string | null>(null);
@@ -117,6 +124,14 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
       setSubmitError("Please provide your Twitter / X username.");
       return;
     }
+    if (!twitterCommentUrl.trim()) {
+      setSubmitError("Please provide your Twitter / X comment or reply link.");
+      return;
+    }
+    if (!/^https?:\/\//i.test(twitterCommentUrl.trim())) {
+      setSubmitError("Twitter comment link must start with https:// or http://");
+      return;
+    }
 
     // Verify all required tasks are completed
     const uncompletedRequired = tasks.filter(
@@ -141,6 +156,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
         body: JSON.stringify({
           walletAddress: walletAddress.trim(),
           twitterUsername: twitterUsername.trim(),
+          twitterCommentUrl: twitterCommentUrl.trim(),
           discordUsername: "",
           email: "",
           reason: `Completed ${completedTaskIds.length} whitelist task(s)`,
@@ -331,6 +347,7 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                     setSubmitSuccess(null);
                     setWalletAddress("");
                     setTwitterUsername("");
+                    setTwitterCommentUrl("");
                     setCompletedTaskIds([]);
                   }}
                   className="px-5 py-2 rounded-xl bg-purple-950/60 hover:bg-purple-900/80 text-purple-200 font-moolies text-xs font-bold border border-purple-500/40 transition-colors"
@@ -476,6 +493,24 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                   </p>
                 </div>
 
+                {/* ===== X COMMENT LINK ===== */}
+                <div>
+                  <label className="block font-moolies text-xs font-bold text-purple-200 mb-1">
+                    Twitter / X Comment or Reply Link <span className="text-fuchsia-400">*</span>
+                  </label>
+                  <input
+                    type="url"
+                    required
+                    placeholder="https://x.com/yourhandle/status/1234567890..."
+                    value={twitterCommentUrl}
+                    onChange={(e) => setTwitterCommentUrl(e.target.value)}
+                    className="w-full px-3.5 py-2.5 text-xs sm:text-sm font-mono rounded-xl bg-purple-950/40 border border-purple-500/40 focus:border-purple-400 text-white placeholder-purple-300/40 focus:outline-none focus:ring-2 focus:ring-purple-400/50"
+                  />
+                  <p className="text-[11px] text-purple-300/60 mt-1">
+                    Paste the direct URL of your reply or comment on our official post for verification.
+                  </p>
+                </div>
+
                 {/* ===== WALLET ADDRESS ===== */}
                 <div>
                   <label className="block font-moolies text-xs font-bold text-purple-200 mb-1">
@@ -618,6 +653,19 @@ export const WhitelistModal: React.FC<WhitelistModalProps> = ({
                             : "Recently"}
                         </span>
                       </div>
+                      {checkResult.data?.twitterCommentUrl && (
+                        <div className="flex justify-between items-center pt-1">
+                          <span>Comment Proof:</span>
+                          <a
+                            href={checkResult.data.twitterCommentUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-purple-300 hover:text-white underline truncate max-w-[180px]"
+                          >
+                            View on X
+                          </a>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

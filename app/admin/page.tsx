@@ -29,6 +29,7 @@ interface Application {
   _id: string;
   walletAddress: string;
   twitterUsername: string;
+  twitterCommentUrl?: string;
   discordUsername?: string;
   email?: string;
   reason: string;
@@ -329,6 +330,32 @@ export default function AdminPage() {
     window.open(`/api/admin/export?status=${statusFilter}`, "_blank");
   };
 
+  // Quick Start / Stop Whitelist Form Toggle
+  const handleToggleWhitelistOpen = async () => {
+    const nextStatus = !settingsForm.isWhitelistOpen;
+    const updated = { ...settingsForm, isWhitelistOpen: nextStatus, whitelistTasks };
+    setSettingsForm(updated);
+
+    try {
+      const res = await fetch("/api/admin/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updated),
+      });
+      if (res.ok) {
+        alert(
+          nextStatus
+            ? "✅ Whitelist form has been STARTED! Users can now submit applications on the live website."
+            : "🛑 Whitelist form has been STOPPED / CLOSED! Applications are now paused on the live website."
+        );
+      } else {
+        alert("Failed to update whitelist status");
+      }
+    } catch {
+      alert("Error updating settings");
+    }
+  };
+
   // Login view
   if (isAuthenticated === false) {
     return (
@@ -416,13 +443,38 @@ export default function AdminPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
+          {/* Quick Whitelist Start / Stop Toggle */}
+          <button
+            type="button"
+            onClick={handleToggleWhitelistOpen}
+            className={`text-xs font-bold px-3 py-1.5 rounded-xl border flex items-center gap-2 transition-all cursor-pointer shadow-xs ${
+              settingsForm.isWhitelistOpen
+                ? "bg-emerald-500/15 border-emerald-500/40 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/25"
+                : "bg-rose-500/15 border-rose-500/40 text-rose-600 dark:text-rose-400 hover:bg-rose-500/25"
+            }`}
+            title={
+              settingsForm.isWhitelistOpen
+                ? "Whitelist Form is OPEN. Click to STOP it."
+                : "Whitelist Form is CLOSED. Click to START it."
+            }
+          >
+            <span
+              className={`w-2 h-2 rounded-full ${
+                settingsForm.isWhitelistOpen ? "bg-emerald-500 animate-ping" : "bg-rose-500"
+              }`}
+            />
+            <span>
+              {settingsForm.isWhitelistOpen ? "Whitelist Form: ACTIVE" : "Whitelist Form: STOPPED"}
+            </span>
+          </button>
+
           <Link
             href="/"
             target="_blank"
             className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1.5 transition-colors"
           >
-            <span>Live World</span>
+            <span>Live Site</span>
             <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
           </Link>
           <button
@@ -572,6 +624,7 @@ export default function AdminPage() {
                     <tr>
                       <th className="p-3.5">Wallet Address</th>
                       <th className="p-3.5">Twitter / X</th>
+                      <th className="p-3.5">Twitter Comment</th>
                       <th className="p-3.5">Discord</th>
                       <th className="p-3.5">Reason</th>
                       <th className="p-3.5">Status</th>
@@ -582,7 +635,7 @@ export default function AdminPage() {
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                     {applications.length === 0 ? (
                       <tr>
-                        <td colSpan={7} className="p-8 text-center text-slate-400">
+                        <td colSpan={8} className="p-8 text-center text-slate-400">
                           No whitelist applications match current query.
                         </td>
                       </tr>
@@ -597,6 +650,22 @@ export default function AdminPage() {
                           </td>
                           <td className="p-3.5 font-medium text-sky-600 dark:text-sky-400">
                             {app.twitterUsername}
+                          </td>
+                          <td className="p-3.5">
+                            {app.twitterCommentUrl ? (
+                              <a
+                                href={app.twitterCommentUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-purple-600 dark:text-purple-300 font-bold hover:underline"
+                                title={app.twitterCommentUrl}
+                              >
+                                <span>View Comment</span>
+                                <ExternalLink className="w-3 h-3" />
+                              </a>
+                            ) : (
+                              <span className="text-slate-400">—</span>
+                            )}
                           </td>
                           <td className="p-3.5 text-slate-500">
                             {app.discordUsername || "—"}
@@ -629,7 +698,7 @@ export default function AdminPage() {
                                 setSelectedApp(app);
                                 setAdminNoteInput(app.adminNotes || "");
                               }}
-                              className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold"
+                              className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold cursor-pointer"
                             >
                               Review
                             </button>
@@ -637,7 +706,7 @@ export default function AdminPage() {
                               type="button"
                               onClick={() => handleUpdateStatus(app._id, "approved")}
                               title="Approve applicant"
-                              className="p-1 rounded-lg text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950"
+                              className="p-1 rounded-lg text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950 cursor-pointer"
                             >
                               <CheckCircle2 className="w-4 h-4" />
                             </button>
@@ -645,7 +714,7 @@ export default function AdminPage() {
                               type="button"
                               onClick={() => handleUpdateStatus(app._id, "rejected")}
                               title="Reject applicant"
-                              className="p-1 rounded-lg text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950"
+                              className="p-1 rounded-lg text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950 cursor-pointer"
                             >
                               <XCircle className="w-4 h-4" />
                             </button>
@@ -669,7 +738,7 @@ export default function AdminPage() {
                     <button
                       type="button"
                       onClick={() => setSelectedApp(null)}
-                      className="text-slate-400 hover:text-slate-600"
+                      className="text-slate-400 hover:text-slate-600 cursor-pointer text-lg"
                     >
                       &times;
                     </button>
@@ -692,6 +761,22 @@ export default function AdminPage() {
                         <p className="font-bold">{selectedApp.discordUsername || "—"}</p>
                       </div>
                     </div>
+                    {selectedApp.twitterCommentUrl && (
+                      <div className="p-3 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 space-y-1">
+                        <span className="text-slate-400 font-bold block text-[11px]">
+                          Twitter / X Comment Link:
+                        </span>
+                        <a
+                          href={selectedApp.twitterCommentUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs font-mono font-bold text-purple-600 dark:text-purple-300 hover:underline break-all inline-flex items-center gap-1.5"
+                        >
+                          <span>{selectedApp.twitterCommentUrl}</span>
+                          <ExternalLink className="w-3.5 h-3.5 shrink-0" />
+                        </a>
+                      </div>
+                    )}
                     {selectedApp.email && (
                       <div>
                         <span className="text-slate-400">Email:</span>
@@ -809,6 +894,50 @@ export default function AdminPage() {
                   <span>Add New Whitelist Task</span>
                 </h4>
                 <span className="text-[11px] text-slate-400">Fill in details and click Add Task</span>
+              </div>
+
+              {/* Quick Presets */}
+              <div className="flex items-center gap-2 flex-wrap text-xs pt-1">
+                <span className="text-slate-400 font-semibold text-[11px]">Quick Templates:</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNewTaskTitle("Reply or comment on our pinned post on X");
+                    setNewTaskDesc("Leave a thoughtful reply or comment on our pinned post and paste your comment link below");
+                    setNewTaskUrl("https://x.com/moolieshq");
+                    setNewTaskLabel("Comment on X");
+                    setNewTaskRequired(true);
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/60 dark:hover:bg-purple-900 text-purple-700 dark:text-purple-300 font-bold border border-purple-200 dark:border-purple-800 transition-colors cursor-pointer flex items-center gap-1.5"
+                >
+                  <span>💬 Reply / Comment on X (Required)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNewTaskTitle("Follow @moolieshq on X (Twitter)");
+                    setNewTaskDesc("Follow our official Twitter account for announcements");
+                    setNewTaskUrl("https://x.com/moolieshq");
+                    setNewTaskLabel("Follow @moolieshq");
+                    setNewTaskRequired(true);
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-sky-50 hover:bg-sky-100 dark:bg-sky-950/60 dark:hover:bg-sky-900 text-sky-700 dark:text-sky-300 font-bold border border-sky-200 dark:border-sky-800 transition-colors cursor-pointer flex items-center gap-1.5"
+                >
+                  <span>🐦 Follow @moolieshq</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNewTaskTitle("Retweet / Repost our Pinned Announcement");
+                    setNewTaskDesc("Share our latest drop announcement with your followers");
+                    setNewTaskUrl("https://x.com/moolieshq");
+                    setNewTaskLabel("Repost on X");
+                    setNewTaskRequired(false);
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer flex items-center gap-1.5"
+                >
+                  <span>🔄 Retweet Announcement</span>
+                </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

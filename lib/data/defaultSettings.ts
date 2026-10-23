@@ -24,6 +24,14 @@ export const DEFAULT_WHITELIST_TASKS: WhitelistTask[] = [
     actionLabel: "Retweet",
     isRequired: true,
   },
+  {
+    id: "task-comment-twitter",
+    title: "Reply or comment on the pinned post on X",
+    description: "Leave a comment on our official post and paste your comment link below",
+    actionUrl: "https://x.com/moolieshq",
+    actionLabel: "Comment on X",
+    isRequired: true,
+  },
 ];
 
 export const DEFAULT_SETTINGS = {

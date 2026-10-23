@@ -31,6 +31,8 @@ export async function GET(req: NextRequest) {
         found: true,
         data: {
           walletAddress: app.walletAddress,
+          twitterUsername: app.twitterUsername,
+          twitterCommentUrl: (app as any).twitterCommentUrl || "",
           status: app.status,
           createdAt: app.createdAt,
         },
@@ -52,6 +54,8 @@ export async function GET(req: NextRequest) {
         found: true,
         data: {
           walletAddress: app.walletAddress,
+          twitterUsername: app.twitterUsername,
+          twitterCommentUrl: (app as any).twitterCommentUrl || "",
           status: app.status,
           createdAt: app.createdAt,
         },

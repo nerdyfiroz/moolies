@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
     const {
       walletAddress,
       twitterUsername,
+      twitterCommentUrl,
       discordUsername,
       email,
       reason,
@@ -73,6 +74,7 @@ export async function POST(req: NextRequest) {
       const newApp = await WhitelistApplication.create({
         walletAddress: normalizedWallet,
         twitterUsername,
+        twitterCommentUrl: twitterCommentUrl || "",
         discordUsername: discordUsername || "",
         email: email || "",
         reason,
@@ -90,6 +92,17 @@ export async function POST(req: NextRequest) {
     } else {
       // In-Memory store fallback
       const mem = getMemoryStore();
+
+      // Check if whitelist is currently open in memory store
+      if (mem.settings && mem.settings.isWhitelistOpen === false) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: "The Whitelist Window is currently closed. Keep an eye on announcements for the next wave!",
+          },
+          { status: 403 }
+        );
+      }
 
       const existing = mem.applications.find(
         (app) => app.walletAddress.toLowerCase() === normalizedWallet
@@ -109,6 +122,7 @@ export async function POST(req: NextRequest) {
         _id: id,
         walletAddress: normalizedWallet,
         twitterUsername,
+        twitterCommentUrl: twitterCommentUrl || "",
         discordUsername: discordUsername || "",
         email: email || "",
         reason,

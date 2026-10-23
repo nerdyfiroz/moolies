@@ -3,6 +3,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 export interface IWhitelistApplication extends Document {
   walletAddress: string;
   twitterUsername: string;
+  twitterCommentUrl?: string;
   discordUsername?: string;
   email?: string;
   reason?: string;
@@ -30,6 +31,11 @@ const WhitelistApplicationSchema = new Schema<IWhitelistApplication>(
       type: String,
       required: true,
       trim: true,
+    },
+    twitterCommentUrl: {
+      type: String,
+      trim: true,
+      default: "",
     },
     discordUsername: {
       type: String,

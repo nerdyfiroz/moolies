@@ -14,6 +14,12 @@ export const WhitelistSubmissionSchema = z.object({
     .min(1, "Twitter / X username is required")
     .max(50, "Username too long")
     .transform((val) => (val.startsWith("@") ? val : `@${val}`)),
+  twitterCommentUrl: z
+    .string()
+    .trim()
+    .max(500, "URL too long")
+    .optional()
+    .or(z.literal("")),
   discordUsername: z.string().trim().max(50).optional().or(z.literal("")),
   email: z
     .string()
