@@ -1,33 +1,24 @@
-import { InteractiveWorld } from "@/components/world/InteractiveWorld";
+import { MooliesSite } from "@/components/site/MooliesSite";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Moolies — The Cozy Interactive NFT Realm",
+  title: "Moolies — PFP NFT Whitelist & Collection",
   description:
-    "Explore the illustrated world of Moolies! A collection of 2,000 lovable Moolies adventurers tokenized on Ethereum with fair launch tokenomics and non-custodial Nesting.",
-  keywords: ["Moolies", "NFT", "Interactive NFT", "Ethereum", "Web3", "Generative Art", "Moolies"],
+    "Official Moolies PFP NFT collection. Strictly capped supply of 2,000 Moolies on Ethereum. Apply for guaranteed whitelist slots and follow @moolieshq.",
+  keywords: ["Moolies", "NFT", "PFP", "Whitelist", "Ethereum", "Web3", "moolieshq"],
   openGraph: {
-    title: "Moolies — The Cozy Interactive NFT Realm",
+    title: "Moolies — PFP NFT Whitelist & Collection",
     description:
-      "Explore the illustrated world of Moolies! Fly kites, explore the treehouse, and apply for guaranteed whitelist slots at the gate.",
+      "Strictly capped supply of 2,000 PFP Moolies on Ethereum. Apply for guaranteed whitelist slots and follow @moolieshq.",
     url: "https://moolies.world",
     siteName: "Moolies NFT",
-    images: [
-      {
-        url: "/moolies-world.png",
-        width: 1024,
-        height: 650,
-        alt: "Moolies Interactive Illustrated Realm",
-      },
-    ],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Moolies — Interactive NFT Realm",
-    description: "Explore the illustrated world of Moolies! 2,000 Moolies living across the sunny meadow and lake.",
-    images: ["/moolies-world.png"],
+    title: "Moolies — PFP NFT Whitelist & Collection",
+    description: "Strictly capped supply of 2,000 PFP Moolies on Ethereum. Follow @moolieshq on X.",
     creator: "@moolieshq",
   },
 };
@@ -36,12 +27,11 @@ export default function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
-    name: "Moolies NFT Collection",
-    description: "An interactive, illustrated NFT world featuring 2,000 generative Moolies on Ethereum.",
-    image: "https://moolies.world/moolies-world.png",
+    name: "Moolies PFP NFT Collection",
+    description: "A PFP NFT collection of 2,000 Moolies on Ethereum.",
     author: {
       "@type": "Organization",
-      name: "Moolies Council",
+      name: "Moolies",
       url: "https://x.com/moolieshq",
     },
   };
@@ -52,8 +42,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <h1 className="sr-only">Moolies — The Cozy Interactive NFT Realm</h1>
-      <InteractiveWorld />
+      <MooliesSite />
     </>
   );
 }

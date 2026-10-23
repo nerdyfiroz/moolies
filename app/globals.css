@@ -50,8 +50,8 @@
 }
 
 :root {
-  --background: #5fc2ea;
-  --foreground: #0f172a;
+  --background: #D3A0F7;
+  --foreground: #19052b;
   --font-cooper: var(--font-cooper-black), 'Cooper Black', 'Cooper-Black', 'Cooper', 'Caprasimo', cursive, serif;
   --font-drip: 'Rubik Wet Paint', cursive, display;
   --font-bubble: 'Rubik Bubbles', 'Modak', cursive, display;
@@ -74,10 +74,11 @@
 }
 
 body {
-  background: var(--background);
+  background-color: #D3A0F7;
+  background: #D3A0F7;
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  user-select: none;
+  font-family: var(--font-cartoon), var(--font-geist-sans), system-ui, sans-serif;
+  user-select: auto;
   -webkit-font-smoothing: antialiased;
 }
 

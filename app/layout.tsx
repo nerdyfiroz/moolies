@@ -27,10 +27,11 @@ const fredoka = Fredoka({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
-  title: "Moolies — The Cozy Interactive NFT Realm",
-  description: "Explore the illustrated world of Moolies! 2,000 lovable Moolies adventurers on Ethereum.",
+  title: "Moolies — 2,000 PFP NFTs on Ethereum",
+  description: "Official Moolies Whitelist Application & PFP NFT Collection Details. Follow @moolieshq on X for updates.",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/moolies-logo.png",
+    apple: "/moolies-logo.png",
   },
 };
 
@@ -44,7 +45,7 @@ export default function RootLayout({
       lang="en"
       className={`${cooperBlack.variable} ${geistSans.variable} ${geistMono.variable} ${fredoka.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#5fc2ea] text-slate-900 overflow-x-hidden">
+      <body className="min-h-full flex flex-col bg-[#D3A0F7] text-slate-900 overflow-x-hidden selection:bg-purple-900 selection:text-white">
         {children}
       </body>
     </html>
