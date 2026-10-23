@@ -29,7 +29,7 @@ export const MooliesHeader: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-drip text-2xl sm:text-3xl tracking-wide leading-none bg-gradient-to-b from-[#fce7f3] via-[#d946ef] to-[#7e22ce] bg-clip-text text-transparent drop-shadow-[0_2px_0_#1a052b] drop-shadow-[0_3px_8px_rgba(168,85,247,0.5)]">
+            <span className="font-drip text-2xl sm:text-3xl tracking-wide leading-none bg-gradient-to-b from-white via-slate-100 to-slate-300 bg-clip-text text-transparent drop-shadow-[0_2px_0_#1a052b] drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)]">
               Moolies
             </span>
             <span className="text-[10px] text-purple-300 font-cartoon font-semibold tracking-wider -mt-0.5">

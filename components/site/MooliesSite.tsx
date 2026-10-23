@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { MooliesHeader } from "./MooliesHeader";
 import { TwitterBanner, XIcon } from "./TwitterBanner";
@@ -16,40 +15,13 @@ export const MooliesSite: React.FC = () => {
 
       {/* Main Content Area */}
       <main className="flex-1 w-full px-4 sm:px-6 py-6 sm:py-10 space-y-12 sm:space-y-16">
-        {/* Hero Welcome Header */}
-        <div className="w-full max-w-4xl mx-auto text-center space-y-3 pt-2 sm:pt-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4 }}
-            className="inline-flex items-center px-4 py-1.5 rounded-full bg-slate-950/85 text-purple-200 border border-purple-400/40 text-xs font-cartoon font-bold shadow-md"
-          >
-            <span>Welcome to the Official Moolies Realm</span>
-          </motion.div>
-
-          {/* Owl Character Mascot Logo */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.05 }}
-            className="flex justify-center pt-1"
-          >
-            <div className="relative w-32 h-26 sm:w-40 sm:h-32">
-              <Image
-                src="/moolies-logo.png"
-                alt="Moolies Owl Mascot"
-                fill
-                priority
-                className="object-contain filter drop-shadow-[0_12px_24px_rgba(46,16,101,0.25)] hover:scale-105 transition-transform"
-              />
-            </div>
-          </motion.div>
-
+        {/* Hero Title & Description */}
+        <div className="w-full max-w-4xl mx-auto text-center space-y-4 pt-2 sm:pt-4">
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-drip text-6xl sm:text-7xl md:text-8xl tracking-wide leading-tight bg-gradient-to-b from-[#fce7f3] via-[#d946ef] to-[#7e22ce] bg-clip-text text-transparent drop-shadow-[0_3px_0_#1a052b] drop-shadow-[0_8px_20px_rgba(147,51,234,0.4)]"
+            transition={{ duration: 0.5 }}
+            className="font-drip text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-wide leading-tight bg-gradient-to-b from-white via-slate-100 to-slate-300 bg-clip-text text-transparent drop-shadow-[0_4px_0_#1a052b] drop-shadow-[0_8px_20px_rgba(26,5,43,0.35)]"
           >
             Moolies
           </motion.h1>
@@ -57,7 +29,7 @@ export const MooliesSite: React.FC = () => {
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
             className="font-cartoon text-base sm:text-lg text-slate-900/90 max-w-2xl mx-auto font-medium leading-relaxed"
           >
             A cozy, whimsical PFP collection of 2,000 lovable adventurers tokenized on Ethereum with fair launch tokenomics and non-custodial Nesting.
